@@ -6,25 +6,22 @@ import {
     StyleSheet
 } from 'react-native';
 
-export default class LoginScreen extends Component{
+const LoginScreen = (props) => {
     
-    static navigationOptions = {
+    const navigationOptions = {
         header: null,
     };
-
-    render(){
-        return (
-            <View style={styles.container}>
-                <View style={styles.titleArea}>
-                    <Text style={styles.title}>Login Screen</Text>
-                    <Button
-                        title="Go to Home"
-                        onPress={() => this.props.navigation.navigate('Home')}
-                    />
-                </View>                
-            </View>
-        );
-    }
+    return (
+        <View style={styles.container}>
+            <View style={styles.titleArea}>
+                <Text style={styles.title}>Login Screen</Text>
+                <Button
+                    title="Go to Home"
+                    onPress={() => props.navigation.navigate('Home')}
+                />
+            </View>                
+        </View>
+    );    
 }
 
 const styles = StyleSheet.create({
@@ -39,3 +36,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 })
+
+export default LoginScreen
