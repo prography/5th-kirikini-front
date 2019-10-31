@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -20,126 +21,177 @@ const kiri = {
   p: '#FF8603',
 };
 
+const gray = {
+  a: 'white',
+  b: '#B0B0B0',
+  c: '#6F6F6F',
+  d: '#404040',
+};
+
+let todayScore = 5.7;
 let kiriColor = kiri.c;
-let todayScore = 5.5;
+
+const AddOneCapsule = props => {
+  return (
+    <View style={capsuleSt.capsuleContainer}>
+      <View
+        style={{
+          width: 7,
+          height: 7,
+          marginBottom: 8,
+          borderRadius: 100,
+          backgroundColor: props.beingRated ? kiri.p : kiriColor,
+        }}></View>
+      <Text style={capsuleText.mealTime}>{props.oneMealtime}</Text>
+      <View
+        style={{
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          width: deviceWidth / 4,
+          height: deviceHeight / 4.9,
+          marginBottom: 6,
+          borderStyle: 'solid',
+          borderWidth: 3,
+          borderColor: gray.a,
+          borderRadius: 100,
+          backgroundColor: props.beingRated ? gray.a : props.oneCapsuleColor,
+          opacity: props.beingRated ? 0.7 : 1,
+        }}>
+        <Text
+          style={{
+            marginBottom: 15,
+            opacity: props.beingRated ? 0.5 : 1,
+            fontSize: 30,
+            fontWeight: '500',
+            color: props.beingRated ? kiriColor : gray.a,
+          }}>
+          {props.oneMealScore}
+        </Text>
+        <Image style={capsuleSt.circlePhoto} source={props.imgSrc}></Image>
+      </View>
+    </View>
+  );
+};
 
 const HomeScreen = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.topHalf}>
-        <View style={styles.navBar}></View>
-        <View style={styles.mainContainer}>
-          <View style={styles.balloonContainer}>
-            <View style={styles.balloonTopBar}>
-              <Text style={texts.balloonTodayTitle}>오늘 건강도</Text>
-              <Text style={texts.balloonTodayScore}>{todayScore}</Text>
+  home = (
+    <View style={universalSt.container}>
+      <View style={universalSt.topHalf}>
+        <View style={navSt.navBar}>
+          <TouchableOpacity>
+            <View style={navSt.navButton}></View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={navSt.navButton}></View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={navSt.navButton}></View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={navSt.navButton}></View>
+          </TouchableOpacity>
+        </View>
+        <View style={balloonSt.container}>
+          <View style={balloonSt.balloon}>
+            <View style={balloonSt.topBar}>
+              <Text style={balloonText.title}>오늘 건강도</Text>
+              <Text style={balloonText.todayScore}>{todayScore}</Text>
             </View>
-            <View style={styles.scoreCompare}>
-              <Text style={texts.scoreCompare}>▲ 1.2</Text>
+            <View style={balloonSt.scoreCompareArea}>
+              <Text style={balloonText.scoreCompare}>▲ 1.2</Text>
             </View>
-            <View style={styles.balloonMiddle}>
-              <View style={styles.lastMealIcon}>
-                <Text style={texts.lastMeal}>
+            <View style={balloonSt.lastMealTimeContainer}>
+              <View style={balloonSt.lastMealIconWrapper}>
+                <Text style={balloonText.lastMealTime}>
                   🍽 :{'\n'}
                   🍺 :{'\n'}
                   ☕️ :{'\n'}
                 </Text>
               </View>
-              <View style={styles.lastMealTime}>
-                <Text style={texts.lastMeal}>
+              <View style={balloonSt.lastMealTimeWrapper}>
+                <Text style={balloonText.lastMealTime}>
                   1시간 58분{'\n'}
                   254시간{'\n'}
                   31시간{'\n'}
                 </Text>
               </View>
             </View>
-            <View style={styles.balloonBottom}>
-              <Text style={texts.balloonBottom}>
-                끼니님의 현 하루 건강도는... {todayScore}점! {'\n'}
+            <View style={balloonSt.feedbackArea}>
+              <Text style={balloonText.feedback}>
+                zwon님의 현재 건강도는... {todayScore}점! {'\n'}
                 나보다 잘 먹네... {'\n'}
-                좋겠다...!
+                대체 뭘 먹은거야?
               </Text>
             </View>
           </View>
+          <View style={balloonSt.tailContainer}>
+            <View style={balloonSt.tailWhiteArea}></View>
+            <View style={balloonSt.tailKiriColorArea}></View>
+            <Image
+              style={balloonSt.kirini}
+              source={require('../img/kiriniC.png')}></Image>
+          </View>
         </View>
       </View>
-      <View style={styles.bottomHalf}>
-        <View style={styles.todayMealContainer}>
-          <ScrollView horizontal={true}>
-            <View style={styles.capsulesContainer}>
-              <View style={styles.capsulesContainerFirstMargin}></View>
-              <View style={styles.oneMealContainer}>
-                <Text style={texts.oneMealTime}>06:12 am</Text>
-                <View style={styles.oneCapsule}>
-                  <Text style={texts.oneMealScore}>{todayScore}</Text>
-                  <View style={styles.oneCirclePhoto}></View>
-                </View>
-              </View>
+      <View style={universalSt.bottomHalf}>
+        <View style={capsuleSt.container}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={capsuleSt.containerInsideScrollView}>
+              <View style={capsuleSt.containerFirstMargin}></View>
+              <AddOneCapsule
+                oneMealtime="9:12 am"
+                oneMealScore="2.8"
+                oneCapsuleColor={kiri.b}
+                beingRated={false}
+                imgSrc={require('../img/foodExample1.jpeg')}
+              />
+              <AddOneCapsule
+                oneMealtime="3:45 pm"
+                oneMealScore="9.2"
+                oneCapsuleColor={kiri.e}
+                beingRated={false}
+                imgSrc={require('../img/foodExample2.jpeg')}
+              />
+              <AddOneCapsule
+                oneMealtime="6:28 pm"
+                oneMealScore="5.5"
+                oneCapsuleColor={kiri.c}
+                beingRated={false}
+                imgSrc={require('../img/foodExample3.jpeg')}
+              />
+              <AddOneCapsule
+                oneMealtime="8:52 pm"
+                oneMealScore="3.8"
+                oneCapsuleColor={kiri.d}
+                beingRated={true}
+                imgSrc={require('../img/foodExample4.jpeg')}
+              />
+              <AddOneCapsule
+                oneMealtime="11:25 pm"
+                oneMealScore="7.3"
+                oneCapsuleColor={kiri.e}
+                beingRated={true}
+                imgSrc={require('../img/foodExample5.jpeg')}
+              />
             </View>
           </ScrollView>
         </View>
-        <View style={styles.bottomBar}>
+        <View style={bottomBarSt.bar}>
           <TouchableOpacity>
-            <View style={styles.addMealButton}>
-              <Text style={texts.addMealButtonText}>+</Text>
+            <View style={bottomBarSt.addMealButton}>
+              <Text style={bottomBarSt.addMealButtonText}>✍︎</Text>
             </View>
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
+
+  return home;
 };
 
-const texts = StyleSheet.create({
-  balloonTodayTitle: {
-    fontSize: 38,
-    fontWeight: '700',
-    lineHeight: 45,
-    color: kiriColor,
-  },
-  balloonTodayScore: {
-    fontSize: 45,
-    fontWeight: '700',
-    color: kiri.p,
-  },
-  scoreCompare: {
-    color: '#9C9C9C',
-  },
-
-  lastMeal: {
-    fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'right',
-    lineHeight: 39,
-    color: '#6F6F6F',
-  },
-  balloonBottom: {
-    fontSize: 18,
-    fontWeight: '500',
-    color: '#404040',
-    textAlign: 'right',
-    lineHeight: 26,
-  },
-  oneMealTime: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: 'white',
-    opacity: 0.8,
-    marginBottom: 9,
-  },
-  oneMealScore: {
-    marginBottom: 20,
-    fontSize: 35,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  addMealButtonText: {
-    fontSize: 60,
-    color: 'white',
-  },
-});
-
-const styles = StyleSheet.create({
+// 공통적으로 쓰일? View 스타일 (화면 분할 등)
+const universalSt = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -149,99 +201,224 @@ const styles = StyleSheet.create({
     flex: 1.5,
     flexDirection: 'row',
   },
-  navBar: {
+  bottomHalf: {
     flex: 1,
   },
-  mainContainer: {
-    flex: 4,
+});
+
+// 좌측 상단 네비게이션 바의 View 스타일
+const navSt = StyleSheet.create({
+  navBar: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: deviceWidth / 10,
   },
-  balloonContainer: {
-    height: 340,
+  navButton: {
+    width: deviceWidth / 11,
+    height: deviceWidth / 11,
+    marginBottom: deviceWidth / 10,
+    borderStyle: 'solid',
+    borderWidth: 3,
+    borderColor: gray.a,
+    borderRadius: 13,
+    opacity: 0.3,
+  },
+});
+
+// 하얀 말풍선 속 Text 스타일
+const balloonText = StyleSheet.create({
+  title: {
+    fontSize: 27,
+    lineHeight: 35,
+    fontWeight: '700',
+    color: kiriColor,
+  },
+  todayScore: {
+    fontSize: 35,
+    lineHeight: 35,
+    fontWeight: '700',
+    color: kiri.p,
+  },
+  scoreCompare: {
+    fontSize: 12,
+    color: gray.b,
+  },
+  lastMealTime: {
+    fontSize: 13,
+    lineHeight: 25,
+    fontWeight: '500',
+    color: gray.c,
+    textAlign: 'right',
+  },
+  feedback: {
+    fontSize: 15,
+    lineHeight: 25,
+    fontWeight: '600',
+    color: gray.d,
+    textAlign: 'right',
+  },
+});
+
+// 하얀 말풍선 속 View 스타일
+const balloonSt = StyleSheet.create({
+  container: {
+    flex: 4,
+    flexDirection: 'column',
+  },
+  balloon: {
+    flex: 2,
+    flexDirection: 'column',
     width: (deviceWidth * 4) / 5,
     padding: deviceWidth / 10,
     borderTopLeftRadius: 70,
     borderBottomRightRadius: 70,
     backgroundColor: 'white',
-    flexDirection: 'column',
   },
-  balloonTopBar: {
-    flex: 1,
+  topBar: {
+    flex: 0.65,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  scoreCompare: {
+  scoreCompareArea: {
     alignItems: 'flex-end',
   },
-  balloonMiddle: {
-    flex: 2,
+  lastMealTimeContainer: {
+    flex: 1.5,
     flexDirection: 'row',
+    paddingTop: 7,
   },
-  lastMealIcon: {
+  lastMealIconWrapper: {
     flex: 7,
     justifyContent: 'center',
   },
-  lastMealTime: {
+  lastMealTimeWrapper: {
     flex: 3,
+    justifyContent: 'center',
     paddingLeft: 6,
-    justifyContent: 'center',
   },
-  balloonBottom: {
-    flex: 1.1,
+  feedbackArea: {
+    flex: 1.2,
+    justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    justifyContent: 'center',
   },
-  bottomHalf: {
+  tailContainer: {
     flex: 1,
-  },
-  todayMealContainer: {
-    flex: 3.2,
-    backgroundColor: kiriColor,
-  },
-  capsulesContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    paddingRight: deviceWidth / 10,
   },
-  capsulesContainerFirstMargin: {
-    width: deviceWidth / 5,
-  },
-  oneMealContainer: {
-    flex: 1,
-    width: deviceWidth / 4,
-    marginRight: deviceWidth / 10,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-
-  oneCapsule: {
-    height: deviceHeight / 4.8,
-    width: deviceWidth / 4,
-    marginBottom: 6,
-    borderRadius: 100,
-    borderStyle: 'solid',
-    borderColor: 'white',
-    borderWidth: 2,
-    backgroundColor: kiri.d,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-
-  oneCirclePhoto: {
-    height: deviceWidth / 4.5,
-    width: deviceWidth / 4.5,
-    marginBottom: 3,
-    borderRadius: 100,
+  tailWhiteArea: {
+    width: deviceWidth / 3,
+    height: deviceWidth / 5,
     backgroundColor: 'white',
   },
-  bottomBar: {
-    flex: 1,
+  tailKiriColorArea: {
+    position: 'absolute',
+    width: deviceWidth / 3,
+    height: deviceWidth / 3,
+    borderTopLeftRadius: 100,
+    backgroundColor: kiriColor,
+  },
+  kirini: {
+    width: (deviceWidth * 3) / 10,
+    height: deviceWidth / 4,
+    alignSelf: 'center',
+    resizeMode: 'contain',
+  },
+});
+
+// 끼니캡슐들 속 Text 스타일
+const capsuleText = StyleSheet.create({
+  mealTime: {
+    marginBottom: 9,
+    opacity: 0.8,
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  // mealScore:{
+  //   marginBottom: 20,
+  //   fontSize: 30,
+  //   fontWeight: '500',
+  //   color: 'white',
+  // },
+});
+
+// 끼니캡슐들 속 View 스타일
+const capsuleSt = StyleSheet.create({
+  container: {
+    flex: 2.8,
+    backgroundColor: kiriColor,
+  },
+  containerInsideScrollView: {
     flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  containerFirstMargin: {
+    width: deviceWidth / 5,
+  },
+  capsuleContainer: {
+    flex: 1,
     justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: deviceWidth / 4,
+    marginRight: deviceWidth / 10,
+  },
+  // capsule: {
+  //   justifyContent: 'flex-end',
+  //   alignItems: 'center',
+  //   width: deviceWidth / 4,
+  //   height: deviceHeight / 4.8,
+  //   marginBottom: 6,
+  //   borderStyle: 'solid',
+  //   borderWidth: 2,
+  //   borderColor: 'white',
+  //   borderRadius: 100,
+  //   backgroundColor: kiriColor,
+  // },
+  // beingRated: {
+  //   width: 7,
+  //   height: 7,
+  //   marginBottom: 8,
+  //   borderRadius: 100,
+  //   backgroundColor: kiri.p,
+  // },
+  // 사진은 여기선 굳이 풀로 보여줄 필요 없으니까 cover로 하고,
+  // 평가받는 쪽에선 정사각형 프레임 만들어서 contain으로 담으면 될 듯
+  circlePhoto: {
+    alignSelf: 'center',
+    width: deviceWidth / 4.7,
+    height: deviceWidth / 4.7,
+    marginBottom: 4,
+    borderRadius: 100,
+    backgroundColor: kiriColor,
+    opacity: 0.8,
+    resizeMode: 'cover',
+  },
+});
+
+// 하단 바... + 버튼이 있는 곳의 View와 Text 스타일
+const bottomBarSt = StyleSheet.create({
+  bar: {
+    flex: 0.9,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   addMealButton: {
-    width: deviceWidth / 5.4,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    width: deviceWidth / 6.2,
+    height: deviceWidth / 6.2,
+    borderRadius: 25,
+    backgroundColor: 'white',
+  },
+  addMealButtonText: {
+    fontSize: 35,
+    fontWeight: '900',
+    color: kiriColor,
   },
 });
 
