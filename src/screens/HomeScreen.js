@@ -178,8 +178,14 @@ const HomeScreen = () => {
         </View>
         <View style={bottomBarSt.bar}>
           <TouchableOpacity>
-            <View style={bottomBarSt.addMealButton}>
-              <Text style={bottomBarSt.addMealButtonText}>✍︎</Text>
+            <View style={bottomBarSt.addMealButtonContainer}>
+              <View style={bottomBarSt.addMealButton}>
+                <Text style={bottomBarSt.addMealButtonText}>
+                  끼니{'\n'}추가
+                </Text>
+              </View>
+              <View style={bottomBarSt.buttonTailWhiteArea}></View>
+              <View style={bottomBarSt.buttonTailKiricolorArea}></View>
             </View>
           </TouchableOpacity>
         </View>
@@ -402,23 +408,44 @@ const capsuleSt = StyleSheet.create({
 // 하단 바... + 버튼이 있는 곳의 View와 Text 스타일
 const bottomBarSt = StyleSheet.create({
   bar: {
-    flex: 0.9,
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+  },
+  addMealButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   addMealButton: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: deviceWidth / 6.2,
-    height: deviceWidth / 6.2,
-    borderRadius: 25,
-    backgroundColor: 'white',
+    width: deviceWidth / 6,
+    height: deviceWidth / 6,
+    borderStyle: 'solid',
+    borderColor: gray.a,
+    borderWidth: 3,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    backgroundColor: gray.a,
+    opacity: 1,
   },
   addMealButtonText: {
-    fontSize: 35,
+    fontSize: 16,
     fontWeight: '900',
     color: kiriColor,
+  },
+  buttonTailWhiteArea: {
+    width: 30,
+    height: 30,
+    backgroundColor: gray.a,
+  },
+  buttonTailKiricolorArea: {
+    position: 'absolute',
+    left: deviceWidth / 6,
+    width: 40,
+    height: 55,
+    borderBottomLeftRadius: 50,
+    backgroundColor: kiriColor,
   },
 });
 
