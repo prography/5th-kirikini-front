@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -24,6 +24,24 @@ let kiriColor = kiri.c;
 let todayScore = 5.5;
 
 const HomeScreen = () => {
+  const [meal, setMeal] = useState(0);
+
+  const renderMeal = () => {
+    let meals = [];
+
+    for(let i = 0; i < meal; i++)
+    {
+      meals.push(<View style={styles.oneMealContainer}>
+        <Text style={texts.oneMealTime}>06:12 am</Text>
+        <View style={styles.oneCapsule}>
+          <Text style={texts.oneMealScore}>{todayScore}</Text>
+          <View style={styles.oneCirclePhoto}></View>
+        </View>
+      </View>);
+    }
+    return meals;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.topHalf}>
@@ -68,18 +86,12 @@ const HomeScreen = () => {
           <ScrollView horizontal={true}>
             <View style={styles.capsulesContainer}>
               <View style={styles.capsulesContainerFirstMargin}></View>
-              <View style={styles.oneMealContainer}>
-                <Text style={texts.oneMealTime}>06:12 am</Text>
-                <View style={styles.oneCapsule}>
-                  <Text style={texts.oneMealScore}>{todayScore}</Text>
-                  <View style={styles.oneCirclePhoto}></View>
-                </View>
-              </View>
+              { renderMeal() }
             </View>
           </ScrollView>
         </View>
         <View style={styles.bottomBar}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setMeal(meal + 1)}>
             <View style={styles.addMealButton}>
               <Text style={texts.addMealButtonText}>+</Text>
             </View>
