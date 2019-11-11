@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 
-const MealUpload = props => {
+const Upload = props => {
   return (
     <>
       <Text>Upload Screen by Seekeryang before 11.30</Text>
@@ -15,4 +15,4 @@ const MealUpload = props => {
   );
 };
 
-export default MealUpload;
+export default Upload;

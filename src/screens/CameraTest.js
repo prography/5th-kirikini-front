@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {View, Text, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';

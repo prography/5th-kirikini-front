@@ -24,7 +24,7 @@ const AppNavigator = createStackNavigator(
     Rate: RateScreen,
     Summary: SummaryScreen,
     Settings: SettingsScreen,
-    MealUpload: UploadScreen,
+    Upload: UploadScreen,
     WeeklyList: WeeklyList,
     Camera: CameraScreen,
   },
