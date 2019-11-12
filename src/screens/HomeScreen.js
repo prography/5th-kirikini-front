@@ -208,8 +208,7 @@ const HomeScreen = props => {
           </ScrollView>
         </View>
         <View style={bottomBarSt.bar}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('MealUpload')}>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Upload')}>
             <View style={bottomBarSt.addMealButtonContainer}>
               <View style={bottomBarSt.addMealButton}>
                 <Text style={bottomBarSt.addMealButtonText}>
