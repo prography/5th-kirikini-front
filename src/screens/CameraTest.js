@@ -4,6 +4,7 @@ import {RNCamera} from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';
 
 const CameraTest = props => {
+  // 사진 앨범 불러오기
   const openAlbum = () => {
     const options = {
       title: 'Select Avatar',

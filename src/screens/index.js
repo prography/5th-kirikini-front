@@ -1,10 +1,12 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {AppRegistry} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
 // RCTRootView cancelTouches 오류를 해결해준다고 함...
 import 'react-native-gesture-handler';
+import {YellowBox} from 'react-native';
+YellowBox.ignoreWarnings(['`-[RCTRootView cancelTouches]`']);
 
 import CameraTest from './CameraTest';
 import HomeScreen from './HomeScreen';

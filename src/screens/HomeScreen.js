@@ -97,8 +97,7 @@ const HomeScreen = props => {
     <View style={universalSt.container}>
       <View style={universalSt.topHalf}>
         <View style={navSt.navBar}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('CameraTest')}>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
             <View style={navSt.navButton}>
               <Text>Today</Text>
             </View>
