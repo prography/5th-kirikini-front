@@ -3,10 +3,10 @@ import {Text, View, Button, StyleSheet} from 'react-native';
 
 const Buttong = () => {
   const buttongroup = [
-    {style: 'styles.mButton1', title: '집밥'},
-    {style: 'styles.mButton2', title: '외식'},
-    {style: 'styles.mButton3', title: '배달'},
-    {style: 'styles.mButton4', title: '간편식'},
+    {style: styles.mButton1, title: '집밥'},
+    {style: styles.mButton2, title: '외식'},
+    {style: styles.mButton3, title: '배달'},
+    {style: styles.mButton4, title: '간편식'},
   ];
 
   const [btcolor, setBtcolor] = useState((backgroundColor = 'red'));
@@ -25,8 +25,8 @@ const Buttong = () => {
       {buttongroup.map((item, index) => (
         <Button
           key={index}
-          style={buttongroup.style}
-          //   title="buttongroup.title"
+          style={item.style}
+          title={item.title}
         />
       ))}
     </View>
