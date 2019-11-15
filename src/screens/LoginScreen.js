@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
 import Evaluebar from '../Components/Evaluebar';
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
   },
   titleArea: {
     width: '100%',
-
     alignItems: 'center',
   },
 });
