@@ -73,40 +73,52 @@ const AddOneCapsule = props => {
   );
 };
 
-const HomeScreen = () => {
+const HomeScreen = props => {
   const [capsule, setCapsule] = useState(0);
 
   const renderCapsule = () => {
     let capsules = [];
 
-    for(let i = 0; i < capsule; i++)
-    {
-      capsules.push(<AddOneCapsule
-        oneMealtime="9:12 am"
-        oneMealScore="2.8"
-        oneCapsuleColor={kiri.b}
-        beingRated={false}
-        imgSrc={require('../img/foodExample1.jpeg')}
-      />);
+    for (let i = 0; i < capsule; i++) {
+      capsules.push(
+        <AddOneCapsule
+          oneMealtime="9:12 am"
+          oneMealScore="2.8"
+          oneCapsuleColor={kiri.b}
+          beingRated={false}
+          imgSrc={require('../img/foodExample1.jpeg')}
+        />,
+      );
     }
     return capsules;
-  }
+  };
 
-  home = (
+  const today = (
     <View style={universalSt.container}>
       <View style={universalSt.topHalf}>
         <View style={navSt.navBar}>
-          <TouchableOpacity>
-            <View style={navSt.navButton}></View>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('CameraTest')}>
+            <View style={navSt.navButton}>
+              <Text>Today</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={navSt.navButton}></View>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Rate')}>
+            <View style={navSt.navButton}>
+              <Text>Rate</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={navSt.navButton}></View>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Summary')}>
+            <View style={navSt.navButton}>
+              <Text>Summary</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View style={navSt.navButton}></View>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Settings')}>
+            <View style={navSt.navButton}>
+              <Text>Settings</Text>
+            </View>
           </TouchableOpacity>
         </View>
         <View style={balloonSt.container}>
@@ -156,15 +168,15 @@ const HomeScreen = () => {
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={capsuleSt.containerInsideScrollView}>
               <View style={capsuleSt.containerFirstMargin}></View>
-              { renderCapsule() }
-              {/*<AddOneCapsule
+              {renderCapsule()}
+              <AddOneCapsule
                 oneMealtime="9:12 am"
                 oneMealScore="2.8"
                 oneCapsuleColor={kiri.b}
                 beingRated={false}
                 imgSrc={require('../img/foodExample1.jpeg')}
               />
-              <AddOneCapsule
+              {/*<AddOneCapsule
                 oneMealtime="3:45 pm"
                 oneMealScore="9.2"
                 oneCapsuleColor={kiri.e}
@@ -196,7 +208,7 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
         <View style={bottomBarSt.bar}>
-          <TouchableOpacity onPress={() => setCapsule(capsule + 1)}>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Upload')}>
             <View style={bottomBarSt.addMealButtonContainer}>
               <View style={bottomBarSt.addMealButton}>
                 <Text style={bottomBarSt.addMealButtonText}>
@@ -211,8 +223,7 @@ const HomeScreen = () => {
       </View>
     </View>
   );
-
-  return home;
+  return today;
 };
 
 // 공통적으로 쓰일? View 스타일 (화면 분할 등)
@@ -240,13 +251,16 @@ const navSt = StyleSheet.create({
     paddingTop: deviceWidth / 10,
   },
   navButton: {
-    width: deviceWidth / 11,
-    height: deviceWidth / 11,
+    width: deviceWidth / 6,
+    height: deviceWidth / 9,
     marginBottom: deviceWidth / 10,
-    borderStyle: 'solid',
-    borderWidth: 3,
-    borderColor: gray.a,
-    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // borderStyle: 'solid',
+    // borderWidth: 3,
+    // borderColor: gray.a,
+    borderRadius: 15,
+    backgroundColor: gray.a,
     opacity: 0.3,
   },
 });
