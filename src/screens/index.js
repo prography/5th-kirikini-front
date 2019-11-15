@@ -15,7 +15,6 @@ import RateScreen from './RateScreen';
 import SummaryScreen from './SummaryScreen';
 import SettingsScreen from './SettingsScreen';
 import UploadScreen from './UploadScreen';
-import WeeklyList from './WeeklyListScreen';
 import CameraScreen from './CameraScreen';
 
 const AppNavigator = createStackNavigator(
@@ -27,7 +26,6 @@ const AppNavigator = createStackNavigator(
     Summary: SummaryScreen,
     Settings: SettingsScreen,
     Upload: UploadScreen,
-    WeeklyList: WeeklyList,
     Camera: CameraScreen,
   },
   {
