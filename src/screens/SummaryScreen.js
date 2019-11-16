@@ -1,21 +1,21 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   Text,
   View,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Dimensions,
-} from 'react-native';
+  Dimensions
+} from "react-native";
 
-const deviceWidth = Dimensions.get('window').width;
+const deviceWidth = Dimensions.get("window").width;
 // const deviceHeight = Dimensions.get('window').height;
 
 const gray = {
-  a: 'white',
-  b: '#B0B0B0',
-  c: '#6F6F6F',
-  d: '#404040',
+  a: "white",
+  b: "#B0B0B0",
+  c: "#6F6F6F",
+  d: "#404040"
 };
 
 // 위클리 리스트 토글 안 됐을 때 보이는...
@@ -28,32 +28,33 @@ const WeeklyListOff = () => {
 };
 // 위클리 리스트 안의 동글뱅이들 만들어줌
 const OneMealCircle = props => {
-  var circleColor = 'red';
-  if (props.mealType === 'a') {
+  var circleColor = "red";
+  if (props.mealType === "a") {
     var circleColor = gray.a;
   }
-  if (props.mealType === 'b') {
+  if (props.mealType === "b") {
     var circleColor = gray.b;
   }
-  if (props.mealType === 'c') {
+  if (props.mealType === "c") {
     var circleColor = gray.c;
   }
-  if (props.mealType === 'd') {
-    var circleColor = '#E96A64';
+  if (props.mealType === "d") {
+    var circleColor = gray.d;
   }
 
   return (
     <TouchableOpacity
       style={{
-        position: 'absolute',
+        position: "absolute",
         left:
-          ((((deviceWidth - 20) * 3) / 4 - 65) / 24) * props.oneMealTime -
+          ((deviceWidth - 20) * 3 / 4 - 65) / 24 * props.oneMealTime -
           (props.oneMealScore * 4.5 + 20) / 2 +
           32.5,
         width: props.oneMealScore * 4.5 + 20,
         height: props.oneMealScore * 4.5 + 20,
         borderRadius: 100,
         backgroundColor: circleColor,
+        opacity: 0.8
       }}
     />
   );
@@ -63,7 +64,7 @@ const WeeklyList = () => {
   return (
     <View style={wlST.container}>
       <View style={wlST.index}>
-        <View style={{flex: 1}}></View>
+        <View style={{ flex: 1 }} />
         <View style={wlST.timeArea}>
           <Text style={wlST.timeText}>새벽 12시 </Text>
           <Text style={wlST.timeText}>🌞</Text>
@@ -78,14 +79,25 @@ const WeeklyList = () => {
           <View style={wlST.dayInfo}>
             <View style={wlST.dateAndScore}>
               <View style={wlST.date}>
-                <Text style={wlST.dateText}>Mon</Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "500",
+                    lineHeight: 12,
+                    color: gray.d,
+                    opacity: 0.8
+                  }}
+                >
+                  Mon
+                </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>5.5</Text>
+                <Text style={wlST.drinksEmoji}>☕️☕️</Text>
+                {/* <Text style={wlST.dayMealScoreText}>5</Text> */}
               </View>
             </View>
             <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji}>☕️☕️</Text>
+              {/* <Text style={wlST.drinksEmoji}>☕️☕️</Text> */}
             </View>
           </View>
           <View style={wlST.dayMealList}>
@@ -93,25 +105,25 @@ const WeeklyList = () => {
               oneMealScore="5"
               oneMealTime="6"
               mealType="a"
-              imgSrc={require('../img/foodExample1.jpeg')}
+              imgSrc={require("../img/foodExample1.jpeg")}
             />
             <OneMealCircle
               oneMealScore="10"
               oneMealTime="11"
               mealType="b"
-              imgSrc={require('../img/foodExample2.jpeg')}
+              imgSrc={require("../img/foodExample2.jpeg")}
             />
             <OneMealCircle
               oneMealScore="1"
               oneMealTime="17"
               mealType="c"
-              imgSrc={require('../img/foodExample3.jpeg')}
+              imgSrc={require("../img/foodExample3.jpeg")}
             />
             <OneMealCircle
               oneMealScore="7"
               oneMealTime="22"
               mealType="d"
-              imgSrc={require('../img/foodExample4.jpeg')}
+              imgSrc={require("../img/foodExample4.jpeg")}
             />
           </View>
         </View>
@@ -123,7 +135,7 @@ const WeeklyList = () => {
                 <Text style={wlST.dateText}>Tue</Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>8.3</Text>
+                <Text style={wlST.dayMealScoreText}>8</Text>
               </View>
             </View>
             <View style={wlST.dayDrinks}>
@@ -134,26 +146,26 @@ const WeeklyList = () => {
             <OneMealCircle
               oneMealScore="1"
               oneMealTime="2"
-              mealType="d"
-              imgSrc={require('../img/foodExample1.jpeg')}
+              mealType="a"
+              imgSrc={require("../img/foodExample1.jpeg")}
             />
             <OneMealCircle
               oneMealScore="10"
               oneMealTime="9"
-              mealType="d"
-              imgSrc={require('../img/foodExample2.jpeg')}
+              mealType="b"
+              imgSrc={require("../img/foodExample2.jpeg")}
             />
             <OneMealCircle
               oneMealScore="4"
               oneMealTime="14"
-              mealType="a"
-              imgSrc={require('../img/foodExample3.jpeg')}
+              mealType="c"
+              imgSrc={require("../img/foodExample3.jpeg")}
             />
             <OneMealCircle
               oneMealScore="3"
               oneMealTime="18"
-              mealType="b"
-              imgSrc={require('../img/foodExample4.jpeg')}
+              mealType="d"
+              imgSrc={require("../img/foodExample4.jpeg")}
             />
           </View>
         </View>
@@ -164,7 +176,7 @@ const WeeklyList = () => {
                 <Text style={wlST.dateText}>Wed</Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>3.1</Text>
+                <Text style={wlST.dayMealScoreText}>3</Text>
               </View>
             </View>
             <View style={wlST.dayDrinks}>
@@ -175,15 +187,15 @@ const WeeklyList = () => {
             <OneMealCircle
               oneMealScore="3.2"
               oneMealTime="13"
-              mealType="d"
-              imgSrc={require('../img/foodExample1.jpeg')}
+              mealType="a"
+              imgSrc={require("../img/foodExample1.jpeg")}
             />
 
             <OneMealCircle
               oneMealScore="1"
               oneMealTime="20"
-              mealType="d"
-              imgSrc={require('../img/foodExample3.jpeg')}
+              mealType="b"
+              imgSrc={require("../img/foodExample3.jpeg")}
             />
           </View>
         </View>
@@ -194,11 +206,11 @@ const WeeklyList = () => {
                 <Text style={wlST.dateText}>Thur </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>9.5</Text>
+                <Text style={wlST.dayMealScoreText}>9</Text>
               </View>
             </View>
             <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji}></Text>
+              <Text style={wlST.drinksEmoji} />
             </View>
           </View>
           <View style={wlST.dayMealList}>
@@ -206,20 +218,20 @@ const WeeklyList = () => {
               oneMealScore="5"
               oneMealTime="8"
               mealType="a"
-              imgSrc={require('../img/foodExample1.jpeg')}
+              imgSrc={require("../img/foodExample1.jpeg")}
             />
 
             <OneMealCircle
               oneMealScore="7.9"
               oneMealTime="14.4"
-              mealType="a"
-              imgSrc={require('../img/foodExample3.jpeg')}
+              mealType="b"
+              imgSrc={require("../img/foodExample3.jpeg")}
             />
             <OneMealCircle
               oneMealScore="9.3"
               oneMealTime="19"
               mealType="c"
-              imgSrc={require('../img/foodExample4.jpeg')}
+              imgSrc={require("../img/foodExample4.jpeg")}
             />
           </View>
         </View>
@@ -230,7 +242,7 @@ const WeeklyList = () => {
                 <Text style={wlST.dateText}>Fri</Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>6.5</Text>
+                <Text style={wlST.dayMealScoreText}>6</Text>
               </View>
             </View>
             <View style={wlST.dayDrinks}>
@@ -241,20 +253,20 @@ const WeeklyList = () => {
             <OneMealCircle
               oneMealScore="7"
               oneMealTime="6.4"
-              mealType="b"
-              imgSrc={require('../img/foodExample1.jpeg')}
+              mealType="a"
+              imgSrc={require("../img/foodExample1.jpeg")}
             />
             <OneMealCircle
               oneMealScore="3"
               oneMealTime="13"
-              mealType="d"
-              imgSrc={require('../img/foodExample2.jpeg')}
+              mealType="b"
+              imgSrc={require("../img/foodExample2.jpeg")}
             />
             <OneMealCircle
               oneMealScore="9"
               oneMealTime="20"
               mealType="c"
-              imgSrc={require('../img/foodExample3.jpeg')}
+              imgSrc={require("../img/foodExample3.jpeg")}
             />
           </View>
         </View>
@@ -265,7 +277,7 @@ const WeeklyList = () => {
                 <Text style={wlST.dateText}>Sat</Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>8.6</Text>
+                <Text style={wlST.dayMealScoreText}>8</Text>
               </View>
             </View>
             <View style={wlST.dayDrinks}>
@@ -277,19 +289,19 @@ const WeeklyList = () => {
               oneMealScore="7"
               oneMealTime="13"
               mealType="a"
-              imgSrc={require('../img/foodExample1.jpeg')}
+              imgSrc={require("../img/foodExample1.jpeg")}
             />
             <OneMealCircle
               oneMealScore="10"
               oneMealTime="17"
               mealType="b"
-              imgSrc={require('../img/foodExample2.jpeg')}
+              imgSrc={require("../img/foodExample2.jpeg")}
             />
             <OneMealCircle
               oneMealScore="8"
               oneMealTime="23"
-              mealType="a"
-              imgSrc={require('../img/foodExample3.jpeg')}
+              mealType="c"
+              imgSrc={require("../img/foodExample3.jpeg")}
             />
           </View>
         </View>
@@ -300,25 +312,25 @@ const WeeklyList = () => {
                 <Text style={wlST.dateText}>Sun</Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>3.3</Text>
+                <Text style={wlST.dayMealScoreText}>3</Text>
               </View>
             </View>
             <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji}></Text>
+              <Text style={wlST.drinksEmoji} />
             </View>
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
               oneMealScore="4"
               oneMealTime="15"
-              mealType="c"
-              imgSrc={require('../img/foodExample1.jpeg')}
+              mealType="a"
+              imgSrc={require("../img/foodExample1.jpeg")}
             />
             <OneMealCircle
               oneMealScore="3.6"
               oneMealTime="18"
               mealType="b"
-              imgSrc={require('../img/foodExample2.jpeg')}
+              imgSrc={require("../img/foodExample2.jpeg")}
             />
           </View>
         </View>
@@ -329,9 +341,9 @@ const WeeklyList = () => {
 };
 
 const Summary = props => {
-  const [weeklyListState, setWeeklyListState] = useState({on: false});
+  const [weeklyListState, setWeeklyListState] = useState({ on: false });
   const weeklyListToggle = () => {
-    setWeeklyListState({on: !weeklyListState.on});
+    setWeeklyListState({ on: !weeklyListState.on });
     console.log(weeklyListState);
   };
 
@@ -362,23 +374,24 @@ const Summary = props => {
         <ScrollView>
           <TouchableOpacity
             style={styles.summaryButton}
-            onPress={weeklyListToggle}>
+            onPress={weeklyListToggle}
+          >
             {!weeklyListState.on && <WeeklyListOff />}
             {weeklyListState.on && <WeeklyList />}
           </TouchableOpacity>
           <TouchableOpacity style={styles.summaryButton}>
             <Text style={styles.text}>
-              WeeklyReport {'\n'}will be updated after 11.30
+              WeeklyReport {"\n"}will be updated after 11.30
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.summaryButton}>
             <Text style={styles.text}>
-              MonthlyList{'\n'}will be updated after 11.30
+              MonthlyList{"\n"}will be updated after 11.30
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.summaryButton}>
             <Text style={styles.text}>
-              MonthlyReport {'\n'}will be updated after 11.30
+              MonthlyReport {"\n"}will be updated after 11.30
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -390,166 +403,164 @@ const Summary = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F9F9F9',
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F9F9F9"
   },
   monthWeekButtonContiner: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center"
   },
   monthButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 100,
     height: 30,
     marginBottom: 4,
     borderRadius: 100,
-    backgroundColor: gray.c,
+    backgroundColor: gray.c
   },
   weekButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     width: 300,
-    height: 100,
+    height: 100
   },
   weekButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     width: 50,
     height: 30,
     borderRadius: 100,
-    backgroundColor: gray.a,
+    backgroundColor: gray.a
   },
   buttonContainer: {
     flex: 9,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 30,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 30
   },
   summaryButton: {
-    justifyContent: 'center',
-    width: (deviceWidth * 7) / 7,
+    justifyContent: "center",
+    width: deviceWidth * 7 / 7,
     marginBottom: 30,
     padding: 10,
     borderRadius: 50,
     // borderWidth: 5,
     // borderColor: '#F1F1F1',
-    backgroundColor: gray.a,
+    backgroundColor: gray.a
 
     // backgroundColor: '#7BB78E',
   },
   text: {
     fontSize: 15,
     lineHeight: 25,
-    fontWeight: '700',
+    fontWeight: "700",
     color: gray.b,
-    textAlign: 'center',
-  },
+    textAlign: "center"
+  }
 });
 
 const wlST = StyleSheet.create({
   container: {
     height: 500,
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: "column",
+    justifyContent: "center"
   },
   index: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row"
   },
   weekDateText: {
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: "700",
     lineHeight: 20,
-    color: gray.b,
+    color: gray.b
   },
   timeArea: {
     flex: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingLeft: 1,
-    paddingRight: 10,
+    paddingRight: 10
   },
   timeText: {
     fontSize: 12,
     lineHeight: 20,
-    color: gray.b,
+    color: gray.b
   },
   listContainer: {
-    flex: 15,
+    flex: 15
   },
   day: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 55,
-    marginBottom: 10,
+    marginBottom: 10
   },
   dayInfo: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row"
   },
   date: {
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flex: 1
   },
   dateText: {
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: "500",
     lineHeight: 12,
-    color: gray.b,
+    color: gray.b
   },
-  dateAndScore: {flex: 2.5},
+  dateAndScore: { flex: 2.5 },
   dayMealScore: {
     flex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center"
   },
   dayMealScoreText: {
-    fontWeight: '800',
+    fontWeight: "800",
     fontSize: 15,
-    color: gray.c,
+    color: gray.c
   },
   dayDrinks: {
     flex: 2.5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center"
     // backgroundColor: 'red',
   },
   drinksEmoji: {
     fontSize: 12,
     lineHeight: 13,
-    textAlign: 'center',
+    textAlign: "center"
   },
   dayMealList: {
     flex: 3,
-    justifyContent: 'center',
-    backgroundColor: '#F8F8F8',
-    borderRadius: 20,
+    justifyContent: "center",
+    backgroundColor: "#F8F8F8",
+    borderRadius: 20
   },
   dayInfo2: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: "green"
   },
   dayMealList2: {
     flex: 3,
-    backgroundColor: 'red',
-    justifyContent: 'center',
+    backgroundColor: "red",
+    justifyContent: "center"
   },
   meal1: {
-    position: 'absolute',
+    position: "absolute",
     left:
-      ((((deviceWidth - 20) * 3) / 4 - 65) / 24) * 8 -
-      (9 * 4.5 + 20) / 2 +
-      32.5,
+      ((deviceWidth - 20) * 3 / 4 - 65) / 24 * 8 - (9 * 4.5 + 20) / 2 + 32.5,
     width: 9 * 4.5 + 20,
     height: 9 * 4.5 + 20,
     borderRadius: 100,
-    backgroundColor: 'pink',
-  },
+    backgroundColor: "pink"
+  }
 });
 
 export default Summary;
