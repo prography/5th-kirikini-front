@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -6,11 +6,11 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
-  Image,
-} from 'react-native';
+  Image
+} from 'react-native'
 
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width
+const deviceHeight = Dimensions.get('window').height
 
 const kiri = {
   a: '#D3E0AA',
@@ -18,18 +18,18 @@ const kiri = {
   c: '#7BB78E',
   d: '#549286',
   e: '#3B656F',
-  p: '#FF8603',
-};
+  p: '#FF8603'
+}
 
 const gray = {
   a: 'white',
   b: '#B0B0B0',
   c: '#6F6F6F',
-  d: '#404040',
-};
+  d: '#404040'
+}
 
-let todayScore = 5.7;
-let kiriColor = kiri.c;
+let todayScore = 5.7
+let kiriColor = kiri.c
 
 const AddOneCapsule = props => {
   return (
@@ -40,8 +40,9 @@ const AddOneCapsule = props => {
           height: 7,
           marginBottom: 8,
           borderRadius: 100,
-          backgroundColor: props.beingRated ? kiri.p : kiriColor,
-        }}></View>
+          backgroundColor: props.beingRated ? kiri.p : kiriColor
+        }}
+      />
       <Text style={capsuleText.mealTime}>{props.oneMealtime}</Text>
       <View
         style={{
@@ -55,43 +56,45 @@ const AddOneCapsule = props => {
           borderColor: gray.a,
           borderRadius: 100,
           backgroundColor: props.beingRated ? gray.a : props.oneCapsuleColor,
-          opacity: props.beingRated ? 0.7 : 1,
-        }}>
+          opacity: props.beingRated ? 0.7 : 1
+        }}
+      >
         <Text
           style={{
             marginBottom: 15,
             opacity: props.beingRated ? 0.5 : 1,
             fontSize: 30,
             fontWeight: '500',
-            color: props.beingRated ? kiriColor : gray.a,
-          }}>
+            color: props.beingRated ? kiriColor : gray.a
+          }}
+        >
           {props.oneMealScore}
         </Text>
-        <Image style={capsuleSt.circlePhoto} source={props.imgSrc}></Image>
+        <Image style={capsuleSt.circlePhoto} source={props.imgSrc} />
       </View>
     </View>
-  );
-};
+  )
+}
 
 const HomeScreen = props => {
-  const [capsule, setCapsule] = useState(0);
+  const [capsule, setCapsule] = useState(0)
 
   const renderCapsule = () => {
-    let capsules = [];
+    let capsules = []
 
     for (let i = 0; i < capsule; i++) {
       capsules.push(
         <AddOneCapsule
-          oneMealtime="9:12 am"
-          oneMealScore="2.8"
+          oneMealtime='9:12 am'
+          oneMealScore='2.8'
           oneCapsuleColor={kiri.b}
           beingRated={false}
           imgSrc={require('../img/foodExample1.jpeg')}
-        />,
-      );
+        />
+      )
     }
-    return capsules;
-  };
+    return capsules
+  }
 
   const today = (
     <View style={universalSt.container}>
@@ -108,13 +111,15 @@ const HomeScreen = props => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Summary')}>
+            onPress={() => props.navigation.navigate('Summary')}
+          >
             <View style={navSt.navButton}>
               <Text>Summary</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Settings')}>
+            onPress={() => props.navigation.navigate('Settings')}
+          >
             <View style={navSt.navButton}>
               <Text>Settings</Text>
             </View>
@@ -154,28 +159,29 @@ const HomeScreen = props => {
             </View>
           </View>
           <View style={balloonSt.tailContainer}>
-            <View style={balloonSt.tailWhiteArea}></View>
-            <View style={balloonSt.tailKiriColorArea}></View>
+            <View style={balloonSt.tailWhiteArea} />
+            <View style={balloonSt.tailKiriColorArea} />
             <Image
               style={balloonSt.kirini}
-              source={require('../img/kiriniC.png')}></Image>
+              source={require('../img/kiriniC.png')}
+            />
           </View>
         </View>
       </View>
       <View style={universalSt.bottomHalf}>
         <View style={capsuleSt.container}>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={capsuleSt.containerInsideScrollView}>
-              <View style={capsuleSt.containerFirstMargin}></View>
+              <View style={capsuleSt.containerFirstMargin} />
               {renderCapsule()}
               <AddOneCapsule
-                oneMealtime="9:12 am"
-                oneMealScore="2.8"
+                oneMealtime='9:12 am'
+                oneMealScore='2.8'
                 oneCapsuleColor={kiri.b}
                 beingRated={false}
                 imgSrc={require('../img/foodExample1.jpeg')}
               />
-              {/*<AddOneCapsule
+              {/* <AddOneCapsule
                 oneMealtime="3:45 pm"
                 oneMealScore="9.2"
                 oneCapsuleColor={kiri.e}
@@ -202,7 +208,7 @@ const HomeScreen = props => {
                 oneCapsuleColor={kiri.e}
                 beingRated={true}
                 imgSrc={require('../img/foodExample5.jpeg')}
-              />*/}
+              /> */}
             </View>
           </ScrollView>
         </View>
@@ -214,32 +220,32 @@ const HomeScreen = props => {
                   끼니{'\n'}추가
                 </Text>
               </View>
-              <View style={bottomBarSt.buttonTailWhiteArea}></View>
-              <View style={bottomBarSt.buttonTailKiricolorArea}></View>
+              <View style={bottomBarSt.buttonTailWhiteArea} />
+              <View style={bottomBarSt.buttonTailKiricolorArea} />
             </View>
           </TouchableOpacity>
         </View>
       </View>
     </View>
-  );
-  return today;
-};
+  )
+  return today
+}
 
 // 공통적으로 쓰일? View 스타일 (화면 분할 등)
 const universalSt = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: kiriColor,
+    backgroundColor: kiriColor
   },
   topHalf: {
     flex: 1.5,
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   bottomHalf: {
-    flex: 1,
-  },
-});
+    flex: 1
+  }
+})
 
 // 좌측 상단 네비게이션 바의 View 스타일
 const navSt = StyleSheet.create({
@@ -247,7 +253,7 @@ const navSt = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingTop: deviceWidth / 10,
+    paddingTop: deviceWidth / 10
   },
   navButton: {
     width: deviceWidth / 6,
@@ -260,9 +266,9 @@ const navSt = StyleSheet.create({
     // borderColor: gray.a,
     borderRadius: 15,
     backgroundColor: gray.a,
-    opacity: 0.3,
-  },
-});
+    opacity: 0.3
+  }
+})
 
 // 하얀 말풍선 속 Text 스타일
 const balloonText = StyleSheet.create({
@@ -270,39 +276,39 @@ const balloonText = StyleSheet.create({
     fontSize: 27,
     lineHeight: 35,
     fontWeight: '700',
-    color: kiriColor,
+    color: kiriColor
   },
   todayScore: {
     fontSize: 35,
     lineHeight: 35,
     fontWeight: '700',
-    color: kiri.p,
+    color: kiri.p
   },
   scoreCompare: {
     fontSize: 12,
-    color: gray.b,
+    color: gray.b
   },
   lastMealTime: {
     fontSize: 13,
     lineHeight: 25,
     fontWeight: '500',
     color: gray.c,
-    textAlign: 'right',
+    textAlign: 'right'
   },
   feedback: {
     fontSize: 15,
     lineHeight: 25,
     fontWeight: '600',
     color: gray.d,
-    textAlign: 'right',
-  },
-});
+    textAlign: 'right'
+  }
+})
 
 // 하얀 말풍선 속 View 스타일
 const balloonSt = StyleSheet.create({
   container: {
     flex: 4,
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   balloon: {
     flex: 2,
@@ -311,61 +317,61 @@ const balloonSt = StyleSheet.create({
     padding: deviceWidth / 10,
     borderTopLeftRadius: 70,
     borderBottomRightRadius: 70,
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   topBar: {
     flex: 0.65,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   scoreCompareArea: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
   },
   lastMealTimeContainer: {
     flex: 1.5,
     flexDirection: 'row',
-    paddingTop: 7,
+    paddingTop: 7
   },
   lastMealIconWrapper: {
     flex: 7,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   lastMealTimeWrapper: {
     flex: 3,
     justifyContent: 'center',
-    paddingLeft: 6,
+    paddingLeft: 6
   },
   feedbackArea: {
     flex: 1.2,
     justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
   },
   tailContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingRight: deviceWidth / 10,
+    paddingRight: deviceWidth / 10
   },
   tailWhiteArea: {
     width: deviceWidth / 3,
     height: deviceWidth / 5,
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   tailKiriColorArea: {
     position: 'absolute',
     width: deviceWidth / 3,
     height: deviceWidth / 3,
     borderTopLeftRadius: 100,
-    backgroundColor: kiriColor,
+    backgroundColor: kiriColor
   },
   kirini: {
     width: (deviceWidth * 3) / 10,
     height: deviceWidth / 4,
     alignSelf: 'center',
-    resizeMode: 'contain',
-  },
-});
+    resizeMode: 'contain'
+  }
+})
 
 // 끼니캡슐들 속 Text 스타일
 const capsuleText = StyleSheet.create({
@@ -374,35 +380,35 @@ const capsuleText = StyleSheet.create({
     opacity: 0.8,
     fontSize: 12,
     fontWeight: 'bold',
-    color: 'white',
-  },
+    color: 'white'
+  }
   // mealScore:{
   //   marginBottom: 20,
   //   fontSize: 30,
   //   fontWeight: '500',
   //   color: 'white',
   // },
-});
+})
 
 // 끼니캡슐들 속 View 스타일
 const capsuleSt = StyleSheet.create({
   container: {
     flex: 2.8,
-    backgroundColor: kiriColor,
+    backgroundColor: kiriColor
   },
   containerInsideScrollView: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
   },
   containerFirstMargin: {
-    width: deviceWidth / 5,
+    width: deviceWidth / 5
   },
   capsuleContainer: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: deviceWidth / 4,
-    marginRight: deviceWidth / 10,
+    marginRight: deviceWidth / 10
   },
   // capsule: {
   //   justifyContent: 'flex-end',
@@ -433,20 +439,20 @@ const capsuleSt = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: kiriColor,
     opacity: 0.8,
-    resizeMode: 'cover',
-  },
-});
+    resizeMode: 'cover'
+  }
+})
 
 // 하단 바... + 버튼이 있는 곳의 View와 Text 스타일
 const bottomBarSt = StyleSheet.create({
   bar: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
   },
   addMealButtonContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-end'
   },
   addMealButton: {
     justifyContent: 'center',
@@ -459,17 +465,17 @@ const bottomBarSt = StyleSheet.create({
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     backgroundColor: gray.a,
-    opacity: 1,
+    opacity: 1
   },
   addMealButtonText: {
     fontSize: 16,
     fontWeight: '900',
-    color: kiriColor,
+    color: kiriColor
   },
   buttonTailWhiteArea: {
     width: 30,
     height: 30,
-    backgroundColor: gray.a,
+    backgroundColor: gray.a
   },
   buttonTailKiricolorArea: {
     position: 'absolute',
@@ -477,8 +483,8 @@ const bottomBarSt = StyleSheet.create({
     width: 40,
     height: 55,
     borderBottomLeftRadius: 50,
-    backgroundColor: kiriColor,
-  },
-});
+    backgroundColor: kiriColor
+  }
+})
 
-export default HomeScreen;
+export default HomeScreen
