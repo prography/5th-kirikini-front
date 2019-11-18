@@ -17,8 +17,8 @@
     "constants-browserify": "^1.0.0",
     "dns.js": "^1.0.1",
     "domain-browser": "^1.1.1",
+    "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.6.0",
-    "eslint-plugin-react": "^7.16.0",
     "events": "^1.0.0",
     "https-browserify": "~0.0.0",
     "path-browserify": "0.0.0",
@@ -59,11 +59,7 @@
     "@babel/core": "^7.6.4",
     "@babel/runtime": "^7.6.3",
     "@bam.tech/react-native-make": "^1.0.3",
-    "@react-native-community/eslint-config": "^0.0.5",
-    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
-    "eslint": "^6.6.0",
-    "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "1.19.1",
@@ -72,5 +68,22 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "eslintConfig": {
+    "extends": ["airbnb", "prettier"],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        { "singleQuote": true },
+        {
+          "usePrettierrc": false
+        }
+      ],
+      "react/prefer-stateless-function": 0,
+      "react/jsx-filename-extension": 0,
+      "react/jsx-one-expression-per-line": 0,
+      "quotes": ["single"],
+      "semi": ["always"]
+    }
   }
 }
