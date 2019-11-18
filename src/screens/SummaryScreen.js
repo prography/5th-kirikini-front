@@ -5,11 +5,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Modal,
+  Image
 } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
-// const deviceHeight = Dimensions.get('window').height;
+const deviceHeight = Dimensions.get("window").height;
 
 const gray = {
   a: "white",
@@ -28,6 +30,9 @@ const WeeklyListOff = () => {
 };
 // 위클리 리스트 안의 동글뱅이들 만들어줌
 const OneMealCircle = props => {
+  const [modalVisible, setModalVisible] = useState(false);
+  console.log("모달:" + modalVisible);
+
   var circleColor = "red";
   if (props.mealType === "a") {
     var circleColor = gray.a;
@@ -43,21 +48,73 @@ const OneMealCircle = props => {
   }
 
   return (
-    <TouchableOpacity
-      style={{
-        position: "absolute",
-        left:
-          ((deviceWidth - 20) * 3 / 4 - 65) / 24 * props.oneMealTime -
-          (props.oneMealScore * 4.5 + 20) / 2 +
-          32.5,
-        width: props.oneMealScore * 4.5 + 20,
-        height: props.oneMealScore * 4.5 + 20,
-        borderRadius: 100,
-        backgroundColor: circleColor,
-        opacity: 0.8
-      }}
-    />
+    <>
+      <TouchableOpacity
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}
+        style={{
+          position: "absolute",
+          left:
+            ((((deviceWidth - 20) * 7) / 8 - 65) / 24) * props.oneMealTime -
+            (props.oneMealScore * 4.5 + 20) / 2 +
+            32.5,
+          width: props.oneMealScore * 4.5 + 20,
+          height: props.oneMealScore * 4.5 + 20,
+          borderRadius: 100,
+          backgroundColor: circleColor,
+          opacity: 0.8
+        }}
+      />
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onPress={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(!modalVisible);
+          }}
+          style={{
+            width: deviceWidth,
+            height: deviceHeight
+          }}
+        >
+          <Image
+            source={props.imgSrc}
+            style={{
+              top: deviceHeight / 2 - 150,
+              alignSelf: "center",
+              backgroundColor: "pink",
+              width: 300,
+              height: 300,
+              borderRadius: 50
+            }}
+          />
+        </TouchableOpacity>
+      </Modal>
+    </>
   );
+  // return (
+  //   <TouchableOpacity
+  //     style={{
+  //       position: "absolute",
+  //       left:
+  //         ((deviceWidth - 20) * 7 / 8 - 65) / 24 * props.oneMealTime -
+  //         (props.oneMealScore * 4.5 + 20) / 2 +
+  //         32.5,
+  //       width: props.oneMealScore * 4.5 + 20,
+  //       height: props.oneMealScore * 4.5 + 20,
+  //       borderRadius: 100,
+  //       backgroundColor: circleColor,
+  //       opacity: 0.8
+  //     }}
+  //   />
+  // );
 };
 //토글되면 열리는 그 곳
 const WeeklyList = () => {
@@ -96,9 +153,9 @@ const WeeklyList = () => {
                 {/* <Text style={wlST.dayMealScoreText}>5</Text> */}
               </View>
             </View>
-            <View style={wlST.dayDrinks}>
-              {/* <Text style={wlST.drinksEmoji}>☕️☕️</Text> */}
-            </View>
+            {/* <View style={wlST.dayDrinks}>
+              <Text style={wlST.drinksEmoji}>☕️☕️</Text>
+            </View> */}
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
@@ -132,15 +189,25 @@ const WeeklyList = () => {
           <View style={wlST.dayInfo}>
             <View style={wlST.dateAndScore}>
               <View style={wlST.date}>
-                <Text style={wlST.dateText}>Tue</Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "500",
+                    lineHeight: 12,
+                    color: gray.d,
+                    opacity: 0.4
+                  }}
+                >
+                  Tue
+                </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>8</Text>
+                <Text style={wlST.drinksEmoji}>🍺</Text>
               </View>
             </View>
-            <View style={wlST.dayDrinks}>
+            {/* <View style={wlST.dayDrinks}>
               <Text style={wlST.drinksEmoji}>🍺</Text>
-            </View>
+            </View> */}
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
@@ -173,15 +240,25 @@ const WeeklyList = () => {
           <View style={wlST.dayInfo}>
             <View style={wlST.dateAndScore}>
               <View style={wlST.date}>
-                <Text style={wlST.dateText}>Wed</Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "500",
+                    lineHeight: 12,
+                    color: gray.d,
+                    opacity: 0.1
+                  }}
+                >
+                  Wed
+                </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>3</Text>
+                <Text style={wlST.drinksEmoji}>☕️☕️☕️☕️☕️</Text>
               </View>
             </View>
-            <View style={wlST.dayDrinks}>
+            {/* <View style={wlST.dayDrinks}>
               <Text style={wlST.drinksEmoji}>☕️☕️☕️☕️☕️</Text>
-            </View>
+            </View> */}
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
@@ -203,15 +280,25 @@ const WeeklyList = () => {
           <View style={wlST.dayInfo}>
             <View style={wlST.dateAndScore}>
               <View style={wlST.date}>
-                <Text style={wlST.dateText}>Thur </Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "500",
+                    lineHeight: 12,
+                    color: gray.d,
+                    opacity: 0.5
+                  }}
+                >
+                  Thur{" "}
+                </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>9</Text>
+                <Text style={wlST.drinksEmoji} />
               </View>
             </View>
-            <View style={wlST.dayDrinks}>
+            {/* <View style={wlST.dayDrinks}>
               <Text style={wlST.drinksEmoji} />
-            </View>
+            </View> */}
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
@@ -239,15 +326,25 @@ const WeeklyList = () => {
           <View style={wlST.dayInfo}>
             <View style={wlST.dateAndScore}>
               <View style={wlST.date}>
-                <Text style={wlST.dateText}>Fri</Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "500",
+                    lineHeight: 12,
+                    color: gray.d,
+                    opacity: 0.3
+                  }}
+                >
+                  Fri
+                </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>6</Text>
+                <Text style={wlST.drinksEmoji}>☕️</Text>
               </View>
             </View>
-            <View style={wlST.dayDrinks}>
+            {/* <View style={wlST.dayDrinks}>
               <Text style={wlST.drinksEmoji}>☕️</Text>
-            </View>
+            </View> */}
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
@@ -274,15 +371,25 @@ const WeeklyList = () => {
           <View style={wlST.dayInfo}>
             <View style={wlST.dateAndScore}>
               <View style={wlST.date}>
-                <Text style={wlST.dateText}>Sat</Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "500",
+                    lineHeight: 12,
+                    color: gray.d,
+                    opacity: 0.7
+                  }}
+                >
+                  Sat
+                </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>8</Text>
+                <Text style={wlST.drinksEmoji}>🍺</Text>
               </View>
             </View>
-            <View style={wlST.dayDrinks}>
+            {/* <View style={wlST.dayDrinks}>
               <Text style={wlST.drinksEmoji}>🍺</Text>
-            </View>
+            </View> */}
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
@@ -309,15 +416,25 @@ const WeeklyList = () => {
           <View style={wlST.dayInfo}>
             <View style={wlST.dateAndScore}>
               <View style={wlST.date}>
-                <Text style={wlST.dateText}>Sun</Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    fontWeight: "500",
+                    lineHeight: 12,
+                    color: gray.d,
+                    opacity: 0.1
+                  }}
+                >
+                  Sun
+                </Text>
               </View>
               <View style={wlST.dayMealScore}>
-                <Text style={wlST.dayMealScoreText}>3</Text>
+                <Text style={wlST.drinksEmoji} />
               </View>
             </View>
-            <View style={wlST.dayDrinks}>
+            {/* <View style={wlST.dayDrinks}>
               <Text style={wlST.drinksEmoji} />
-            </View>
+            </View> */}
           </View>
           <View style={wlST.dayMealList}>
             <OneMealCircle
@@ -444,7 +561,7 @@ const styles = StyleSheet.create({
   },
   summaryButton: {
     justifyContent: "center",
-    width: deviceWidth * 7 / 7,
+    width: (deviceWidth * 7) / 7,
     marginBottom: 30,
     padding: 10,
     borderRadius: 50,
@@ -481,7 +598,7 @@ const wlST = StyleSheet.create({
     color: gray.b
   },
   timeArea: {
-    flex: 3,
+    flex: 7,
     flexDirection: "row",
     justifyContent: "space-between",
     paddingLeft: 1,
@@ -538,9 +655,9 @@ const wlST = StyleSheet.create({
     textAlign: "center"
   },
   dayMealList: {
-    flex: 3,
+    flex: 7,
     justifyContent: "center",
-    backgroundColor: "#F8F8F8",
+    backgroundColor: "#F1F1F1",
     borderRadius: 20
   },
   dayInfo2: {
@@ -555,7 +672,9 @@ const wlST = StyleSheet.create({
   meal1: {
     position: "absolute",
     left:
-      ((deviceWidth - 20) * 3 / 4 - 65) / 24 * 8 - (9 * 4.5 + 20) / 2 + 32.5,
+      ((((deviceWidth - 20) * 3) / 4 - 65) / 24) * 8 -
+      (9 * 4.5 + 20) / 2 +
+      32.5,
     width: 9 * 4.5 + 20,
     height: 9 * 4.5 + 20,
     borderRadius: 100,
