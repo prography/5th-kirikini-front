@@ -36,6 +36,7 @@
     "react-native-os": "^1.0.1",
     "react-native-reanimated": "^1.3.0",
     "react-native-screens": "^2.0.0-alpha.4",
+    "react-native-simple-radio-button": "^2.7.4",
     "react-native-splash-screen": "^3.2.0",
     "react-native-tcp": "^3.2.1",
     "react-native-udp": "^2.1.0",
@@ -70,11 +71,16 @@
     "preset": "react-native"
   },
   "eslintConfig": {
-    "extends": ["airbnb", "prettier"],
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
     "rules": {
       "prettier/prettier": [
         "error",
-        { "singleQuote": true },
+        {
+          "singleQuote": true
+        },
         {
           "usePrettierrc": false
         }
@@ -82,8 +88,12 @@
       "react/prefer-stateless-function": 0,
       "react/jsx-filename-extension": 0,
       "react/jsx-one-expression-per-line": 0,
-      "quotes": ["single"],
-      "semi": ["always"]
+      "quotes": [
+        "single"
+      ],
+      "semi": [
+        "always"
+      ]
     }
   }
 }
