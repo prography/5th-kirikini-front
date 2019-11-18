@@ -4,9 +4,9 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
+  Dimensions
 } from 'react-native';
-import {RNCamera} from 'react-native-camera';
+import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -16,7 +16,7 @@ const CameraScreen = () => {
   // 촬영 버튼에 적용할 takePicture()
   const takePicture = async () => {
     if (camera) {
-      const options = {quality: 0.5};
+      const options = { quality: 0.5 };
       const data = await camera.takePictureAsync(options);
       console.log(data.uri);
     }
@@ -32,8 +32,8 @@ const CameraScreen = () => {
       title: 'Select Avatar',
       storageOptions: {
         skipBackup: true,
-        path: 'images',
-      },
+        path: 'images'
+      }
     };
     ImagePicker.launchImageLibrary(options, response => {});
   };
@@ -45,7 +45,8 @@ const CameraScreen = () => {
           ref={ref => {
             camera = ref;
           }}
-          style={cameraSt.cameraView}></RNCamera>
+          style={cameraSt.cameraView}
+        />
       </TouchableOpacity>
       <View style={cameraSt.buttonContainer}>
         <TouchableOpacity onPress={() => takePicture()} style={cameraSt.button}>
@@ -62,12 +63,12 @@ const CameraScreen = () => {
 const cameraSt = StyleSheet.create({
   cameraView: {
     width: deviceWidth,
-    height: deviceWidth,
+    height: deviceWidth
   },
   buttonContainer: {
     padding: 30,
     flexDirection: 'column',
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   button: {
     justifyContent: 'center',
@@ -75,15 +76,15 @@ const cameraSt = StyleSheet.create({
     height: 100,
     marginBottom: 30,
     borderRadius: 100,
-    backgroundColor: '#7BB78E',
+    backgroundColor: '#7BB78E'
   },
   text: {
     fontSize: 15,
     lineHeight: 25,
     fontWeight: '700',
     color: 'white',
-    textAlign: 'center',
-  },
+    textAlign: 'center'
+  }
 });
 
 export default CameraScreen;

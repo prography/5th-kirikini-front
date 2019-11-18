@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,10 +7,10 @@ import {
   Dimensions,
   TouchableOpacity,
   Image
-} from 'react-native'
+} from 'react-native';
 
-const deviceWidth = Dimensions.get('window').width
-const deviceHeight = Dimensions.get('window').height
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 const kiri = {
   a: '#D3E0AA',
@@ -19,82 +19,80 @@ const kiri = {
   d: '#549286',
   e: '#3B656F',
   p: '#FF8603'
-}
+};
 
 const gray = {
   a: 'white',
   b: '#B0B0B0',
   c: '#6F6F6F',
   d: '#404040'
-}
+};
 
-let todayScore = 5.7
-let kiriColor = kiri.c
+const todayScore = 5.7;
+const kiriColor = kiri.c;
 
-const AddOneCapsule = props => {
-  return (
-    <View style={capsuleSt.capsuleContainer}>
-      <View
+const AddOneCapsule = props => (
+  <View style={capsuleSt.capsuleContainer}>
+    <View
+      style={{
+        width: 7,
+        height: 7,
+        marginBottom: 8,
+        borderRadius: 100,
+        backgroundColor: props.beingRated ? kiri.p : kiriColor
+      }}
+    />
+    <Text style={capsuleText.mealTime}>{props.oneMealtime}</Text>
+    <View
+      style={{
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: deviceWidth / 4,
+        height: deviceHeight / 4.9,
+        marginBottom: 6,
+        borderStyle: 'solid',
+        borderWidth: 3,
+        borderColor: gray.a,
+        borderRadius: 100,
+        backgroundColor: props.beingRated ? gray.a : props.oneCapsuleColor,
+        opacity: props.beingRated ? 0.7 : 1
+      }}
+    >
+      <Text
         style={{
-          width: 7,
-          height: 7,
-          marginBottom: 8,
-          borderRadius: 100,
-          backgroundColor: props.beingRated ? kiri.p : kiriColor
-        }}
-      />
-      <Text style={capsuleText.mealTime}>{props.oneMealtime}</Text>
-      <View
-        style={{
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          width: deviceWidth / 4,
-          height: deviceHeight / 4.9,
-          marginBottom: 6,
-          borderStyle: 'solid',
-          borderWidth: 3,
-          borderColor: gray.a,
-          borderRadius: 100,
-          backgroundColor: props.beingRated ? gray.a : props.oneCapsuleColor,
-          opacity: props.beingRated ? 0.7 : 1
+          marginBottom: 15,
+          opacity: props.beingRated ? 0.5 : 1,
+          fontSize: 30,
+          fontWeight: '500',
+          color: props.beingRated ? kiriColor : gray.a
         }}
       >
-        <Text
-          style={{
-            marginBottom: 15,
-            opacity: props.beingRated ? 0.5 : 1,
-            fontSize: 30,
-            fontWeight: '500',
-            color: props.beingRated ? kiriColor : gray.a
-          }}
-        >
-          {props.oneMealScore}
-        </Text>
-        <Image style={capsuleSt.circlePhoto} source={props.imgSrc} />
-      </View>
+        {props.oneMealScore}
+      </Text>
+      <Image style={capsuleSt.circlePhoto} source={props.imgSrc} />
     </View>
-  )
-}
+  </View>
+);
 
 const HomeScreen = props => {
-  const [capsule, setCapsule] = useState(0)
+  const [capsule, setCapsule] = useState(0);
 
   const renderCapsule = () => {
-    let capsules = []
+    const capsules = [];
 
     for (let i = 0; i < capsule; i++) {
       capsules.push(
         <AddOneCapsule
-          oneMealtime='9:12 am'
-          oneMealScore='2.8'
+          oneMealtime="9:12 am"
+          oneMealScore="2.8"
           oneCapsuleColor={kiri.b}
           beingRated={false}
           imgSrc={require('../img/foodExample1.jpeg')}
         />
-      )
+      );
     }
-    return capsules
-  }
+    return capsules;
+  };
 
   const today = (
     <View style={universalSt.container}>
@@ -144,15 +142,19 @@ const HomeScreen = props => {
               </View>
               <View style={balloonSt.lastMealTimeWrapper}>
                 <Text style={balloonText.lastMealTime}>
-                  1시간 58분{'\n'}
-                  254시간{'\n'}
-                  31시간{'\n'}
+                  1시간 58분
+                  {'\n'}
+                  254시간
+                  {'\n'}
+                  31시간
+                  {'\n'}
                 </Text>
               </View>
             </View>
             <View style={balloonSt.feedbackArea}>
               <Text style={balloonText.feedback}>
-                zwon님의 현재 건강도는... {todayScore}점! {'\n'}
+                zwon님의 현재 건강도는... {todayScore}
+                점! {'\n'}
                 나보다 잘 먹네... {'\n'}
                 대체 뭘 먹은거야?
               </Text>
@@ -175,8 +177,8 @@ const HomeScreen = props => {
               <View style={capsuleSt.containerFirstMargin} />
               {renderCapsule()}
               <AddOneCapsule
-                oneMealtime='9:12 am'
-                oneMealScore='2.8'
+                oneMealtime="9:12 am"
+                oneMealScore="2.8"
                 oneCapsuleColor={kiri.b}
                 beingRated={false}
                 imgSrc={require('../img/foodExample1.jpeg')}
@@ -217,7 +219,9 @@ const HomeScreen = props => {
             <View style={bottomBarSt.addMealButtonContainer}>
               <View style={bottomBarSt.addMealButton}>
                 <Text style={bottomBarSt.addMealButtonText}>
-                  끼니{'\n'}추가
+                  끼니
+                  {'\n'}
+                  추가
                 </Text>
               </View>
               <View style={bottomBarSt.buttonTailWhiteArea} />
@@ -227,9 +231,9 @@ const HomeScreen = props => {
         </View>
       </View>
     </View>
-  )
-  return today
-}
+  );
+  return today;
+};
 
 // 공통적으로 쓰일? View 스타일 (화면 분할 등)
 const universalSt = StyleSheet.create({
@@ -245,7 +249,7 @@ const universalSt = StyleSheet.create({
   bottomHalf: {
     flex: 1
   }
-})
+});
 
 // 좌측 상단 네비게이션 바의 View 스타일
 const navSt = StyleSheet.create({
@@ -268,7 +272,7 @@ const navSt = StyleSheet.create({
     backgroundColor: gray.a,
     opacity: 0.3
   }
-})
+});
 
 // 하얀 말풍선 속 Text 스타일
 const balloonText = StyleSheet.create({
@@ -302,7 +306,7 @@ const balloonText = StyleSheet.create({
     color: gray.d,
     textAlign: 'right'
   }
-})
+});
 
 // 하얀 말풍선 속 View 스타일
 const balloonSt = StyleSheet.create({
@@ -371,7 +375,7 @@ const balloonSt = StyleSheet.create({
     alignSelf: 'center',
     resizeMode: 'contain'
   }
-})
+});
 
 // 끼니캡슐들 속 Text 스타일
 const capsuleText = StyleSheet.create({
@@ -388,7 +392,7 @@ const capsuleText = StyleSheet.create({
   //   fontWeight: '500',
   //   color: 'white',
   // },
-})
+});
 
 // 끼니캡슐들 속 View 스타일
 const capsuleSt = StyleSheet.create({
@@ -441,7 +445,7 @@ const capsuleSt = StyleSheet.create({
     opacity: 0.8,
     resizeMode: 'cover'
   }
-})
+});
 
 // 하단 바... + 버튼이 있는 곳의 View와 Text 스타일
 const bottomBarSt = StyleSheet.create({
@@ -485,6 +489,6 @@ const bottomBarSt = StyleSheet.create({
     borderBottomLeftRadius: 50,
     backgroundColor: kiriColor
   }
-})
+});
 
-export default HomeScreen
+export default HomeScreen;

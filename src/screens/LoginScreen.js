@@ -1,12 +1,11 @@
-
-import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import Evaluebar from '../Components/Evaluebar';
 import SelfEvaluate from './SelfEvaluate';
 
 const LoginScreen = props => {
   const navigationOptions = {
-    header: null,
+    header: null
   };
   return (
     <SelfEvaluate />
@@ -28,12 +27,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   titleArea: {
     width: '100%',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
 
 export default LoginScreen;
