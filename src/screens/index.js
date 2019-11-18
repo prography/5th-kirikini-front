@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { AppRegistry } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -31,7 +31,7 @@ const AppNavigator = createStackNavigator(
     Evaluate: SelfEvaluate
   },
   {
-    initialRouteName: 'Upload'
+    initialRouteName: 'Rate'
   }
 );
 
