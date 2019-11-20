@@ -38,8 +38,8 @@ const CameraScreen = () => {
     ImagePicker.launchImageLibrary(options, response => {});
   };
 
-  return (
-    <View>
+  const CameraView = () => {
+    return (
       <TouchableOpacity onPress={() => takePicture()}>
         <RNCamera
           ref={ref => {
@@ -48,6 +48,20 @@ const CameraScreen = () => {
           style={cameraSt.cameraView}
         />
       </TouchableOpacity>
+    );
+  };
+
+  return (
+    <View>
+      {/* <TouchableOpacity onPress={() => takePicture()}>
+        <RNCamera
+          ref={ref => {
+            camera = ref;
+          }}
+          style={cameraSt.cameraView}
+        />
+      </TouchableOpacity> */}
+      <CameraView />
       <View style={cameraSt.buttonContainer}>
         <TouchableOpacity onPress={() => takePicture()} style={cameraSt.button}>
           <Text style={cameraSt.text}>촬영</Text>

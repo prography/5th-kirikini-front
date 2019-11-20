@@ -31,7 +31,7 @@ const AppNavigator = createStackNavigator(
     Evaluate: SelfEvaluate
   },
   {
-    initialRouteName: 'Upload'
+    initialRouteName: 'Home'
   }
 );
 
