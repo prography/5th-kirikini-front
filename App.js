@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import AppNavigator from "./src/screens";
+import React, { useEffect } from 'react';
+import AppNavigator from './src/screens';
 
-import configureStore from "./src/store/configureStore";
-import { Provider } from "react-redux";
-import SplashScreen from "react-native-splash-screen";
+import configureStore from './src/store/configureStore';
+import { Provider } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 
 const store = configureStore();
 

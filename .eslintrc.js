@@ -1,17 +1,11 @@
 module.exports = {
   root: true,
-  extends: [
-    "eslint:recommended",
-    "plugin:prettier/recommended",
-    "plugin:react/recommended",
-    "prettier",
-    "prettier/react"
-  ],
-  plugins: ["prettier", "react"],
+  extends: ['airbnb'],
+  plugins: ['prettier', 'react'],
   parserOptions: {
-    parser: "babel-eslint",
+    parser: 'babel-eslint',
     ecmaVersion: 6,
-    sourceType: "module",
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true
     }
@@ -22,12 +16,17 @@ module.exports = {
     node: true
   },
   rules: {
-    "prettier/prettier": [
-      "error",
-      {},
+    'prettier/prettier': [
+      'error',
+      { singleQuote: true },
       {
         usePrettierrc: false
       }
-    ]
+    ],
+    'react/prefer-stateless-function': 0,
+    'react/jsx-filename-extension': 0,
+    'react/jsx-one-expression-per-line': 0,
+    quotes: ['single'],
+    semi: ['always']
   }
 };
