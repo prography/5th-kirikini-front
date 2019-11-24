@@ -51,23 +51,6 @@ export default function App() {
       });
   };
 
-  const kakaoLogout = () => {
-    logCallback('Logout Start', setLogoutLoading(true));
-
-    KakaoLogins.logout()
-      .then(result => {
-        setToken(TOKEN_EMPTY);
-        setProfile(PROFILE_EMPTY);
-        logCallback(`Logout Finished:${result}`, setLogoutLoading(false));
-      })
-      .catch(err => {
-        logCallback(
-          `Logout Failed:${err.code} ${err.message}`,
-          setLogoutLoading(false),
-        );
-      });
-  };
-
   const getProfile = () => {
     logCallback('Get Profile Start', setProfileLoading(true));
 
@@ -106,14 +89,7 @@ export default function App() {
           textStyle={styles.txtKakaoLogin}>
           LOGIN
         </NativeButton>
-        <NativeButton
-          isLoading={logoutLoading}
-          onPress={kakaoLogout}
-          activeOpacity={0.5}
-          style={styles.btnKakaoLogin}
-          textStyle={styles.txtKakaoLogin}>
-          Logout
-        </NativeButton>
+        
         <NativeButton
           isLoading={profileLoading}
           onPress={getProfile}
