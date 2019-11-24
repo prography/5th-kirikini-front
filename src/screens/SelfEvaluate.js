@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   Button,
@@ -9,7 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
   selectedIndex,
-  TextInput,
+  TextInput
 } from 'react-native';
 import Buttong from './Buttong';
 // import Option from './Components/Option';
@@ -17,14 +17,14 @@ import Buttong from './Buttong';
 const deviceWidth = Dimensions.get('window').width;
 
 const kiri = {
-  p: '#FF8603',
+  p: '#FF8603'
 };
 
 const gray = {
   a: 'white',
-  b: '#B0B0B0', //더 연한 회색
-  c: '#6F6F6F', //연한 회색
-  d: '#404040', //진한 회색
+  b: '#B0B0B0', // 더 연한 회색
+  c: '#6F6F6F', // 연한 회색
+  d: '#404040' // 진한 회색
 };
 
 const SelfEvaluate = () => {
@@ -71,52 +71,52 @@ const SelfEvaluate = () => {
   );
 };
 
-//전체 화면 View 스타일
+// 전체 화면 View 스타일
 const universalSt = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   header: {
     flex: 1.5,
     width: '100%',
     height: '5%',
-    backgroundColor: '#ff9a9a',
+    backgroundColor: '#ff9a9a'
   },
   content: {
     flex: 4,
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
-    alignItems: 'center',
-    //backgroundColor: 'black'
+    alignItems: 'center'
+    // backgroundColor: 'black'
   },
   footer: {
     flex: 1,
     width: '100%',
     height: '20%',
     alignItems: 'center',
-    justifyContent: 'center',
-    //backgroundColor: '#1ad657',
-  },
+    justifyContent: 'center'
+    // backgroundColor: '#1ad657',
+  }
 });
 
 const contentSt = StyleSheet.create({
   cLeft: {
     flex: 2,
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   cRight: {
-    flex: 1,
+    flex: 1
   },
   cAddMeal: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'red'
   },
   cOption: {
     flex: 0.5,
-    backgroundColor: 'blue',
+    backgroundColor: 'blue'
   },
   cMenu: {
     flex: 1,
@@ -124,11 +124,11 @@ const contentSt = StyleSheet.create({
     // width:'100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 10,
+    padding: 10
   },
   cContainer: {
     height: 100,
-    width: 100,
+    width: 100
   },
   mButton1: {
     width: '45%',
@@ -138,7 +138,7 @@ const contentSt = StyleSheet.create({
     margin: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'black',
+    color: 'black'
   },
   mButton2: {
     width: '45%',
@@ -148,7 +148,7 @@ const contentSt = StyleSheet.create({
     margin: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'black',
+    color: 'black'
   },
   mButton3: {
     width: '45%',
@@ -158,7 +158,7 @@ const contentSt = StyleSheet.create({
     margin: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'black',
+    color: 'black'
   },
   mButton4: {
     width: '45%',
@@ -168,13 +168,13 @@ const contentSt = StyleSheet.create({
     margin: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'black',
+    color: 'black'
   },
   mtext: {},
   cScore: {
     backgroundColor: 'gray',
-    flex: 1,
-  },
+    flex: 1
+  }
 });
 
 const footerSt = StyleSheet.create({
@@ -184,12 +184,12 @@ const footerSt = StyleSheet.create({
     backgroundColor: 'green',
     borderRadius: 10,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   fText: {
     fontSize: 20,
-    color: 'white',
-  },
+    color: 'white'
+  }
 });
 
 export default SelfEvaluate;
