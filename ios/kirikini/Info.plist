@@ -27,17 +27,17 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakao41806f96e9ead40ce80281579f72e1aa</string>
+				<string>kakao20a0812666f6e47b7b531d7c57bfda84</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>KAKAO_APP_KEY</key>
-	<string>41806f96e9ead40ce80281579f72e1aa</string>
+	<string>20a0812666f6e47b7b531d7c57bfda84</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>kakaoc41806f96e9ead40ce80281579f72e1aa</string>
+		<string>kakaoc20a0812666f6e47b7b531d7c57bfda84</string>
 		<string>kakaokompassauth</string>
 		<string>storykompassauth</string>
 		<string>kakaolink</string>
