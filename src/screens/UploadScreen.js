@@ -8,8 +8,8 @@ import {
   Image
 } from 'react-native';
 
-import OpenAlbum from './ImagePicker';
-import MealTypeButton from './MealTypeButton';
+import OpenAlbum from '../Components/ImagePicker';
+import MealTypeButton from '../Components/MealTypeButton';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
