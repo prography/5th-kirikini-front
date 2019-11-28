@@ -27,7 +27,18 @@ const AppNavigator = createStackNavigator(
     Camera: CameraScreen
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Home',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#F2F9F2',
+        borderBottomWidth: 0,
+        shadowColor: 'transparent'
+      },
+      headerTintColor: '#F9CD15',
+      headerTitleStyle: {
+        fontWeight: '700'
+      }
+    }
   }
 );
 
