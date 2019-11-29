@@ -15,6 +15,7 @@ import SummaryScreen from './SummaryScreen';
 import SummaryScreen2 from './SummaryScreen2';
 import SettingsScreen from './SettingsScreen';
 import UploadScreen from './UploadScreen';
+import UploadScreen2 from './UploadScreen2';
 import CameraScreen from './CameraScreen';
 import NavBar from '../Components/NavBar';
 
@@ -27,11 +28,12 @@ const AppNavigator = createStackNavigator(
     Summary2: SummaryScreen2,
     Settings: SettingsScreen,
     Upload: UploadScreen,
+    Upload2: UploadScreen2,
     Camera: CameraScreen,
     NavBar: NavBar
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Upload2',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#F2F9F2',
