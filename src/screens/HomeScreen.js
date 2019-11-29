@@ -91,7 +91,7 @@ const HomeScreen = props => {
         </View>
       </View>
 
-      <NavBar navigation={props.navigation} />
+      <NavBar navigation={props.navigation} default={true} />
     </View>
   );
   return today;

@@ -45,7 +45,7 @@ const navBarButtons = [
     iconSelected: require('../img/navIconS2.png'),
     iconUnselected: require('../img/navIconU2.png'),
     // selected: false,
-    nav: 'Summary'
+    nav: 'Summary2'
   },
   {
     key: 3,

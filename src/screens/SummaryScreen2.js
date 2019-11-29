@@ -3,6 +3,9 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  TouchableNativeFeedback,
+  TouchableHighlight,
   StyleSheet,
   ScrollView,
   Dimensions,
@@ -15,6 +18,7 @@ const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 const gray = {
+  m: '#F2F9F2',
   a: '#EAEAEA',
   b: '#B7B7B7',
   c: '#898989',
@@ -26,8 +30,25 @@ const yellow = {
   b: '#F9CD15'
 };
 
+const meal = {
+  a: '#C8BAE5',
+  b: '#AFEAA2',
+  c: '#AFCAF2',
+  d: '#9CD8C8'
+};
+
 const WeeklyListUntoggled = () => (
   <View style={barUntoggled.contentContainer}>
+    <View style={wLUntoggled.sunMoonContainer}>
+      <Image
+        style={{ width: 20, height: 20, resizeMode: 'contain' }}
+        source={require('../img/iconSunSmall.png')}
+      />
+      <Image
+        style={{ width: 20, height: 20, resizeMode: 'contain' }}
+        source={require('../img/iconMoonSmall.png')}
+      />
+    </View>
     <Text style={barUntoggled.txtTitle}>끼니 리스트</Text>
     <View style={barUntoggled.content}></View>
   </View>
@@ -52,10 +73,64 @@ const MonthlyReportUntoggled = () => (
   </View>
 );
 
+// 일단 보여주기 용.....
 const weeklyListArray = [
   {
     key: 0,
-    day: '월'
+    day: '월',
+    list: (
+      <>
+        <View
+          style={{
+            position: 'absolute',
+            left: 30,
+            borderBottomColor: gray.m,
+            borderBottomWidth: 3,
+            width: 250
+          }}
+        ></View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{
+            zIndex: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            left: 30,
+            width: 60,
+            height: 60,
+            borderRadius: 100,
+            backgroundColor: meal.a
+          }}
+        >
+          <Image
+            style={{ zIndex: 20, width: 20, height: 20, resizeMode: 'contain' }}
+            source={require('../img/iconBeerSmall.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{
+            zIndex: 10,
+            left: 80,
+            width: 30,
+            height: 30,
+            borderRadius: 100,
+            backgroundColor: meal.b
+          }}
+        ></TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{
+            zIndex: 10,
+            left: 160,
+            width: 50,
+            height: 50,
+            borderRadius: 100,
+            backgroundColor: meal.c
+          }}
+        ></TouchableOpacity>
+      </>
+    )
   },
   {
     key: 1,
@@ -90,13 +165,23 @@ const WeeklyListToggled = () => {
           <View style={wLToggled.day}>
             <Text style={wLToggled.txtDay}>{item.day}</Text>
           </View>
-          <View style={wLToggled.circleContainer}></View>
+          <View style={wLToggled.circleContainer}>{item.list}</View>
         </View>
       );
     });
 
   return (
     <View style={barToggled.contentContainer}>
+      <View style={wLToggled.sunMoonContainer}>
+        <Image
+          style={{ width: 20, height: 20, resizeMode: 'contain' }}
+          source={require('../img/iconSunSmall.png')}
+        />
+        <Image
+          style={{ width: 20, height: 20, resizeMode: 'contain' }}
+          source={require('../img/iconMoonSmall.png')}
+        />
+      </View>
       <MakeADay weeklyListArray={weeklyListArray} />
     </View>
   );
@@ -115,24 +200,30 @@ const Summary2 = props => {
         <View style={styles.scrollview}>
           <ScrollView>
             <View style={bar.topMargin} />
-            <TouchableOpacity style={bar.container} onPress={weeklyListToggle}>
+            <TouchableOpacity
+              style={bar.container}
+              //   onPress={weeklyListToggle}
+              activeOpacity={0.7}
+              delayLongPress={150}
+              onLongPress={weeklyListToggle}
+            >
               {!weeklyListState.on && <WeeklyListUntoggled />}
               {weeklyListState.on && <WeeklyListToggled />}
             </TouchableOpacity>
-            <TouchableOpacity style={bar.container}>
+            <TouchableOpacity activeOpacity={0.7} style={bar.container}>
               <WeeklyReportUntoggled />
             </TouchableOpacity>
-            <TouchableOpacity style={bar.container}>
+            <TouchableOpacity activeOpacity={0.7} style={bar.container}>
               <MonthlyListUntoggled />
             </TouchableOpacity>
-            <TouchableOpacity style={bar.container}>
+            <TouchableOpacity activeOpacity={0.7} style={bar.container}>
               <MonthlyReportUntoggled />
             </TouchableOpacity>
             <View style={bar.bottomMargin} />
           </ScrollView>
         </View>
       </View>
-      <NavBar navigation={props.navigation} default={true} />
+      <NavBar navigation={props.navigation} />
     </View>
   );
 };
@@ -171,12 +262,35 @@ const topBox = StyleSheet.create({
 const barToggled = StyleSheet.create({
   contentContainer: {
     flexDirection: 'column',
-    height: 473,
+    height: 459,
     flex: 1
     // backgroundColor: gray.a
   }
 });
+
+const wLUntoggled = StyleSheet.create({
+  sunMoonContainer: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    top: -10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 20,
+    width: 310
+    // backgroundColor: gray.a
+  }
+});
 const wLToggled = StyleSheet.create({
+  sunMoonContainer: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    top: -10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    height: 20,
+    width: 310
+    // backgroundColor: gray.a
+  },
   oneDay: {
     flex: 1,
     flexDirection: 'row',
@@ -196,7 +310,9 @@ const wLToggled = StyleSheet.create({
   },
   circleContainer: {
     flex: 8,
-    backgroundColor: gray.b
+    flexDirection: 'row',
+    alignItems: 'center'
+    // backgroundColor: gray.b
   }
 });
 
@@ -210,7 +326,7 @@ const bar = StyleSheet.create({
   container: {
     // height: 108,
     marginTop: 20,
-    padding: 10,
+    padding: 17,
     borderTopLeftRadius: 40,
     borderBottomRightRadius: 40,
     backgroundColor: 'white',
@@ -224,7 +340,7 @@ const bar = StyleSheet.create({
 
 const barUntoggled = StyleSheet.create({
   contentContainer: {
-    height: 88,
+    height: 74,
     // backgroundColor: yellow.a,
     alignItems: 'center'
   },
