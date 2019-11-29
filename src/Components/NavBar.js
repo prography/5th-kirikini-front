@@ -26,25 +26,32 @@ const navBarButtons = [
   {
     key: 0,
     text: '오늘',
-
+    iconSelected: require('../img/navIconS0.png'),
+    iconUnselected: require('../img/navIconU0.png'),
     selected: true,
     nav: 'Home'
   },
   {
     key: 1,
     text: '채점',
+    iconSelected: require('../img/navIconS1.png'),
+    iconUnselected: require('../img/navIconU1.png'),
     selected: false,
     nav: 'Rate'
   },
   {
     key: 2,
     text: '기록',
+    iconSelected: require('../img/navIconS2.png'),
+    iconUnselected: require('../img/navIconU2.png'),
     selected: false,
     nav: 'Upload'
   },
   {
     key: 3,
     text: '설정',
+    iconSelected: require('../img/navIconS3.png'),
+    iconUnselected: require('../img/navIconU3.png'),
     selected: false,
     nav: 'Settings'
   }
@@ -57,8 +64,30 @@ const NavBar = props => {
         <TouchableOpacity
           key={item.key}
           style={navBar.oneButton}
-          onPress={() => props.navigation.navigate(item.nav)}
+          //   onPress={() => props.navigation.navigate(item.nav)}
         >
+          {item.selected && (
+            <Image
+              style={{
+                height: 20,
+                width: 35,
+                resizeMode: 'contain',
+                marginBottom: 8
+              }}
+              source={item.iconSelected}
+            />
+          )}
+          {!item.selected && (
+            <Image
+              style={{
+                height: 20,
+                width: 35,
+                resizeMode: 'contain',
+                marginBottom: 8
+              }}
+              source={item.iconUnselected}
+            />
+          )}
           {item.selected && <View style={navBar.selected} />}
           {item.selected && <Text style={navBar.txtSelected}>{item.text}</Text>}
           {!item.selected && (
@@ -107,12 +136,14 @@ const navBar = StyleSheet.create({
   txtSelected: {
     color: yellow.a,
     fontWeight: '900',
-    fontSize: 12
+    fontSize: 11.5,
+    lineHeight: 12
   },
   txtUnselected: {
     color: gray.c,
-    fontWeight: '700',
-    fontSize: 12
+    fontWeight: '600',
+    fontSize: 11,
+    lineHeight: 12
   },
   selected: {
     height: 60,
