@@ -12,7 +12,7 @@ const Rate = props => {
   };
 
   return (
-    <>
+    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.text}>{String(mealScore)}</Text>
         <Slider
@@ -23,7 +23,7 @@ const Rate = props => {
         />
       </View>
       <NavBar navigation={props.navigation} />
-    </>
+    </View>
   );
 };
 

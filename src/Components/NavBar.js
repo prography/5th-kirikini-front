@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -59,6 +59,17 @@ const navBarButtons = [
 
 const NavBar = props => {
   const [selected, setSelected] = useState(null);
+  console.log('rendered:', selected);
+
+  const selectedMenu = props.navigation.getParam('selectedMenu');
+  useEffect(() => {
+    if (props.default == true) {
+      setSelected(0);
+    } else {
+      setSelected(selectedMenu);
+    }
+  });
+
   const CreateNavBar = () =>
     navBarButtons.map(item => {
       return (
@@ -66,9 +77,8 @@ const NavBar = props => {
           key={item.key}
           style={navBar.oneButton}
           onPress={() => {
-            setSelected(item.key);
             console.log(selected);
-            props.navigation.navigate(item.nav);
+            props.navigation.navigate(item.nav, { selectedMenu: item.key });
           }}
         >
           {selected !== item.key && (
@@ -105,19 +115,14 @@ const NavBar = props => {
     });
 
   return (
-    <View style={navBar.container}>
-      <View style={navBar.roundContainer}>
-        <CreateNavBar navBarButtons={navBarButtons} />
-        <TouchableOpacity />
-      </View>
+    <View style={navBar.roundContainer}>
+      <CreateNavBar navBarButtons={navBarButtons} />
+      <TouchableOpacity />
     </View>
   );
 };
 
 const navBar = StyleSheet.create({
-  container: {
-    backgroundColor: '#F2F9F2'
-  },
   roundContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',

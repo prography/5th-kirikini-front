@@ -71,10 +71,7 @@
     "preset": "react-native"
   },
   "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "prettier"
-    ],
+    "extends": ["airbnb", "prettier"],
     "rules": {
       "prettier/prettier": [
         "error",
@@ -88,12 +85,8 @@
       "react/prefer-stateless-function": 0,
       "react/jsx-filename-extension": 0,
       "react/jsx-one-expression-per-line": 0,
-      "quotes": [
-        "single"
-      ],
-      "semi": [
-        "always"
-      ]
+      "quotes": ["single"],
+      "semi": ["always"]
     }
   }
 }

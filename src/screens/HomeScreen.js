@@ -30,7 +30,7 @@ const kiriColor = '#F2F9F2';
 
 const HomeScreen = props => {
   const today = (
-    <>
+    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
@@ -74,18 +74,25 @@ const HomeScreen = props => {
               <View style={balloonSt.tailWhiteArea} />
               <View style={balloonSt.tailKiriColorArea} />
 
-              <Image
-                style={balloonSt.kirini}
-                source={require('../img/kiriniC.png')}
-              />
+              <TouchableOpacity
+                style={balloonSt.kiriniContainer}
+                onPress={() => props.navigation.navigate('Upload')}
+              >
+                <Image
+                  style={balloonSt.kirini}
+                  source={require('../img/kirini2.png')}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View style={styles.bottomHalf}></View>
+        <View style={styles.bottomHalf}>
+          <ScrollView horizontal={true}></ScrollView>
+        </View>
       </View>
 
       <NavBar navigation={props.navigation} />
-    </>
+    </View>
   );
   return today;
 };
@@ -98,13 +105,11 @@ const styles = StyleSheet.create({
     backgroundColor: kiriColor
   },
   topHalf: {
-    // backgroundColor: 'red',
     flex: 2.8,
     flexDirection: 'row'
   },
   bottomHalf: {
     flex: 1
-    // backgroundColor: 'blue'
   }
 });
 
@@ -122,9 +127,7 @@ const navSt = StyleSheet.create({
     marginBottom: deviceWidth / 10,
     justifyContent: 'center',
     alignItems: 'center',
-    // borderStyle: 'solid',
-    // borderWidth: 3,
-    // borderColor: gray.a,
+
     borderRadius: 15,
     backgroundColor: gray.a,
     opacity: 0.3
@@ -137,13 +140,13 @@ const balloonText = StyleSheet.create({
     fontSize: 27,
     lineHeight: 35,
     fontWeight: '700',
-    color: kiriColor
+    color: gray.d
   },
   todayScore: {
     fontSize: 35,
     lineHeight: 35,
     fontWeight: '700',
-    color: gray.p
+    color: yellow.b
   },
   scoreCompare: {
     fontSize: 12,
@@ -226,81 +229,20 @@ const balloonSt = StyleSheet.create({
     borderTopLeftRadius: 100,
     backgroundColor: kiriColor
   },
+  kiriniContainer: {
+    position: 'absolute',
+    right: 40,
+    width: (deviceWidth * 4) / 10,
+    height: deviceWidth / 4,
+    alignSelf: 'center'
+  },
   kirini: {
-    width: (deviceWidth * 3) / 10,
+    position: 'absolute',
+    marginLeft: 40,
+    width: (deviceWidth * 4) / 10,
     height: deviceWidth / 4,
     alignSelf: 'center',
     resizeMode: 'contain'
-  }
-});
-
-// 끼니캡슐들 속 Text 스타일
-const capsuleText = StyleSheet.create({
-  mealTime: {
-    marginBottom: 9,
-    opacity: 0.8,
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: 'white'
-  }
-  // mealScore:{
-  //   marginBottom: 20,
-  //   fontSize: 30,
-  //   fontWeight: '500',
-  //   color: 'white',
-  // },
-});
-
-// 끼니캡슐들 속 View 스타일
-const capsuleSt = StyleSheet.create({
-  container: {
-    flex: 2.8,
-    backgroundColor: kiriColor
-  },
-  containerInsideScrollView: {
-    flexDirection: 'row',
-    alignItems: 'flex-end'
-  },
-  containerFirstMargin: {
-    width: deviceWidth / 5
-  },
-  capsuleContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    width: deviceWidth / 4,
-    marginRight: deviceWidth / 10
-  },
-  // capsule: {
-  //   justifyContent: 'flex-end',
-  //   alignItems: 'center',
-  //   width: deviceWidth / 4,
-  //   height: deviceHeight / 4.8,
-  //   marginBottom: 6,
-  //   borderStyle: 'solid',
-  //   borderWidth: 2,
-  //   borderColor: 'white',
-  //   borderRadius: 100,
-  //   backgroundColor: kiriColor,
-  // },
-  // beingRated: {
-  //   width: 7,
-  //   height: 7,
-  //   marginBottom: 8,
-  //   borderRadius: 100,
-  //   backgroundColor: kiri.p,
-  // },
-  // 사진은 여기선 굳이 풀로 보여줄 필요 없으니까 cover로 하고,
-  // 평가받는 쪽에선 정사각형 프레임 만들어서 contain으로 담으면 될 듯
-  circlePhoto: {
-    alignSelf: 'center',
-    width: deviceWidth / 4.7,
-    height: deviceWidth / 4.7,
-    marginBottom: 4,
-    borderRadius: 100,
-    backgroundColor: kiriColor,
-    opacity: 0.8,
-    resizeMode: 'cover'
   }
 });
 
