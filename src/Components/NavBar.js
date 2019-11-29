@@ -28,7 +28,7 @@ const navBarButtons = [
     text: '오늘',
     iconSelected: require('../img/navIconS0.png'),
     iconUnselected: require('../img/navIconU0.png'),
-    selected: true,
+    // selected: true,
     nav: 'Home'
   },
   {
@@ -36,7 +36,7 @@ const navBarButtons = [
     text: '채점',
     iconSelected: require('../img/navIconS1.png'),
     iconUnselected: require('../img/navIconU1.png'),
-    selected: false,
+    // selected: false,
     nav: 'Rate'
   },
   {
@@ -44,54 +44,61 @@ const navBarButtons = [
     text: '기록',
     iconSelected: require('../img/navIconS2.png'),
     iconUnselected: require('../img/navIconU2.png'),
-    selected: false,
-    nav: 'Upload'
+    // selected: false,
+    nav: 'Summary'
   },
   {
     key: 3,
     text: '설정',
     iconSelected: require('../img/navIconS3.png'),
     iconUnselected: require('../img/navIconU3.png'),
-    selected: false,
+    // selected: false,
     nav: 'Settings'
   }
 ];
 
 const NavBar = props => {
+  const [selected, setSelected] = useState(null);
   const CreateNavBar = () =>
     navBarButtons.map(item => {
       return (
         <TouchableOpacity
           key={item.key}
           style={navBar.oneButton}
-          //   onPress={() => props.navigation.navigate(item.nav)}
+          onPress={() => {
+            setSelected(item.key);
+            console.log(selected);
+            props.navigation.navigate(item.nav);
+          }}
         >
-          {item.selected && (
-            <Image
-              style={{
-                height: 20,
-                width: 35,
-                resizeMode: 'contain',
-                marginBottom: 8
-              }}
-              source={item.iconSelected}
-            />
+          {selected !== item.key && (
+            <>
+              <Image
+                style={{
+                  height: 20,
+                  width: 35,
+                  resizeMode: 'contain',
+                  marginBottom: 8
+                }}
+                source={item.iconUnselected}
+              />
+              <Text style={navBar.txtUnselected}>{item.text}</Text>
+            </>
           )}
-          {!item.selected && (
-            <Image
-              style={{
-                height: 20,
-                width: 35,
-                resizeMode: 'contain',
-                marginBottom: 8
-              }}
-              source={item.iconUnselected}
-            />
-          )}
-          {item.selected && <View style={navBar.selected} />}
-          {item.selected && <Text style={navBar.txtSelected}>{item.text}</Text>}
-          {!item.selected && (
-            <Text style={navBar.txtUnselected}>{item.text}</Text>
+
+          {selected === item.key && (
+            <>
+              <Image
+                style={{
+                  height: 20,
+                  width: 35,
+                  resizeMode: 'contain',
+                  marginBottom: 8
+                }}
+                source={item.iconSelected}
+              />
+              <Text style={navBar.txtSelected}>{item.text}</Text>
+            </>
           )}
         </TouchableOpacity>
       );
@@ -144,12 +151,6 @@ const navBar = StyleSheet.create({
     fontWeight: '600',
     fontSize: 11,
     lineHeight: 12
-  },
-  selected: {
-    height: 60,
-    width: (deviceWidth - 20) / 4,
-    position: 'absolute'
-    // backgroundColor: 'green'
   }
 });
 

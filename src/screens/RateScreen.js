@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Slider } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import NavBar from '../Components/NavBar';
+
 const Rate = props => {
   const [mealScore, setMealScore] = useState(5);
 
@@ -10,15 +12,18 @@ const Rate = props => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{String(mealScore)}</Text>
-      <Slider
-        step={1}
-        maximumValue={10}
-        onValueChange={change.bind(this)}
-        mealScore={mealScore}
-      />
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.text}>{String(mealScore)}</Text>
+        <Slider
+          step={1}
+          maximumValue={10}
+          onValueChange={change.bind(this)}
+          mealScore={mealScore}
+        />
+      </View>
+      <NavBar navigation={props.navigation} />
+    </>
   );
 };
 
@@ -26,7 +31,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#F2F9F2'
   },
   text: {
     fontSize: 50,
