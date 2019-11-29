@@ -196,7 +196,9 @@ const Summary2 = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
-        <View style={topBox.container}></View>
+        <View style={topBox.container}>
+          <Text style={styles.txtBigTitle}>기록</Text>
+        </View>
         <View style={styles.scrollview}>
           <ScrollView>
             <View style={bar.topMargin} />
@@ -231,8 +233,12 @@ const Summary2 = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: '#F2F9F2'
+  },
+  txtBigTitle: {
+    fontSize: 27,
+    fontWeight: '700',
+    color: gray.d
   },
   scrollview: {
     height: 600,
@@ -250,8 +256,8 @@ const topBox = StyleSheet.create({
     backgroundColor: '#F2F9F2',
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-    paddingRight: 10,
-    paddingLeft: 10,
+    paddingRight: 17,
+    paddingLeft: 17,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.15,

@@ -36,7 +36,7 @@ const HomeScreen = props => {
           <View style={balloonSt.container}>
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
-                <Text style={balloonText.title}>오늘 건강도</Text>
+                <Text style={styles.txtBigTitle}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>{todayScore}</Text>
               </View>
               <View style={balloonSt.scoreCompareArea}>
@@ -110,6 +110,11 @@ const styles = StyleSheet.create({
   },
   bottomHalf: {
     flex: 1
+  },
+  txtBigTitle: {
+    fontSize: 27,
+    fontWeight: '700',
+    color: gray.d
   }
 });
 

@@ -192,6 +192,8 @@ PODS:
     - React
   - react-native-image-picker (1.1.0):
     - React
+  - react-native-slider (2.0.7):
+    - React
   - react-native-splash-screen (3.2.0):
     - React
   - react-native-udp (2.6.1):
@@ -260,6 +262,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-udp (from `../node_modules/react-native-udp`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -316,6 +319,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
   react-native-udp:
@@ -369,6 +374,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-camera: c529629e3ecd017dcdacfd0355576ef489d9d198
   react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
+  react-native-slider: 718ed45db20672b26a92fcf4217ced078b1ac7ce
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-udp: 54a1aa9bf5c0824f930b1ba6dbfb3fd3e733bba9
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
@@ -387,6 +393,6 @@ SPEC CHECKSUMS:
   TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 3cb023f45ca505f699a4ecf90693d9f2fbfd985c
+PODFILE CHECKSUM: 891d3f814241efdc9ebd90a3650bbf34fa265528
 
 COCOAPODS: 1.8.4
