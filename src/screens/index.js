@@ -15,6 +15,7 @@ import SummaryScreen from './SummaryScreen';
 import SettingsScreen from './SettingsScreen';
 import UploadScreen from './UploadScreen';
 import CameraScreen from './CameraScreen';
+import NavBar from '../Components/NavBar';
 
 const AppNavigator = createStackNavigator(
   {
@@ -24,7 +25,8 @@ const AppNavigator = createStackNavigator(
     Summary: SummaryScreen,
     Settings: SettingsScreen,
     Upload: UploadScreen,
-    Camera: CameraScreen
+    Camera: CameraScreen,
+    NavBar: NavBar
   },
   {
     initialRouteName: 'Home',
