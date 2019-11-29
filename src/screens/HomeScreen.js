@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
+import NavBar from '../Components/NavBar';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -29,7 +30,7 @@ const gray = {
 };
 
 const todayScore = 5.7;
-const kiriColor = kiri.c;
+const kiriColor = '#F2F9F2';
 
 const AddOneCapsule = props => (
   <View style={capsuleSt.capsuleContainer}>
@@ -95,142 +96,59 @@ const HomeScreen = props => {
   };
 
   const today = (
-    <View style={universalSt.container}>
-      <View style={universalSt.topHalf}>
-        <View style={navSt.navBar}>
-          <TouchableOpacity onPress={() => props.navigation.navigate('Home')}>
-            <View style={navSt.navButton}>
-              <Text>Today</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.navigation.navigate('Rate')}>
-            <View style={navSt.navButton}>
-              <Text>Rate</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Summary')}
-          >
-            <View style={navSt.navButton}>
-              <Text>Summary</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Settings')}
-          >
-            <View style={navSt.navButton}>
-              <Text>Settings</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={balloonSt.container}>
-          <View style={balloonSt.balloon}>
-            <View style={balloonSt.topBar}>
-              <Text style={balloonText.title}>오늘 건강도</Text>
-              <Text style={balloonText.todayScore}>{todayScore}</Text>
-            </View>
-            <View style={balloonSt.scoreCompareArea}>
-              <Text style={balloonText.scoreCompare}>▲ 1.2</Text>
-            </View>
-            <View style={balloonSt.lastMealTimeContainer}>
-              <View style={balloonSt.lastMealIconWrapper}>
-                <Text style={balloonText.lastMealTime}>
-                  🍽 :{'\n'}
-                  🍺 :{'\n'}
-                  ☕️ :{'\n'}
-                </Text>
+    <>
+      <View style={universalSt.container}>
+        <View style={universalSt.topHalf}>
+          <View style={balloonSt.container}>
+            <View style={balloonSt.balloon}>
+              <View style={balloonSt.topBar}>
+                <Text style={balloonText.title}>오늘 건강도</Text>
+                <Text style={balloonText.todayScore}>{todayScore}</Text>
               </View>
-              <View style={balloonSt.lastMealTimeWrapper}>
-                <Text style={balloonText.lastMealTime}>
-                  1시간 58분
-                  {'\n'}
-                  254시간
-                  {'\n'}
-                  31시간
-                  {'\n'}
+              <View style={balloonSt.scoreCompareArea}>
+                <Text style={balloonText.scoreCompare}>▲ 1.2</Text>
+              </View>
+              <View style={balloonSt.lastMealTimeContainer}>
+                <View style={balloonSt.lastMealIconWrapper}>
+                  <Text style={balloonText.lastMealTime}>
+                    🍽 :{'\n'}
+                    🍺 :{'\n'}
+                    ☕️ :{'\n'}
+                  </Text>
+                </View>
+                <View style={balloonSt.lastMealTimeWrapper}>
+                  <Text style={balloonText.lastMealTime}>
+                    1시간 58분
+                    {'\n'}
+                    254시간
+                    {'\n'}
+                    31시간
+                    {'\n'}
+                  </Text>
+                </View>
+              </View>
+              <View style={balloonSt.feedbackArea}>
+                <Text style={balloonText.feedback}>
+                  zwon님의 현재 건강도는... {todayScore}
+                  점! {'\n'}
+                  나보다 잘 먹네... {'\n'}
+                  대체 뭘 먹은거야?
                 </Text>
               </View>
             </View>
-            <View style={balloonSt.feedbackArea}>
-              <Text style={balloonText.feedback}>
-                zwon님의 현재 건강도는... {todayScore}
-                점! {'\n'}
-                나보다 잘 먹네... {'\n'}
-                대체 뭘 먹은거야?
-              </Text>
+            <View style={balloonSt.tailContainer}>
+              <View style={balloonSt.tailWhiteArea} />
+              <View style={balloonSt.tailKiriColorArea} />
+              <Image
+                style={balloonSt.kirini}
+                source={require('../img/kiriniC.png')}
+              />
             </View>
-          </View>
-          <View style={balloonSt.tailContainer}>
-            <View style={balloonSt.tailWhiteArea} />
-            <View style={balloonSt.tailKiriColorArea} />
-            <Image
-              style={balloonSt.kirini}
-              source={require('../img/kiriniC.png')}
-            />
           </View>
         </View>
       </View>
-      <View style={universalSt.bottomHalf}>
-        <View style={capsuleSt.container}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={capsuleSt.containerInsideScrollView}>
-              <View style={capsuleSt.containerFirstMargin} />
-              {renderCapsule()}
-              <AddOneCapsule
-                oneMealtime="9:12 am"
-                oneMealScore="2.8"
-                oneCapsuleColor={kiri.b}
-                beingRated={false}
-                imgSrc={require('../img/foodExample1.jpeg')}
-              />
-              {/* <AddOneCapsule
-                oneMealtime="3:45 pm"
-                oneMealScore="9.2"
-                oneCapsuleColor={kiri.e}
-                beingRated={false}
-                imgSrc={require('../img/foodExample2.jpeg')}
-              />
-              <AddOneCapsule
-                oneMealtime="6:28 pm"
-                oneMealScore="5.5"
-                oneCapsuleColor={kiri.c}
-                beingRated={false}
-                imgSrc={require('../img/foodExample3.jpeg')}
-              />
-              <AddOneCapsule
-                oneMealtime="8:52 pm"
-                oneMealScore="3.8"
-                oneCapsuleColor={kiri.d}
-                beingRated={true}
-                imgSrc={require('../img/foodExample4.jpeg')}
-              />
-              <AddOneCapsule
-                oneMealtime="11:25 pm"
-                oneMealScore="7.3"
-                oneCapsuleColor={kiri.e}
-                beingRated={true}
-                imgSrc={require('../img/foodExample5.jpeg')}
-              /> */}
-            </View>
-          </ScrollView>
-        </View>
-        <View style={bottomBarSt.bar}>
-          <TouchableOpacity onPress={() => props.navigation.navigate('Upload')}>
-            <View style={bottomBarSt.addMealButtonContainer}>
-              <View style={bottomBarSt.addMealButton}>
-                <Text style={bottomBarSt.addMealButtonText}>
-                  끼니
-                  {'\n'}
-                  추가
-                </Text>
-              </View>
-              <View style={bottomBarSt.buttonTailWhiteArea} />
-              <View style={bottomBarSt.buttonTailKiricolorArea} />
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+      <NavBar />
+    </>
   );
   return today;
 };
@@ -238,7 +156,7 @@ const HomeScreen = props => {
 // 공통적으로 쓰일? View 스타일 (화면 분할 등)
 const universalSt = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 9,
     flexDirection: 'column',
     backgroundColor: kiriColor
   },
@@ -317,7 +235,7 @@ const balloonSt = StyleSheet.create({
   balloon: {
     flex: 2,
     flexDirection: 'column',
-    width: (deviceWidth * 4) / 5,
+    width: deviceWidth,
     padding: deviceWidth / 10,
     borderTopLeftRadius: 70,
     borderBottomRightRadius: 70,
