@@ -1,17 +1,16 @@
 export const intialState = {
-    hello: 'heeeeeeellllllllo~',
+  hello: 'heeeeeeellllllllo~',
 };
 
 export const HELLO = 'HELLO';
 
-
 export const loginRequestAction = data => ({
-    type: HELLO,
-    data,
+  type: HELLO,
+  data,
 });
 
 const reducer = (state = intialState, action) => {
-    return state;
+  return state;
 };
 
 export default reducer;

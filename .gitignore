@@ -24,11 +24,17 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
+/android/
 build/
 .idea
 .gradle
 local.properties
 *.iml
+/RNTester/android/app/build/
+/RNTester/android/app/gradle/
+/RNTester/android/app/gradlew
+/RNTester/android/app/gradlew.bat
+/ReactAndroid/build/
 
 # node.js
 #
@@ -59,3 +65,5 @@ buck-out/
 # Pods
 Pods/
 
+# vscode
+.vscode/
