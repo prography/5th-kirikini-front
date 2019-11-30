@@ -10,9 +10,9 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/slider": "^2.0.7",
     "@react-native-seoul/kakao-login": "^2.1.1",
     "apsl-react-native-button": "^3.1.1",
-    "@react-native-community/slider": "^2.0.7",
     "assert": "^1.1.1",
     "axios": "^0.19.0",
     "browserify-zlib": "~0.1.4",
@@ -43,8 +43,6 @@
     "react-native-screens": "^2.0.0-alpha.4",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-splash-screen": "^3.2.0",
-    "react-native-tcp": "^3.2.1",
-    "react-native-udp": "^2.1.0",
     "react-native-vertical-text": "^1.0.5",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.2",
