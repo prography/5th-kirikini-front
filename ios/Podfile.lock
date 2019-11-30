@@ -208,6 +208,10 @@ PODS:
     - React
   - react-native-image-picker (1.1.0):
     - React
+  - react-native-slider (2.0.7):
+    - React
+  - react-native-splash-screen (3.2.0):
+    - React
   - react-native-udp (2.6.1):
     - React
   - React-RCTActionSheet (0.61.2):
@@ -245,11 +249,11 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
     - ReactCommon/jscallinvoker (= 0.61.2)
-  - RNGestureHandler (1.4.1):
+  - RNGestureHandler (1.5.0):
     - React
-  - RNReanimated (1.3.0):
+  - RNReanimated (1.4.0):
     - React
-  - RNScreens (2.0.0-alpha.4):
+  - RNScreens (2.0.0-alpha.11):
     - React
   - TcpSockets (3.3.2):
     - React
@@ -275,6 +279,8 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-udp (from `../node_modules/react-native-udp`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -333,6 +339,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   react-native-udp:
     :path: "../node_modules/react-native-udp"
   React-RCTActionSheet:
@@ -386,6 +396,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-camera: c529629e3ecd017dcdacfd0355576ef489d9d198
   react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
+  react-native-slider: 718ed45db20672b26a92fcf4217ced078b1ac7ce
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-udp: 54a1aa9bf5c0824f930b1ba6dbfb3fd3e733bba9
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
@@ -397,12 +409,12 @@ SPEC CHECKSUMS:
   React-RCTText: e3ef6191cdb627855ff7fe8fa0c1e14094967fb8
   React-RCTVibration: fb54c732fd20405a76598e431aa2f8c2bf527de9
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
-  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
-  RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
-  RNScreens: 84be1a2369a580beb2fea0755cc62ef16b83fffe
+  RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
+  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
+  RNScreens: ad3661f864ef18d952e9a4799b6791683e33c1fc
   TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 3cb023f45ca505f699a4ecf90693d9f2fbfd985c
+PODFILE CHECKSUM: 891d3f814241efdc9ebd90a3650bbf34fa265528
 
 COCOAPODS: 1.8.4
