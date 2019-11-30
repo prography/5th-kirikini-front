@@ -33,19 +33,23 @@ const meal = {
 const mealTypes = [
   {
     key: 0,
-    text: '집밥'
+    text: '집밥',
+    color: meal.a
   },
   {
     key: 1,
-    text: '외식'
+    text: '외식',
+    color: meal.b
   },
   {
     key: 2,
-    text: '배달'
+    text: '배달',
+    color: meal.c
   },
   {
     key: 3,
-    text: '간편'
+    text: '간편',
+    color: meal.d
   }
 ];
 
@@ -56,11 +60,19 @@ const MealTypeButton = props => {
       return (
         <TouchableOpacity
           key={item.key}
-          style={mealbtSt.button}
+          style={btColor(item.color).button}
           onPress={() => setSelected(item.key)}
         >
-          {selected === item.key && <View style={mealbtSt.selected} />}
-          <Text style={mealbtSt.buttonText}> {item.text}</Text>
+          {selected === item.key && (
+            <View style={btColor(item.color).selected} />
+          )}
+          {selected !== item.key && (
+            <Text style={mealbtSt.txtUnselected}> {item.text}</Text>
+          )}
+          {selected === item.key && (
+            <Text style={mealbtSt.txtSelected}> {item.text}</Text>
+          )}
+          {/* <Text style={mealbtSt.buttonText}> {item.text}</Text> */}
         </TouchableOpacity>
       );
     });
@@ -72,6 +84,29 @@ const MealTypeButton = props => {
   );
 };
 
+const btColor = color =>
+  StyleSheet.create({
+    button: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: 70,
+      height: 70,
+      marginBottom: 10,
+      borderRadius: 100,
+      backgroundColor: color + '35'
+    },
+    selected: {
+      position: 'absolute',
+      width: 70,
+      height: 70,
+      marginBottom: 10,
+      borderRadius: 100,
+      borderWidth: 4,
+      borderColor: yellow.a,
+      backgroundColor: color
+    }
+  });
+
 const mealbtSt = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -82,29 +117,28 @@ const mealbtSt = StyleSheet.create({
 
     // backgroundColor: 'pink'
   },
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 70,
-    height: 70,
-    marginBottom: 10,
-    borderRadius: 100,
-    backgroundColor: meal.b,
-    opacity: 1
-  },
-  selected: {
-    position: 'absolute',
-    width: 70,
-    height: 70,
-    marginBottom: 10,
-    borderRadius: 100,
-    backgroundColor: meal.c
-  },
-  buttonText: {
+
+  // selected: {
+  //   position: 'absolute',
+  //   width: 70,
+  //   height: 70,
+  //   marginBottom: 10,
+  //   borderRadius: 100,
+  //   borderWidth: 4,
+  //   borderColor: yellow.a,
+  //   backgroundColor: meal.c
+  // },
+  txtUnselected: {
     position: 'absolute',
     color: gray.d,
     fontSize: 18,
     fontWeight: '500'
+  },
+  txtSelected: {
+    position: 'absolute',
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '900'
   }
 });
 
