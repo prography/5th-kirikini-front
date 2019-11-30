@@ -12,9 +12,12 @@ import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import RateScreen from './RateScreen';
 import SummaryScreen from './SummaryScreen';
+import SummaryScreen2 from './SummaryScreen2';
 import SettingsScreen from './SettingsScreen';
 import UploadScreen from './UploadScreen';
+import UploadScreen2 from './UploadScreen2';
 import CameraScreen from './CameraScreen';
+import NavBar from '../Components/NavBar';
 
 const AppNavigator = createStackNavigator(
   {
@@ -22,9 +25,12 @@ const AppNavigator = createStackNavigator(
     Login: LoginScreen,
     Rate: RateScreen,
     Summary: SummaryScreen,
+    Summary2: SummaryScreen2,
     Settings: SettingsScreen,
     Upload: UploadScreen,
-    Camera: CameraScreen
+    Upload2: UploadScreen2,
+    Camera: CameraScreen,
+    NavBar: NavBar
   },
   {
     initialRouteName: 'Home',
