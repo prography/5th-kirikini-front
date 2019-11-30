@@ -33,7 +33,7 @@ const AppNavigator = createStackNavigator(
     NavBar: NavBar
   },
   {
-    initialRouteName: 'Upload2',
+    initialRouteName: 'Home',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#F2F9F2',
