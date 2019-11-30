@@ -262,7 +262,7 @@ const topBox = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.15,
     shadowRadius: 7,
-    elevation: 6
+    elevation: 2
   }
 });
 const barToggled = StyleSheet.create({

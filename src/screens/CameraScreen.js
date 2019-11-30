@@ -9,6 +9,26 @@ import {
 import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';
 
+const gray = {
+  m: '#F2F9F2',
+  a: '#EAEAEA',
+  b: '#B7B7B7',
+  c: '#898989',
+  d: '#505151'
+};
+
+const yellow = {
+  a: '#FCDB3A',
+  b: '#F9CD15'
+};
+
+const meal = {
+  a: '#C8BAE5',
+  b: '#AFEAA2',
+  c: '#AFCAF2',
+  d: '#9CD8C8'
+};
+
 const deviceWidth = Dimensions.get('window').width;
 // const deviceHeight = Dimensions.get('window').height;
 
@@ -90,13 +110,18 @@ const cameraSt = StyleSheet.create({
     height: 100,
     marginBottom: 30,
     borderRadius: 100,
-    backgroundColor: '#7BB78E'
+    backgroundColor: gray.m,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 7,
+    elevation: 2
   },
   text: {
     fontSize: 15,
     lineHeight: 25,
     fontWeight: '700',
-    color: 'white',
+    color: gray.c,
     textAlign: 'center'
   }
 });

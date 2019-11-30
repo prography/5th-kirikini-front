@@ -9,6 +9,7 @@ import {
   Image
 } from 'react-native';
 import NavBar from '../Components/NavBar';
+import HomeMealList from '../Components/HomeMealList';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -66,7 +67,7 @@ const HomeScreen = props => {
                   zwon님의 현재 건강도는... {todayScore}
                   점! {'\n'}
                   나보다 잘 먹네... {'\n'}
-                  대체 뭘 먹은거야?
+                  대체 뭘 먹은거야?아
                 </Text>
               </View>
             </View>
@@ -87,7 +88,9 @@ const HomeScreen = props => {
           </View>
         </View>
         <View style={styles.bottomHalf}>
-          <ScrollView horizontal={true}></ScrollView>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <HomeMealList />
+          </ScrollView>
         </View>
       </View>
 

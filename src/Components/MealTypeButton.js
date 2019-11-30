@@ -89,16 +89,18 @@ const btColor = color =>
     button: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: 70,
-      height: 70,
+      width: 67,
+      height: 67,
       marginBottom: 10,
       borderRadius: 100,
       backgroundColor: color + '35'
     },
     selected: {
+      justifyContent: 'center',
+      alignItems: 'center',
       position: 'absolute',
-      width: 70,
-      height: 70,
+      width: 67,
+      height: 67,
       marginBottom: 10,
       borderRadius: 100,
       borderWidth: 4,
@@ -130,14 +132,16 @@ const mealbtSt = StyleSheet.create({
   // },
   txtUnselected: {
     position: 'absolute',
+    textAlign: 'center',
     color: gray.d,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '500'
   },
   txtSelected: {
     position: 'absolute',
+    textAlign: 'center',
     color: 'white',
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '900'
   }
 });

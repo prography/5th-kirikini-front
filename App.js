@@ -9,15 +9,15 @@ import SplashScreen from 'react-native-splash-screen';
 const store = configureStore();
 
 const App = props => {
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     SplashScreen.hide();
-  //   }, 1000);
-  // }, []);
-
   useEffect(() => {
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000);
   }, []);
+
+  // useEffect(() => {
+  //   SplashScreen.hide();
+  // }, []);
 
   return (
     <Provider store={store}>

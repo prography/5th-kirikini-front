@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 30,
+    marginBottom: 5,
     width: 370
   },
   buttonContainer: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: yellow.a
   },
   txt: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: gray.d
   }
