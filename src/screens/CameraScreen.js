@@ -4,9 +4,10 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+// import CameraRoll from "@react-native-community/cameraroll";
 import ImagePicker from 'react-native-image-picker';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -19,6 +20,9 @@ const CameraScreen = () => {
       const options = { quality: 0.5 };
       const data = await camera.takePictureAsync(options);
       console.log(data.uri);
+      console.log("debug: ", data)
+
+      CameraRoll.saveToCameraRoll( data.uri )
     }
   };
   // 넌 뭐하는 애니?

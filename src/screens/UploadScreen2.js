@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, ScrollView, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
 import MealTypeButton from '../Components/MealTypeButton';
@@ -53,14 +53,16 @@ const Upload2 = props => {
             activeOpacity={0.6}
             style={mainImg.screen}
           >
-            <Text>터치</Text>
+            <Text>터치해서 카메라 열기</Text>
           </TouchableOpacity>
         </View>
-        <View style={dateTime.container}>
-          <Text style={dateTime.txt}> 2019. 11. 30 03:12 pm</Text>
-        </View>
-        <DrinkTypeButton />
-        <MealTypeButton />
+        <ScrollView>
+          <View style={dateTime.container}>
+            <Text style={dateTime.txt}> 2019. 11. 30 03:12 pm</Text>
+          </View>
+          <DrinkTypeButton />
+          <MealTypeButton />
+        </ScrollView>
       </View>
 
       <View style={slider.container}>
@@ -197,8 +199,10 @@ const slider = StyleSheet.create({
 
 const mainImg = StyleSheet.create({
   screen: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: deviceWidth - 34,
-    height: 290,
+    height: 230,
     borderTopLeftRadius: 45,
     borderBottomRightRadius: 45,
     borderColor: gray.m,
