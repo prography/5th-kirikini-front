@@ -48,7 +48,13 @@ const Upload2 = props => {
           <Text style={styles.txtBigTitle}>끼니 추가</Text>
         </View>
         <View>
-          <View style={mainImg.screen}></View>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('Camera')}
+            activeOpacity={0.6}
+            style={mainImg.screen}
+          >
+            <Text>터치</Text>
+          </TouchableOpacity>
         </View>
         <View style={dateTime.container}>
           <Text style={dateTime.txt}> 2019. 11. 30 03:12 pm</Text>
