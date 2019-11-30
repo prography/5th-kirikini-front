@@ -8,15 +8,13 @@ import {
   Image
 } from 'react-native';
 
-import OpenAlbum from './ImagePicker';
-
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 const mealTypes = [
   {
     key: 0,
-    text: '집밥'
+    text: '집dd밥'
   },
   {
     key: 1,

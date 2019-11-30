@@ -9,6 +9,7 @@ import {
   Modal,
   Image
 } from 'react-native';
+import NavBar from '../Components/NavBar';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -181,274 +182,6 @@ const WeeklyList = () => (
           />
         </View>
       </View>
-      {/* 월요일 끝... */}
-      <View style={wlST.day}>
-        <View style={wlST.dayInfo}>
-          <View style={wlST.dateAndScore}>
-            <View style={wlST.date}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  lineHeight: 12,
-                  color: gray.d,
-                  opacity: 0.4
-                }}
-              >
-                Tue
-              </Text>
-            </View>
-            <View style={wlST.dayMealScore}>
-              <Text style={wlST.drinksEmoji}>🍺</Text>
-            </View>
-          </View>
-          {/* <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji}>🍺</Text>
-            </View> */}
-        </View>
-        <View style={wlST.dayMealList}>
-          <OneMealCircle
-            oneMealScore="1"
-            oneMealTime="2"
-            mealType="a"
-            imgSrc={require('../img/foodExample1.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="10"
-            oneMealTime="9"
-            mealType="b"
-            imgSrc={require('../img/foodExample2.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="4"
-            oneMealTime="14"
-            mealType="c"
-            imgSrc={require('../img/foodExample3.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="3"
-            oneMealTime="18"
-            mealType="d"
-            imgSrc={require('../img/foodExample4.jpeg')}
-          />
-        </View>
-      </View>
-      <View style={wlST.day}>
-        <View style={wlST.dayInfo}>
-          <View style={wlST.dateAndScore}>
-            <View style={wlST.date}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  lineHeight: 12,
-                  color: gray.d,
-                  opacity: 0.1
-                }}
-              >
-                Wed
-              </Text>
-            </View>
-            <View style={wlST.dayMealScore}>
-              <Text style={wlST.drinksEmoji}>☕️☕️☕️☕️☕️</Text>
-            </View>
-          </View>
-          {/* <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji}>☕️☕️☕️☕️☕️</Text>
-            </View> */}
-        </View>
-        <View style={wlST.dayMealList}>
-          <OneMealCircle
-            oneMealScore="3.2"
-            oneMealTime="13"
-            mealType="a"
-            imgSrc={require('../img/foodExample1.jpeg')}
-          />
-
-          <OneMealCircle
-            oneMealScore="1"
-            oneMealTime="20"
-            mealType="b"
-            imgSrc={require('../img/foodExample3.jpeg')}
-          />
-        </View>
-      </View>
-      <View style={wlST.day}>
-        <View style={wlST.dayInfo}>
-          <View style={wlST.dateAndScore}>
-            <View style={wlST.date}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  lineHeight: 12,
-                  color: gray.d,
-                  opacity: 0.5
-                }}
-              >
-                Thur{' '}
-              </Text>
-            </View>
-            <View style={wlST.dayMealScore}>
-              <Text style={wlST.drinksEmoji} />
-            </View>
-          </View>
-          {/* <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji} />
-            </View> */}
-        </View>
-        <View style={wlST.dayMealList}>
-          <OneMealCircle
-            oneMealScore="5"
-            oneMealTime="8"
-            mealType="a"
-            imgSrc={require('../img/foodExample1.jpeg')}
-          />
-
-          <OneMealCircle
-            oneMealScore="7.9"
-            oneMealTime="14.4"
-            mealType="b"
-            imgSrc={require('../img/foodExample3.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="9.3"
-            oneMealTime="19"
-            mealType="c"
-            imgSrc={require('../img/foodExample4.jpeg')}
-          />
-        </View>
-      </View>
-      <View style={wlST.day}>
-        <View style={wlST.dayInfo}>
-          <View style={wlST.dateAndScore}>
-            <View style={wlST.date}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  lineHeight: 12,
-                  color: gray.d,
-                  opacity: 0.3
-                }}
-              >
-                Fri
-              </Text>
-            </View>
-            <View style={wlST.dayMealScore}>
-              <Text style={wlST.drinksEmoji}>☕️</Text>
-            </View>
-          </View>
-          {/* <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji}>☕️</Text>
-            </View> */}
-        </View>
-        <View style={wlST.dayMealList}>
-          <OneMealCircle
-            oneMealScore="7"
-            oneMealTime="6.4"
-            mealType="a"
-            imgSrc={require('../img/foodExample1.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="3"
-            oneMealTime="13"
-            mealType="b"
-            imgSrc={require('../img/foodExample2.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="9"
-            oneMealTime="20"
-            mealType="c"
-            imgSrc={require('../img/foodExample3.jpeg')}
-          />
-        </View>
-      </View>
-      <View style={wlST.day}>
-        <View style={wlST.dayInfo}>
-          <View style={wlST.dateAndScore}>
-            <View style={wlST.date}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  lineHeight: 12,
-                  color: gray.d,
-                  opacity: 0.7
-                }}
-              >
-                Sat
-              </Text>
-            </View>
-            <View style={wlST.dayMealScore}>
-              <Text style={wlST.drinksEmoji}>🍺</Text>
-            </View>
-          </View>
-          {/* <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji}>🍺</Text>
-            </View> */}
-        </View>
-        <View style={wlST.dayMealList}>
-          <OneMealCircle
-            oneMealScore="7"
-            oneMealTime="13"
-            mealType="a"
-            imgSrc={require('../img/foodExample1.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="10"
-            oneMealTime="17"
-            mealType="b"
-            imgSrc={require('../img/foodExample2.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="8"
-            oneMealTime="23"
-            mealType="c"
-            imgSrc={require('../img/foodExample3.jpeg')}
-          />
-        </View>
-      </View>
-      <View style={wlST.day}>
-        <View style={wlST.dayInfo}>
-          <View style={wlST.dateAndScore}>
-            <View style={wlST.date}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '500',
-                  lineHeight: 12,
-                  color: gray.d,
-                  opacity: 0.1
-                }}
-              >
-                Sun
-              </Text>
-            </View>
-            <View style={wlST.dayMealScore}>
-              <Text style={wlST.drinksEmoji} />
-            </View>
-          </View>
-          {/* <View style={wlST.dayDrinks}>
-              <Text style={wlST.drinksEmoji} />
-            </View> */}
-        </View>
-        <View style={wlST.dayMealList}>
-          <OneMealCircle
-            oneMealScore="4"
-            oneMealTime="15"
-            mealType="a"
-            imgSrc={require('../img/foodExample1.jpeg')}
-          />
-          <OneMealCircle
-            oneMealScore="3.6"
-            oneMealTime="18"
-            mealType="b"
-            imgSrc={require('../img/foodExample2.jpeg')}
-          />
-        </View>
-      </View>
-      {/* 여기까지 지우면 됨 */}
     </View>
   </View>
 );
@@ -513,6 +246,7 @@ const Summary = props => {
           </TouchableOpacity>
         </ScrollView>
       </View>
+      <NavBar navigation={props.navigation} />
     </View>
   );
 };
@@ -523,7 +257,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F9F9F9'
+    backgroundColor: '#F2F9F2'
   },
   monthWeekButtonContiner: {
     flex: 1,
