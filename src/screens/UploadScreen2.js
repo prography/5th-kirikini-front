@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
+import MealTypeButton from '../Components/MealTypeButton';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -32,16 +33,25 @@ const Upload2 = props => {
     setMealScore(parseFloat(mealScore));
   };
 
+  const natvigationOptions = {
+    headerStyle: {
+      backgroundColor: 'white'
+    }
+  };
+
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
+        <View style={styles.mintbackground} />
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>끼니 추가</Text>
         </View>
         <View>
           <View style={mainImg.screen}></View>
         </View>
+        <MealTypeButton />
       </View>
+
       <View style={slider.container}>
         <Text style={slider.txtScore}>{String(mealScore)}</Text>
         <Slider
@@ -75,7 +85,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingLeft: 17,
     paddingRight: 17,
-    backgroundColor: '#F2F9F2'
+    backgroundColor: 'white'
   },
   titleHeader: {
     height: 60
@@ -85,7 +95,20 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: gray.d
   },
-
+  mintbackground: {
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    position: 'absolute',
+    bottom: 0,
+    height: (deviceHeight / 9) * 5,
+    width: deviceWidth,
+    paddingTop: 16,
+    paddingLeft: 17,
+    paddingRight: 17,
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    backgroundColor: gray.m
+  },
   submitButton: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -154,12 +177,14 @@ const mainImg = StyleSheet.create({
     height: 290,
     borderTopLeftRadius: 45,
     borderBottomRightRadius: 45,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 1
+    borderColor: gray.m,
+    borderWidth: 4,
+    backgroundColor: 'white'
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 7 },
+    // shadowOpacity: 0.05,
+    // shadowRadius: 10,
+    // elevation: 1
   }
 });
 

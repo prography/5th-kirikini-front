@@ -76,7 +76,7 @@ const HomeScreen = props => {
 
               <TouchableOpacity
                 style={balloonSt.kiriniContainer}
-                onPress={() => props.navigation.navigate('Upload')}
+                onPress={() => props.navigation.navigate('Upload2')}
               >
                 <Image
                   style={balloonSt.kirini}
