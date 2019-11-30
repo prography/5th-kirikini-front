@@ -1,40 +1,43 @@
-import React, {Component} from 'react';
-import {
-    View,
-    Text,
-    Button,
-    StyleSheet
-} from 'react-native';
+import React, {useState} from 'react';
+import {Platform, StyleSheet, Text, View, Image, YellowBox} from 'react-native';
+import KakaoLogins from '@react-native-seoul/kakao-login';
+import NativeButton from 'apsl-react-native-button';
 
-const LoginScreen = (props) => {
-    
-    const navigationOptions = {
-        header: null,
-    };
-    return (
-        <View style={styles.container}>
-            <View style={styles.titleArea}>
-                <Text style={styles.title}>Login Screen</Text>
-                <Button
-                    title="Go to Home"
-                    onPress={() => props.navigation.navigate('Home')}
-                />
-            </View>                
-        </View>
-    );    
+if (!KakaoLogins) {
+  console.error('Module is Not Linked');
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-    },
-    titleArea: {
-        width: '100%',
-        
-        alignItems: 'center',
-    },
-})
+const logCallback = (log, callback) => {
+  console.log(log);
+  callback;
+};
 
-export default LoginScreen
+export default function LoginScreen() {
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [token, setToken] = useState(TOKEN_EMPTY);
+
+  const kakaoLogin = () => {
+    logCallback('Login Start', setLoginLoading(true));
+
+    KakaoLogins.login()
+      .then(result => {
+        setToken(result.accessToken);
+        logCallback(
+          `Login Finished:${JSON.stringify(result)}`,
+          setLoginLoading(false),
+        );
+      })
+      .catch(err => {
+        if (err.code === 'E_CANCELLED_OPERATION') {
+          logCallback(`Login Cancelled:${err.message}`, setLoginLoading(false));
+        } else {
+          logCallback(
+            `Login Failed:${err.code} ${err.message}`,
+            setLoginLoading(false),
+          );
+        }
+      });
+  };
+}
+
+YellowBox.ignoreWarnings(['source.uri']);
