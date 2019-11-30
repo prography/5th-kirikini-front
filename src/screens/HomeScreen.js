@@ -118,27 +118,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// 좌측 상단 네비게이션 바의 View 스타일
-const navSt = StyleSheet.create({
-  navBar: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingTop: deviceWidth / 10
-  },
-  navButton: {
-    width: deviceWidth / 6,
-    height: deviceWidth / 9,
-    marginBottom: deviceWidth / 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    borderRadius: 15,
-    backgroundColor: gray.a,
-    opacity: 0.3
-  }
-});
-
 // 하얀 말풍선 속 Text 스타일
 const balloonText = StyleSheet.create({
   title: {
