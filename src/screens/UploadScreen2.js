@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Dimensions, ScrollView, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
 import MealTypeButton from '../Components/MealTypeButton';
@@ -53,7 +53,7 @@ const Upload2 = props => {
             activeOpacity={0.6}
             style={mainImg.screen}
           >
-            <Text>터치해서 카메라 열기</Text>
+            <Text style={mainImg.txt}>터치해서 끼니 촬영</Text>
           </TouchableOpacity>
         </View>
         <ScrollView>
@@ -159,12 +159,13 @@ const dateTime = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 30,
-    marginTop: 15,
-    marginBottom: 27
+    marginTop: 3,
+    marginBottom: 5
   },
   txt: {
     fontWeight: '700',
-    color: gray.c
+    fontSize: 15,
+    color: gray.b
   }
 });
 
@@ -202,7 +203,7 @@ const mainImg = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: deviceWidth - 34,
-    height: 230,
+    height: 290,
     borderTopLeftRadius: 45,
     borderBottomRightRadius: 45,
     borderColor: gray.m,
@@ -213,6 +214,11 @@ const mainImg = StyleSheet.create({
     // shadowOpacity: 0.05,
     // shadowRadius: 10,
     // elevation: 1
+  },
+  txt: {
+    color: gray.b,
+    fontWeight: '700',
+    fontSize: 16
   }
 });
 
