@@ -35,6 +35,7 @@
     "react-native": "0.61.2",
     "react-native-camera": "^3.9.0",
     "react-native-crypto": "^2.2.0",
+    "react-native-fbsdk": "^1.1.1",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-http": "tradle/react-native-http#834492d",
     "react-native-image-picker": "^1.1.0",

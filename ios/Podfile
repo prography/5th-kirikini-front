@@ -3,6 +3,8 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 target 'kirikini' do
   # Pods for kirikini
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
   pod 'react-native-camera', path: '../node_modules/react-native-camera'
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"

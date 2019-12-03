@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Platform, StyleSheet, Text, View, Image, YellowBox} from 'react-native';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import NativeButton from 'apsl-react-native-button';
+import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -15,11 +16,9 @@ const logCallback = (log, callback) => {
   callback;
 };
 
-const TOKEN_EMPTY = 'token has not fetched';
-
 const LoginScreen = props => {
   const [loginLoading, setLoginLoading] = useState(false);
-  const [token, setToken] = useState(TOKEN_EMPTY);
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     autoLogin()
@@ -30,6 +29,7 @@ const LoginScreen = props => {
     AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
       access_token = response[0][1];
       refresh_token = response[1][1];
+      console.log("autoLogin access_token: ", access_token)
       
       if(access_token !== null)
       {
@@ -45,6 +45,7 @@ const LoginScreen = props => {
           else if(response.status == 201)
           {
             AsyncStorage.setItem("jwt_access_token", response['data'])
+            props.navigation.navigate('Home')
           }
           else
           {
@@ -78,6 +79,8 @@ const LoginScreen = props => {
                 ['jwt_access_token', jwt['jwt_access_token']], 
                 ['jwt_refresh_token', jwt['jwt_refresh_token']]
               ], () => autoLogin())
+              
+              console.log("12341235123")
           })
           .catch(error => console.log('failed', error))
       })
@@ -93,6 +96,43 @@ const LoginScreen = props => {
       });
   };
 
+  const fbLogin = (result) => {
+    AccessToken.getCurrentAccessToken().then(data => {
+        console.log(data.accessToken.toString())
+              
+        axios.post('http://localhost:8000/facebook_login', 
+        {"access_token": data.accessToken.toString(), "refresh_token": data.refreshToken.toString()},
+        {
+          headers: {'Content-type': 'application/x-www-form-urlencoded'}
+        })
+        .then(response => response.data)
+        .then(jwt => async () => {
+            await AsyncStorage.multiSet([
+              ['jwt_access_token', jwt['jwt_access_token']], 
+              ['jwt_refresh_token', jwt['jwt_refresh_token']]
+            ], () => autoLogin())
+        })
+        .catch(error => console.log('failed', error))
+
+      }
+    )
+    LoginManager.logInWithPermissions(["public_profile"]).then(
+      function(result) {
+        if (result.isCancelled) {
+          console.log("Login cancelled");
+        } else {
+          console.log(
+            "Login success with permissions: " +
+              result.grantedPermissions.toString()
+          );
+        }
+      },
+      function(error) {
+        console.log("Login fail with error: " + error);
+      }
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -103,6 +143,20 @@ const LoginScreen = props => {
             source={require('../img/kakao_button.png')}
           />
         </TouchableOpacity>
+
+        <LoginButton
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                console.log("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                console.log("login is cancelled.");
+              } else {
+                fbLogin(result)
+              }
+            }
+          }
+          onLogoutFinished={() => console.log("logout.")}/>
       </View>
     </View>
   );

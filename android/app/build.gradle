@@ -135,6 +135,7 @@ android {
         versionName "1.0"
 
         missingDimensionStrategy 'react-native-camera', 'general'
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -183,6 +184,8 @@ android {
 dependencies {
     implementation project(':@react-native-community_slider')
     // implementation project(':react-native-randombytes')
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation 'com.android.support:multidex:1.0.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
