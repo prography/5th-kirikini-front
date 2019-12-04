@@ -11,6 +11,13 @@ if (!KakaoLogins) {
   console.error('Module is Not Linked');
 }
 
+// const KAKAO_URL = "http://localhost:8000/kakao_login"
+// const FB_URL = "http://localhost:8000/facebook_login"
+// const AUTO_URL = "http://localhost:8000/auto_login"
+const KAKAO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/kakao_login"
+const FB_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/facebook_login"
+const AUTO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/auto_login"
+
 const logCallback = (log, callback) => {
   console.log(log);
   callback;
@@ -19,6 +26,7 @@ const logCallback = (log, callback) => {
 const LoginScreen = props => {
   const [loginLoading, setLoginLoading] = useState(false);
   const [token, setToken] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     autoLogin()
@@ -33,7 +41,7 @@ const LoginScreen = props => {
       
       if(access_token !== null)
       {
-        axios.post('http://localhost:8000/auto_login', 
+        axios.post(AUTO_URL, 
           {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token},
           {
             headers: {'Content-type': 'application/x-www-form-urlencoded'}
@@ -68,7 +76,20 @@ const LoginScreen = props => {
           setLoginLoading(false),
         );
 
-        axios.post('http://localhost:8000/kakao_login', 
+        KakaoLogins.getProfile()
+          .then(result => {
+            setEmail(result.email)
+            logCallback(
+              `Get Profile Finished:${JSON.stringify(result)}`,
+            );
+          })
+          .catch(err => {
+            logCallback(
+              `Get Profile Failed:${err.code} ${err.message}`,
+            );
+          });
+
+        axios.post(KAKAO_URL, 
           {"access_token": result.accessToken, "refresh_token": result.refreshToken},
           {
             headers: {'Content-type': 'application/x-www-form-urlencoded'}
@@ -77,10 +98,9 @@ const LoginScreen = props => {
           .then(jwt => async () => {
               await AsyncStorage.multiSet([
                 ['jwt_access_token', jwt['jwt_access_token']], 
-                ['jwt_refresh_token', jwt['jwt_refresh_token']]
+                ['jwt_refresh_token', jwt['jwt_refresh_token']],
+                ['email', email]
               ], () => autoLogin())
-              
-              console.log("12341235123")
           })
           .catch(error => console.log('failed', error))
       })
@@ -100,7 +120,7 @@ const LoginScreen = props => {
     AccessToken.getCurrentAccessToken().then(data => {
         console.log(data.accessToken.toString())
               
-        axios.post('http://localhost:8000/facebook_login', 
+        axios.post(FB_URL, 
         {"access_token": data.accessToken.toString(), "refresh_token": data.refreshToken.toString()},
         {
           headers: {'Content-type': 'application/x-www-form-urlencoded'}

@@ -9,6 +9,18 @@ import {
 import { RNCamera } from 'react-native-camera';
 // import CameraRoll from "@react-native-community/cameraroll";
 import ImagePicker from 'react-native-image-picker';
+import { RNS3 } from 'react-native-aws3';
+import secretKey from '../../secrets_front.json'
+
+// AWS S3
+const s3_options = {
+  keyPrefix: "uploads/",
+  bucket: "kirikini",
+  region: "ap-northeast-2",
+  accessKey: "AKIAWMXSZW6I2XTZR5HX",
+  secretKey: secretKey['AWS_S3_SECRET_KEY'],
+  successActionStatus: 201
+}
 
 const deviceWidth = Dimensions.get('window').width;
 // const deviceHeight = Dimensions.get('window').height;
@@ -20,9 +32,20 @@ const CameraScreen = () => {
       const options = { quality: 0.5 };
       const data = await camera.takePictureAsync(options);
       console.log(data.uri);
-      console.log("debug: ", data)
 
-      CameraRoll.saveToCameraRoll( data.uri )
+      const file = {
+        uri: data.uri,
+        name: "image.jpg",
+        type: "image/jpg"
+      }
+
+      RNS3.put(file, s3_options).then(response => {
+        if (response.status !== 201)
+          throw new Error("Failed to upload image to S3");
+        console.log(response.body);
+      });
+
+      // CameraRoll.saveToCameraRoll( data.uri )
     }
   };
   // 넌 뭐하는 애니?
@@ -39,7 +62,21 @@ const CameraScreen = () => {
         path: 'images'
       }
     };
-    ImagePicker.launchImageLibrary(options, response => {});
+    ImagePicker.launchImageLibrary(options, data => {
+      console.log("album: ", data)
+
+      const file = {
+        uri: data.uri,
+        name: "image.jpg",
+        type: "image/jpg"
+      }
+
+      RNS3.put(file, s3_options).then(response => {
+        if (response.status !== 201)
+          throw new Error("Failed to upload image to S3");
+        console.log(response.body);
+      });
+    });
   };
 
   const CameraView = () => {
