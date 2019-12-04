@@ -9,8 +9,6 @@ export const loginRequestAction = data => ({
   data,
 });
 
-const reducer = (state = intialState, action) => {
+export const reducer = (state = intialState, action) => {
   return state;
 };
-
-export default reducer;
