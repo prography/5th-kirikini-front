@@ -9,73 +9,68 @@ import {
 import { RNCamera } from 'react-native-camera';
 // import CameraRoll from "@react-native-community/cameraroll";
 import ImagePicker from 'react-native-image-picker';
-import { RNS3 } from 'react-native-aws3';
-import secretKey from '../../secrets_front.json'
+import AsyncStorage from '@react-native-community/async-storage';
 
-// AWS S3
-const s3_options = {
-  keyPrefix: "uploads/",
-  bucket: "kirikini",
-  region: "ap-northeast-2",
-  accessKey: "AKIAWMXSZW6I2XTZR5HX",
-  secretKey: secretKey['AWS_S3_SECRET_KEY'],
-  successActionStatus: 201
-}
+let email = null;
+AsyncStorage.getItem('email')
+  .then(data => email = data)
+  .catch(err => console.log("get email failed"))
 
 const deviceWidth = Dimensions.get('window').width;
 // const deviceHeight = Dimensions.get('window').height;
 
-const CameraScreen = () => {
-  // 촬영 버튼에 적용할 takePicture()
+const CameraScreen = (props) => {
   const takePicture = async () => {
     if (camera) {
       const options = { quality: 0.5 };
       const data = await camera.takePictureAsync(options);
       console.log(data.uri);
+      const timestamp = new Date().toISOString().replace(/:/gi, "-")
 
       const file = {
         uri: data.uri,
-        name: "image.jpg",
+        name: `${email}_${timestamp}.jpg`,
         type: "image/jpg"
       }
+      props.navigation.state.setParams({file: file})
 
-      RNS3.put(file, s3_options).then(response => {
-        if (response.status !== 201)
-          throw new Error("Failed to upload image to S3");
-        console.log(response.body);
-      });
+      AsyncStorage.setItem('mealImage', data.uri)
+        .then(result => {
+          console.log("image saved to async storage")
+          props.navigation.goBack();
+        })
+        .catch(err => console.log("image save failed"))
 
       // CameraRoll.saveToCameraRoll( data.uri )
     }
   };
-  // 넌 뭐하는 애니?
-  // const natvigationOptions = {
-  //   header: null,
-  // };
 
   // 사진 앨범 불러오기
   const openAlbum = () => {
     const options = {
-      title: 'Select Avatar',
+      title: '음식 사진을 선택해주세요',
       storageOptions: {
         skipBackup: true,
         path: 'images'
       }
     };
     ImagePicker.launchImageLibrary(options, data => {
-      console.log("album: ", data)
+      data.timestamp = data.timestamp.replace(/:/gi, "-")
+      console.log(data.timestamp)
 
       const file = {
         uri: data.uri,
-        name: "image.jpg",
+        name: `${email}_${data.timestamp}.jpg`,
         type: "image/jpg"
       }
 
-      RNS3.put(file, s3_options).then(response => {
-        if (response.status !== 201)
-          throw new Error("Failed to upload image to S3");
-        console.log(response.body);
-      });
+      AsyncStorage.setItem('mealImage', data.uri)
+        .then(result => {
+          console.log("image saved to async storage")
+          props.navigation.goBack();
+        })
+        .catch(err => console.log("image save failed"))
+
     });
   };
 

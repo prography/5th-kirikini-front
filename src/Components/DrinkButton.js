@@ -38,8 +38,8 @@ const DrinkTypeButton = props => {
   const MakeDrinkTypeButton = () =>
     drinkTypes.map(item => {
       return (
-        <View>
-          <View key={item.key} style={styles.buttonContainer}>
+        <View key={item.key}>
+          <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.circle}
               onPress={() => setSelected(item.key)}

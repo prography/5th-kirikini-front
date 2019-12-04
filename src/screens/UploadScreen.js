@@ -37,7 +37,7 @@ const Upload = props => {
             </TouchableOpacity>
           </View>
         </View>
-        {/* 끼니 타입 버튼들  */}
+        {/* 끼니 타입 버튼피들  */}
         <View style={mealbtSt.container}>
           <MealTypeButton />
         </View>

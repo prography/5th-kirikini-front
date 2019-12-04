@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Platform, StyleSheet, Text, View, Image, YellowBox} from 'react-native';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import NativeButton from 'apsl-react-native-button';
-import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
+import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -82,6 +82,7 @@ const LoginScreen = props => {
             logCallback(
               `Get Profile Finished:${JSON.stringify(result)}`,
             );
+            AsyncStorage.setItem('email', result.email)
           })
           .catch(err => {
             logCallback(
@@ -95,12 +96,12 @@ const LoginScreen = props => {
             headers: {'Content-type': 'application/x-www-form-urlencoded'}
           })
           .then(response => response.data)
-          .then(jwt => async () => {
-              await AsyncStorage.multiSet([
-                ['jwt_access_token', jwt['jwt_access_token']], 
-                ['jwt_refresh_token', jwt['jwt_refresh_token']],
-                ['email', email]
-              ], () => autoLogin())
+          .then(jwt => {
+            AsyncStorage.multiSet([
+              ['jwt_access_token', jwt['jwt_access_token']], 
+              ['jwt_refresh_token', jwt['jwt_refresh_token']],
+              ['email', email]
+            ], () => autoLogin())
           })
           .catch(error => console.log('failed', error))
       })
@@ -118,24 +119,51 @@ const LoginScreen = props => {
 
   const fbLogin = (result) => {
     AccessToken.getCurrentAccessToken().then(data => {
-        console.log(data.accessToken.toString())
-              
-        axios.post(FB_URL, 
-        {"access_token": data.accessToken.toString(), "refresh_token": data.refreshToken.toString()},
+      console.log(data.accessToken.toString())
+      console.log("fb data: ", data)
+      
+      const profileRequestParams = {
+        fields: {
+            string: 'email'
+        }
+      }
+
+      const profileRequestConfig = {
+        httpMethod: 'GET',
+        version: 'v2.5',
+        parameters: profileRequestParams,
+        accessToken: token.toString()
+      }
+
+      const profileRequest = new GraphRequest(
+        '/me',
+        profileRequestConfig,
+        (error, result) => {
+          if (error) {
+            console.log(error)
+          } else {
+            console.log("email: ", result)
+          }
+        },
+      )
+
+      new GraphRequestManager().addRequest(profileRequest).start();
+            
+      axios.post(FB_URL, 
+        {"access_token": data.accessToken.toString()},
         {
           headers: {'Content-type': 'application/x-www-form-urlencoded'}
         })
         .then(response => response.data)
-        .then(jwt => async () => {
-            await AsyncStorage.multiSet([
-              ['jwt_access_token', jwt['jwt_access_token']], 
-              ['jwt_refresh_token', jwt['jwt_refresh_token']]
-            ], () => autoLogin())
+        .then(jwt => {
+          AsyncStorage.multiSet([
+            ['jwt_access_token', jwt['jwt_access_token']], 
+            ['jwt_refresh_token', jwt['jwt_refresh_token']]
+          ], () => autoLogin())
         })
         .catch(error => console.log('failed', error))
+    })
 
-      }
-    )
     LoginManager.logInWithPermissions(["public_profile"]).then(
       function(result) {
         if (result.isCancelled) {
@@ -165,6 +193,7 @@ const LoginScreen = props => {
         </TouchableOpacity>
 
         <LoginButton
+          publishPermissions={["email"]}
           onLoginFinished={
             (error, result) => {
               if (error) {

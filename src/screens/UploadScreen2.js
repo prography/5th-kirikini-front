@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, ScrollView, Image } from 'react-native';
+import { connect } from 'react-redux';
+import { NavigationEvents } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
+import AsyncStorage from '@react-native-community/async-storage';
+import { RNS3 } from 'react-native-aws3';
 import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
+import secretKey from '../../secrets_front.json'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
+
+// AWS S3
+const s3_options = {
+  keyPrefix: "uploads/",
+  bucket: "kirikini",
+  region: "ap-northeast-2",
+  accessKey: "AKIAWMXSZW6I2XTZR5HX",
+  secretKey: secretKey['AWS_S3_SECRET_KEY'],
+  successActionStatus: 201
+}
 
 const gray = {
   m: '#F2F9F2',
@@ -29,10 +44,28 @@ const meal = {
 };
 const Upload2 = props => {
   const [mealScore, setMealScore] = useState(5);
+  const [mealImage, setMealImage] = useState('');
+
+  const updateMealImage = () => {
+    AsyncStorage.getItem('mealImage')
+      .then(uri => setMealImage(uri))
+      .catch(err => console.log("load image failed"))
+  }
 
   const change = mealScore => {
     setMealScore(parseFloat(mealScore));
   };
+
+  const upload = () => {
+    const file = props.navigation.state.params.file
+    RNS3.put(file, s3_options).then(response => {
+      if (response.status !== 201)
+        throw new Error("Failed to upload image to S3");
+      console.log(response.body);
+
+      props.navigation.navigate('Home')
+    });
+  }
 
   const natvigationOptions = {
     headerStyle: {
@@ -40,21 +73,39 @@ const Upload2 = props => {
     }
   };
 
+  console.log("mealImage: ", mealImage)
+
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
+      <NavigationEvents
+        onWillFocus={() => updateMealImage()}
+      />
       <View style={styles.container}>
         <View style={styles.mintbackground} />
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>끼니 추가</Text>
         </View>
         <View>
-          <TouchableOpacity
+          { mealImage ? (
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Camera')}
+              activeOpacity={0.6}
+              style={mainImg.screen}
+            >
+              <Image
+                style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+                source={{uri: mealImage}}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
             onPress={() => props.navigation.navigate('Camera')}
             activeOpacity={0.6}
             style={mainImg.screen}
-          >
-            <Text style={mainImg.txt}>터치해서 끼니 촬영</Text>
-          </TouchableOpacity>
+            >
+              <Text style={mainImg.txt}>터치해서 끼니 촬영</Text>
+            </TouchableOpacity>
+          )}
         </View>
         <ScrollView>
           <View style={dateTime.container}>
@@ -83,7 +134,7 @@ const Upload2 = props => {
       <View style={styles.submitButton}>
         <TouchableOpacity
           style={styles.submitTouchable}
-          onPress={() => props.navigation.navigate('Home')}
+          onPress={() => upload()}
         >
           <Text style={styles.txtSubmit}>확인</Text>
         </TouchableOpacity>
@@ -222,4 +273,7 @@ const mainImg = StyleSheet.create({
   }
 });
 
-export default Upload2;
+// export default Upload2;
+export default connect(state => ({
+  meal: state.meal
+}))(Upload2);
