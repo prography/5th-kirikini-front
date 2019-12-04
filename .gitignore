@@ -67,3 +67,5 @@ Pods/
 
 # vscode
 .vscode/
+
+secrets_front.json
