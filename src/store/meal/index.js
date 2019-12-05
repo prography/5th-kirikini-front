@@ -9,6 +9,7 @@ const initialState = {
         countType: 0,
         mealType: 0,
         gihoType: 0,
+        timestamp: '',
     },
     meals: {
         today: [], // 오늘 먹은 음식
@@ -34,7 +35,8 @@ export default handleActions({
         return produce(state, draft => {
             draft.saved = {
                 ...state.saved,
-                file: action.file
+                file: action.file,
+                timestamp: action.timestamp
             }
         });
     },

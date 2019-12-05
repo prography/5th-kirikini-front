@@ -26,14 +26,15 @@ const CameraScreen = (props) => {
       const options = { quality: 0.5 };
       const data = await camera.takePictureAsync(options);
       console.log(data.uri);
-      const timestamp = new Date().toISOString().replace(/:/gi, "-")
+      const timestamp = new Date().toISOString()
+      console.log("takePicture time: ", timestamp)
 
       const file = {
         uri: data.uri,
         name: `${email}_${timestamp}.jpg`,
         type: "image/jpg"
       }
-      dispatch(mealSaved(file));
+      dispatch(mealSaved(file, timestamp));
       
       AsyncStorage.setItem('mealImage', data.uri)
         .then(result => {
@@ -56,15 +57,14 @@ const CameraScreen = (props) => {
       }
     };
     ImagePicker.launchImageLibrary(options, data => {
-      data.timestamp = data.timestamp.replace(/:/gi, "-")
-      console.log(data.timestamp)
+      console.log("openAlbum time: ", data.timestamp)
 
       const file = {
         uri: data.uri,
         name: `${email}_${data.timestamp}.jpg`,
         type: "image/jpg"
       }
-      dispatch(mealSaved(file));
+      dispatch(mealSaved(file, data.timestamp));
 
       AsyncStorage.setItem('mealImage', data.uri)
         .then(result => {

@@ -43,9 +43,8 @@ const LoginScreen = props => {
       {
         axios.post(AUTO_URL, 
           {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token},
-          {
-            headers: {'Content-type': 'application/x-www-form-urlencoded'}
-          })
+          {headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
         .then(response => {
           console.log("test: ", response['data'])
           if(response.status == 200)
@@ -83,27 +82,27 @@ const LoginScreen = props => {
               `Get Profile Finished:${JSON.stringify(result)}`,
             );
             AsyncStorage.setItem('email', result.email)
+              .then(() => {
+                axios.post(KAKAO_URL, 
+                  {"access_token": result.accessToken, "refresh_token": result.refreshToken},
+                  {
+                    headers: {'Content-type': 'application/x-www-form-urlencoded'}
+                  })
+                  .then(response => response.data)
+                  .then(jwt => {
+                    AsyncStorage.multiSet([
+                      ['jwt_access_token', jwt['jwt_access_token']], 
+                      ['jwt_refresh_token', jwt['jwt_refresh_token']],
+                    ], () => autoLogin())
+                  })
+                  .catch(error => console.log('failed', error))
+              })
           })
           .catch(err => {
             logCallback(
               `Get Profile Failed:${err.code} ${err.message}`,
             );
           });
-
-        axios.post(KAKAO_URL, 
-          {"access_token": result.accessToken, "refresh_token": result.refreshToken},
-          {
-            headers: {'Content-type': 'application/x-www-form-urlencoded'}
-          })
-          .then(response => response.data)
-          .then(jwt => {
-            AsyncStorage.multiSet([
-              ['jwt_access_token', jwt['jwt_access_token']], 
-              ['jwt_refresh_token', jwt['jwt_refresh_token']],
-              ['email', email]
-            ], () => autoLogin())
-          })
-          .catch(error => console.log('failed', error))
       })
       .catch(err => {
         if (err.code === 'E_CANCELLED_OPERATION') {
