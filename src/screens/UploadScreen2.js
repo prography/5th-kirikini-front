@@ -68,11 +68,11 @@ const Upload2 = props => {
       console.log(response.body);
 
       const data = {
-        countType: 0,
         mealType: props.saved.mealType,
         gihoType: props.saved.gihoType,
         picURL: response.body.postResponse.location,
         rating: mealScore,
+        created_at: props.saved.timestamp
       }
       console.log("data: ", data)
 

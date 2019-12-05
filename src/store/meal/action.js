@@ -15,9 +15,10 @@ export const mealToday = (meal) => ({
     meal: meal
 });
 
-export const mealSaved = (file) => ({
+export const mealSaved = (file, timestamp) => ({
     type: mealAction.saved,
     file: file,
+    timestamp: timestamp
 });
 
 export const mealType = (data) => ({
