@@ -9,6 +9,7 @@ import {
   Modal,
   Image
 } from 'react-native';
+import { connect } from 'react-redux';
 import NavBar from '../Components/NavBar';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -416,4 +417,6 @@ const wlST = StyleSheet.create({
   }
 });
 
-export default Summary;
+export default connect(state => ({
+  file: state.meal.saved.file
+}))(Summary);

@@ -1,15 +1,14 @@
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
+  View, Text, StyleSheet,
+  TouchableOpacity, Dimensions,
 } from 'react-native';
+import { connect, useDispatch } from 'react-redux';
 import { RNCamera } from 'react-native-camera';
 // import CameraRoll from "@react-native-community/cameraroll";
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
+import { mealSaved } from '../store/meal/action';
 
 let email = null;
 AsyncStorage.getItem('email')
@@ -20,6 +19,8 @@ const deviceWidth = Dimensions.get('window').width;
 // const deviceHeight = Dimensions.get('window').height;
 
 const CameraScreen = (props) => {
+  const dispatch = useDispatch();
+
   const takePicture = async () => {
     if (camera) {
       const options = { quality: 0.5 };
@@ -32,8 +33,8 @@ const CameraScreen = (props) => {
         name: `${email}_${timestamp}.jpg`,
         type: "image/jpg"
       }
-      props.navigation.state.setParams({file: file})
-
+      dispatch(mealSaved(file));
+      
       AsyncStorage.setItem('mealImage', data.uri)
         .then(result => {
           console.log("image saved to async storage")
@@ -63,6 +64,7 @@ const CameraScreen = (props) => {
         name: `${email}_${data.timestamp}.jpg`,
         type: "image/jpg"
       }
+      dispatch(mealSaved(file));
 
       AsyncStorage.setItem('mealImage', data.uri)
         .then(result => {
@@ -137,4 +139,6 @@ const cameraSt = StyleSheet.create({
   }
 });
 
-export default CameraScreen;
+export default connect(state => ({
+  file: state.meal.saved.file
+}))(CameraScreen);

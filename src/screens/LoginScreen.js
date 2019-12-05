@@ -11,12 +11,12 @@ if (!KakaoLogins) {
   console.error('Module is Not Linked');
 }
 
-// const KAKAO_URL = "http://localhost:8000/kakao_login"
-// const FB_URL = "http://localhost:8000/facebook_login"
-// const AUTO_URL = "http://localhost:8000/auto_login"
-const KAKAO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/kakao_login"
-const FB_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/facebook_login"
-const AUTO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/auto_login"
+const KAKAO_URL = "http://localhost:8000/kakao_login"
+const FB_URL = "http://localhost:8000/facebook_login"
+const AUTO_URL = "http://localhost:8000/auto_login"
+// const KAKAO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/kakao_login"
+// const FB_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/facebook_login"
+// const AUTO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/auto_login"
 
 const logCallback = (log, callback) => {
   console.log(log);
@@ -29,7 +29,7 @@ const LoginScreen = props => {
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    autoLogin()
+    // autoLogin()
   })
 
   const autoLogin = () => {

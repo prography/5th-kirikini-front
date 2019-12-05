@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,13 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
+import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 import NavBar from '../Components/NavBar';
+import { useTheme } from 'react-navigation';
+import axios from 'axios';
+
+const LOAD_MEALS_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/today'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -29,6 +35,36 @@ const todayScore = 5.7;
 const kiriColor = '#F2F9F2';
 
 const HomeScreen = props => {
+  const [meals, setMeals] = useState([]);
+
+  const loadTodayMeals = () => {
+    let access_token = null, refresh_token = null;
+    AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+      access_token = response[0][1];
+      refresh_token = response[1][1];
+      
+      if(access_token !== null)
+      {
+        axios.post(LOAD_MEALS_URL,
+          {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token},
+          {
+            headers: {'Content-type': 'application/x-www-form-urlencoded'}
+          })
+        .then(response => {
+          console.log("meals: ", response['data'])
+          
+          // let data = response['data']
+          // setMeals(data)
+        })
+        .catch(err => console.log(err))
+      }
+    })
+  }
+
+  useEffect(() => {
+    loadTodayMeals()
+  })
+
   const today = (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
@@ -87,7 +123,9 @@ const HomeScreen = props => {
           </View>
         </View>
         <View style={styles.bottomHalf}>
-          <ScrollView horizontal={true}></ScrollView>
+          <ScrollView horizontal={true}>
+
+          </ScrollView>
         </View>
       </View>
 
@@ -295,4 +333,20 @@ const bottomBarSt = StyleSheet.create({
   }
 });
 
-export default HomeScreen;
+export default connect(state => ({
+  today: state.meal.meals.today
+}))(HomeScreen);
+
+// {this.props.meals && this.props.meals.map(meal => {
+//   (
+//     <View>
+//       <Image
+//         style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+//         source={{uri: meal.file.uri}}
+//       />
+//       <Text>
+//         식사 1
+//       </Text>
+//     </View>
+//   )
+// })}
