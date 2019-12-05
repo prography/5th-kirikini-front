@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Text, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { gihoType } from '../store/meal/action';
+
 const gray = {
   m: '#F2F9F2',
   a: '#EAEAEA',
@@ -33,7 +36,9 @@ const drinkTypes = [
 ];
 
 const DrinkTypeButton = props => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null); // todo: state로 관리하는걸 redux로 관리?
+  const dispatch = useDispatch();
+  // const type = useSelector((store) => store.saved.gihoType);
 
   const MakeDrinkTypeButton = () =>
     drinkTypes.map(item => {
@@ -42,7 +47,10 @@ const DrinkTypeButton = props => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.circle}
-              onPress={() => setSelected(item.key)}
+              onPress={() => {
+                setSelected(item.key)
+                dispatch(gihoType(item.key));
+              }}
             >
               {selected === item.key && <View style={styles.checkedCircle} />}
             </TouchableOpacity>

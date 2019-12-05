@@ -6,9 +6,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
 import AsyncStorage from '@react-native-community/async-storage';
 import { RNS3 } from 'react-native-aws3';
+import axios from 'axios';
 import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
 import secretKey from '../../secrets_front.json'
+
+// const SAVE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/'
+const SAVE_MEAL_URL = 'http://localhost:8000/meal/'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -57,13 +61,46 @@ const Upload2 = props => {
   };
 
   const upload = () => {
-    const file = props.navigation.state.params.file
+    const { file } = props.saved;
     RNS3.put(file, s3_options).then(response => {
       if (response.status !== 201)
         throw new Error("Failed to upload image to S3");
       console.log(response.body);
 
-      props.navigation.navigate('Home')
+      const data = {
+        countType: 0,
+        mealType: props.saved.mealType,
+        gihoType: props.saved.gihoType,
+        picURL: response.body.postResponse.location,
+        rating: mealScore,
+      }
+      console.log("data: ", data)
+
+      let access_token = null, refresh_token = null;
+      AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
+        console.log("access_token: ", access_token)
+
+        if(access_token !== null)
+        {
+          const headers = {
+            'Authorization': `Bearer ${access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+          };
+
+          axios.post(SAVE_MEAL_URL, data, {headers})
+            .then(response => {
+              console.log("meals: ", response['data'])
+              
+              // let data = response['data']
+              // setMeals(data)
+              props.navigation.goBack();
+            })
+            .catch(err => console.log(err))
+        }
+        console.log(222)
+      })
     });
   }
 
@@ -275,5 +312,5 @@ const mainImg = StyleSheet.create({
 
 // export default Upload2;
 export default connect(state => ({
-  meal: state.meal
+  saved: state.meal.saved
 }))(Upload2);

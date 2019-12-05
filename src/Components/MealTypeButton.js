@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Text,
   View,
@@ -7,6 +8,7 @@ import {
   Dimensions,
   Image
 } from 'react-native';
+import { mealType } from '../store/meal/action';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -54,14 +56,20 @@ const mealTypes = [
 ];
 
 const MealTypeButton = props => {
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(null);// todo: state로 관리하는걸 redux로 관리?
+  const dispatch = useDispatch();
+  // const type = useSelector((store) => store.saved.mealType);
+
   const MakeMealTypeButton = () =>
     mealTypes.map(item => {
       return (
         <TouchableOpacity
           key={item.key}
           style={btColor(item.color).button}
-          onPress={() => setSelected(item.key)}
+          onPress={() => {
+            setSelected(item.key)
+            dispatch(mealType(item.key));
+          }}
         >
           {selected === item.key && (
             <View style={btColor(item.color).selected} />
