@@ -26,7 +26,10 @@ const CameraScreen = (props) => {
       const options = { quality: 0.5 };
       const data = await camera.takePictureAsync(options);
       console.log(data.uri);
-      const timestamp = new Date().toISOString()
+
+      const timezoneOffset = new Date().getTimezoneOffset() * 60000;
+      const timestamp = new Date(Date.now() - timezoneOffset).toISOString();
+
       console.log("takePicture time: ", timestamp)
 
       const file = {
