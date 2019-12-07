@@ -49,8 +49,9 @@ const meal = {
 const Upload2 = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealImage, setMealImage] = useState('');
-  const ampm = Number(props.svead.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? 'am' : 'pm' 
-  const time = props.saved.timestamp.replace(/T/gi, ' ').slice(0, 19) + ampm
+
+  const ampm = props.saved.timestamp == '' ? '' : (Number(props.saved.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? ' AM' : ' PM')
+  const time = props.saved.timestamp == '' ? '' : props.saved.timestamp.replace(/T/gi, ' ').slice(0, 19) + ampm
 
   const updateMealImage = () => {
     AsyncStorage.getItem('mealImage')
@@ -148,7 +149,7 @@ const Upload2 = props => {
         </View>
         <ScrollView>
           <View style={dateTime.container}>
-            <Text style={dateTime.txt}> {props.saved.timestamp} </Text>
+            <Text style={dateTime.txt}> {time} </Text>
           </View>
           <DrinkTypeButton />
           <MealTypeButton />
