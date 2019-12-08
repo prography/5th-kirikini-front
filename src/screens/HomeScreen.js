@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View, Text, ScrollView,
-  StyleSheet, Dimensions, TouchableOpacity,
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
   Image,
+  Modal
 } from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -11,7 +16,7 @@ import axios from 'axios';
 import NavBar from '../Components/NavBar';
 
 // const LOAD_MEALS_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/today'
-const LOAD_MEALS_URL = 'http://localhost:8000/meal/today'
+const LOAD_MEALS_URL = 'http://localhost:8000/meal/today';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -22,6 +27,12 @@ const gray = {
   c: '#898989',
   d: '#505151'
 };
+const meal = {
+  a: '#C8BAE5',
+  b: '#AFEAA2',
+  c: '#AFCAF2',
+  d: '#9CD8C8'
+};
 
 const yellow = {
   a: '#FCDB3A',
@@ -31,39 +42,145 @@ const yellow = {
 const todayScore = 5.7;
 const kiriColor = '#F2F9F2';
 
+let data = [
+  {
+    key: 0,
+    mealTime: 7,
+    mealScore: 10,
+    mealType: 'a',
+    picURL: require('../img/foodExample1.jpeg')
+  },
+  {
+    key: 1,
+    mealTime: 12,
+    mealScore: 3,
+    mealType: 'b',
+    picURL: require('../img/foodExample2.jpeg')
+  },
+  {
+    key: 2,
+    mealTime: 20,
+    mealScore: 7,
+    mealType: 'c',
+    picURL: require('../img/foodExample3.jpeg')
+  },
+  {
+    key: 3,
+    mealTime: 24,
+    mealScore: 1,
+    mealType: 'd',
+    picURL: require('../img/foodExample4.jpeg')
+  }
+];
+
+const HomeCircles = props => {
+  const CreateHomeCircle = () =>
+    data.map(item => {
+      const [modalVisible, setModalVisible] = useState(false);
+      console.log('home modal:' + modalVisible);
+      var circleColor = meal.a;
+      if (item.mealType === 'a') {
+        var circleColor = meal.a;
+      }
+      if (item.mealType === 'b') {
+        var circleColor = meal.b;
+      }
+      if (item.mealType === 'c') {
+        var circleColor = meal.c;
+      }
+      if (item.mealType === 'd') {
+        var circleColor = meal.d;
+      }
+      return (
+        <>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+            style={{
+              position: 'absolute',
+              left:
+                (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 7) -
+                (item.mealScore * 7 + 40) / 2 +
+                55,
+              backgroundColor: circleColor,
+              borderRadius: 110,
+              width: item.mealScore * 7 + 40,
+              height: item.mealScore * 7 + 40
+            }}
+          />
+
+          <Modal
+            animation="fade"
+            transparent={true}
+            visible={modalVisible}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+              style={{ width: deviceWidth, height: deviceHeight }}
+            >
+              <Image
+                source={item.picURL}
+                style={{
+                  top: deviceHeight / 2 - 150,
+                  alignSelf: 'center',
+                  backgroundColor: 'pink',
+                  width: 300,
+                  height: 300,
+                  borderRadius: 50
+                }}
+              />
+            </TouchableOpacity>
+          </Modal>
+        </>
+      );
+    });
+
+  return (
+    <View style={circles.circlesContainer}>
+      <CreateHomeCircle data={data} />
+    </View>
+  );
+};
+
 const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
-  console.log(meals)
-  if(meals)
-    console.log("meals exist")
+  console.log(meals);
+  if (meals) console.log('meals exist');
 
-  const loadTodayMeals = () => {
-    let access_token = null, refresh_token = null;
-    AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
-      access_token = response[0][1];
-      refresh_token = response[1][1];
-      
-      if(access_token !== null)
-      {
-        const headers = {
-          'Authorization': `Bearer ${access_token}`,
-          'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
-        };
+  // const loadTodayMeals = () => {
+  //   let access_token = null,
+  //     refresh_token = null;
+  //   AsyncStorage.multiGet(['jwt_access_token', 'jwt_refresh_token']).then(
+  //     response => {
+  //       access_token = response[0][1];
+  //       refresh_token = response[1][1];
 
-        axios.get(LOAD_MEALS_URL, {headers})
-        .then(response => {
-          setMeals(response['data'])
-        })
-        .catch(err => console.log(err))
-      }
-    })
-  }
+  //       if (access_token !== null) {
+  //         const headers = {
+  //           Authorization: `Bearer ${access_token}`,
+  //           'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+  //         };
+
+  //         axios
+  //           .get(LOAD_MEALS_URL, { headers })
+  //           .then(response => {
+  //             setMeals(response['data']);
+  //           })
+  //           .catch(err => console.log(err));
+  //       }
+  //     }
+  //   );
+  // };
 
   const today = (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
-      <NavigationEvents
-        onWillFocus={() => loadTodayMeals()}
-      />
+      {/* <NavigationEvents onWillFocus={() => loadTodayMeals()} /> */}
       <View style={styles.container}>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
@@ -121,16 +238,17 @@ const HomeScreen = props => {
         </View>
         <View style={styles.bottomHalf}>
           <ScrollView horizontal={true}>
-          {meals && meals.map(meal => {
-            return (
-              <View>
-                <Image
-                  source={{uri: meal.picURL }} 
-                  style={{width: 100, height: 100, margin:10}}
-                />
-              </View>
-            )
-          })}
+            <View style={circles.container}>
+              <Image
+                style={circles.sun}
+                source={require('../img/iconSunBig.png')}
+              />
+              <HomeCircles />
+              <Image
+                style={circles.moon}
+                source={require('../img/iconMoonBig.png')}
+              />
+            </View>
           </ScrollView>
         </View>
       </View>
@@ -159,26 +277,6 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: '700',
     color: gray.d
-  }
-});
-
-// 좌측 상단 네비게이션 바의 View 스타일
-const navSt = StyleSheet.create({
-  navBar: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingTop: deviceWidth / 10
-  },
-  navButton: {
-    width: deviceWidth / 6,
-    height: deviceWidth / 9,
-    marginBottom: deviceWidth / 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    backgroundColor: gray.a,
-    opacity: 0.3
   }
 });
 
@@ -294,47 +392,32 @@ const balloonSt = StyleSheet.create({
   }
 });
 
-// 하단 바... + 버튼이 있는 곳의 View와 Text 스타일
-const bottomBarSt = StyleSheet.create({
-  bar: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-end'
-  },
-  addMealButtonContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end'
-  },
-  addMealButton: {
-    justifyContent: 'center',
+const circles = StyleSheet.create({
+  container: {
+    width: (deviceWidth * 5) / 3,
     alignItems: 'center',
-    width: deviceWidth / 6,
-    height: deviceWidth / 6,
-    borderStyle: 'solid',
-    borderColor: gray.a,
-    borderWidth: 3,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    backgroundColor: gray.a,
-    opacity: 1
+    flexDirection: 'row',
+    marginBottom: 20
+    // backgroundColor: 'pink'
   },
-  addMealButtonText: {
-    fontSize: 16,
-    fontWeight: '900',
-    color: kiriColor
+  circlesContainer: {
+    width: (deviceWidth * 5) / 3 - 228,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'yellow'
   },
-  buttonTailWhiteArea: {
-    width: 30,
-    height: 30,
-    backgroundColor: gray.a
+  sun: {
+    width: 80,
+    height: 80,
+    marginLeft: 17,
+    marginRight: 17
   },
-  buttonTailKiricolorArea: {
-    position: 'absolute',
-    left: deviceWidth / 6,
-    width: 40,
-    height: 55,
-    borderBottomLeftRadius: 50,
-    backgroundColor: kiriColor
+  moon: {
+    width: 80,
+    height: 80,
+
+    marginLeft: 17,
+    marginRight: 17
   }
 });
 
