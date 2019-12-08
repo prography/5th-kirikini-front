@@ -56,7 +56,7 @@ const mealTypes = [
 ];
 
 const MealTypeButton = props => {
-  const [selected, setSelected] = useState(null);// todo: state로 관리하는걸 redux로 관리?
+  const [selected, setSelected] = useState(null); // todo: state로 관리하는걸 redux로 관리?
   const dispatch = useDispatch();
   // const type = useSelector((store) => store.saved.mealType);
 
@@ -67,7 +67,7 @@ const MealTypeButton = props => {
           key={item.key}
           style={btColor(item.color).button}
           onPress={() => {
-            setSelected(item.key)
+            setSelected(item.key);
             dispatch(mealType(item.key));
           }}
         >
@@ -101,7 +101,7 @@ const btColor = color =>
       height: 70,
       marginBottom: 10,
       borderRadius: 100,
-      backgroundColor: color + '35'
+      backgroundColor: color + '70'
     },
     selected: {
       position: 'absolute',
@@ -144,7 +144,7 @@ const mealbtSt = StyleSheet.create({
   },
   txtSelected: {
     position: 'absolute',
-    color: 'white',
+    color: gray.d,
     fontSize: 18,
     fontWeight: '900'
   }
