@@ -82,45 +82,6 @@ const HomeCircles = props => {
   const [modalVisible, setModalVisible] = useState(false);
   console.log("props: ", props)
   
-  const CreateGihoIcon = () => {
-    if (item.giho === 'coffee') {
-      return (
-        <Image
-          style={{
-            zIndex: 20,
-            width: 25,
-            height: 25,
-            resizeMode: 'contain',
-            position: 'absolute',
-            left:
-              (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
-              42.5
-          }}
-          source={require('../img/iconCupSmall.png')}
-        />
-      );
-    }
-    if (item.giho === 'alcohol') {
-      return (
-        <Image
-          style={{
-            zIndex: 20,
-            width: 25,
-            height: 25,
-            resizeMode: 'contain',
-            position: 'absolute',
-            left:
-              (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
-              42.5
-          }}
-          source={require('../img/iconBeerSmall.png')}
-        />
-      );
-    } else {
-      return null;
-    }
-  };
-
   return (
     <View style={circles.circlesContainer}>
       <View
@@ -166,8 +127,41 @@ const HomeCircles = props => {
                   height: item.average_rate * 7 + 40
                 }}
               />
-
-              <CreateGihoIcon />
+                {(item.gihoType === 0) && 
+                  (
+                    <Image
+                      style={{
+                        zIndex: 20,
+                        width: 25,
+                        height: 25,
+                        resizeMode: 'contain',
+                        position: 'absolute',
+                        left:
+                          (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) +
+                          42.5
+                      }}
+                      source={require('../img/iconCupSmall.png')}
+                    />
+                  )
+                }
+                {(item.gihoType === 1) &&
+                  (
+                    <Image
+                      style={{
+                        zIndex: 20,
+                        width: 25,
+                        height: 25,
+                        resizeMode: 'contain',
+                        position: 'absolute',
+                        left:
+                          (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) +
+                          42.5
+                      }}
+                      source={require('../img/iconBeerSmall.png')}
+                    />
+                  )
+                }
+                
               <Modal
                 animation="fade"
                 transparent={true}
