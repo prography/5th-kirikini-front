@@ -22,6 +22,7 @@ const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
 const gray = {
+  m: '#F2F9F2',
   a: '#EAEAEA',
   b: '#B7B7B7',
   c: '#898989',
@@ -45,9 +46,10 @@ const kiriColor = '#F2F9F2';
 let data = [
   {
     key: 0,
-    mealTime: 7,
-    mealScore: 10,
+    mealTime: 6,
+    mealScore: 7,
     mealType: 'a',
+    giho: 'coffee',
     picURL: require('../img/foodExample1.jpeg')
   },
   {
@@ -55,6 +57,7 @@ let data = [
     mealTime: 12,
     mealScore: 3,
     mealType: 'b',
+    giho: null,
     picURL: require('../img/foodExample2.jpeg')
   },
   {
@@ -62,6 +65,7 @@ let data = [
     mealTime: 20,
     mealScore: 7,
     mealType: 'c',
+    giho: 'alcohol',
     picURL: require('../img/foodExample3.jpeg')
   },
   {
@@ -69,6 +73,7 @@ let data = [
     mealTime: 24,
     mealScore: 1,
     mealType: 'd',
+    giho: null,
     picURL: require('../img/foodExample4.jpeg')
   }
 ];
@@ -91,16 +96,57 @@ const HomeCircles = props => {
       if (item.mealType === 'd') {
         var circleColor = meal.d;
       }
+
+      const CreateGihoIcon = () => {
+        if (item.giho === 'coffee') {
+          return (
+            <Image
+              style={{
+                zIndex: 20,
+                width: 25,
+                height: 25,
+                resizeMode: 'contain',
+                position: 'absolute',
+                left:
+                  (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
+                  42.5
+              }}
+              source={require('../img/iconCupSmall.png')}
+            />
+          );
+        }
+        if (item.giho === 'alcohol') {
+          return (
+            <Image
+              style={{
+                zIndex: 20,
+                width: 25,
+                height: 25,
+                resizeMode: 'contain',
+                position: 'absolute',
+                left:
+                  (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
+                  42.5
+              }}
+              source={require('../img/iconBeerSmall.png')}
+            />
+          );
+        } else {
+          return null;
+        }
+      };
+
       return (
         <>
           <TouchableOpacity
             onPress={() => {
               setModalVisible(!modalVisible);
             }}
+            activeOpacity={0.7}
             style={{
               position: 'absolute',
               left:
-                (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 7) -
+                (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) -
                 (item.mealScore * 7 + 40) / 2 +
                 55,
               backgroundColor: circleColor,
@@ -109,7 +155,7 @@ const HomeCircles = props => {
               height: item.mealScore * 7 + 40
             }}
           />
-
+          <CreateGihoIcon />
           <Modal
             animation="fade"
             transparent={true}
@@ -143,6 +189,15 @@ const HomeCircles = props => {
 
   return (
     <View style={circles.circlesContainer}>
+      <View
+        style={{
+          position: 'absolute',
+          left: 0,
+          borderBottomColor: 'white',
+          borderBottomWidth: 3,
+          width: (deviceWidth * 5) / 3 - 211
+        }}
+      />
       <CreateHomeCircle data={data} />
     </View>
   );
@@ -237,7 +292,7 @@ const HomeScreen = props => {
           </View>
         </View>
         <View style={styles.bottomHalf}>
-          <ScrollView horizontal={true}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={circles.container}>
               <Image
                 style={circles.sun}
@@ -403,8 +458,7 @@ const circles = StyleSheet.create({
   circlesContainer: {
     width: (deviceWidth * 5) / 3 - 228,
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'yellow'
+    alignItems: 'center'
   },
   sun: {
     width: 80,
