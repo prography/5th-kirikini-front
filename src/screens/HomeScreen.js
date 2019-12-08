@@ -28,7 +28,7 @@ const gray = {
   c: '#898989',
   d: '#505151'
 };
-const meal = {
+const mealColor = {
   a: '#C8BAE5',
   b: '#AFEAA2',
   c: '#AFCAF2',
@@ -79,113 +79,47 @@ let data = [
 ];
 
 const HomeCircles = props => {
-  const CreateHomeCircle = () =>
-    data.map(item => {
-      const [modalVisible, setModalVisible] = useState(false);
-      console.log('home modal:' + modalVisible);
-      var circleColor = meal.a;
-      if (item.mealType === 'a') {
-        var circleColor = meal.a;
-      }
-      if (item.mealType === 'b') {
-        var circleColor = meal.b;
-      }
-      if (item.mealType === 'c') {
-        var circleColor = meal.c;
-      }
-      if (item.mealType === 'd') {
-        var circleColor = meal.d;
-      }
-
-      const CreateGihoIcon = () => {
-        if (item.giho === 'coffee') {
-          return (
-            <Image
-              style={{
-                zIndex: 20,
-                width: 25,
-                height: 25,
-                resizeMode: 'contain',
-                position: 'absolute',
-                left:
-                  (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
-                  42.5
-              }}
-              source={require('../img/iconCupSmall.png')}
-            />
-          );
-        }
-        if (item.giho === 'alcohol') {
-          return (
-            <Image
-              style={{
-                zIndex: 20,
-                width: 25,
-                height: 25,
-                resizeMode: 'contain',
-                position: 'absolute',
-                left:
-                  (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
-                  42.5
-              }}
-              source={require('../img/iconBeerSmall.png')}
-            />
-          );
-        } else {
-          return null;
-        }
-      };
-
+  const [modalVisible, setModalVisible] = useState(false);
+  console.log("props: ", props)
+  
+  const CreateGihoIcon = () => {
+    if (item.giho === 'coffee') {
       return (
-        <>
-          <TouchableOpacity
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
-            activeOpacity={0.7}
-            style={{
-              position: 'absolute',
-              left:
-                (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) -
-                (item.mealScore * 7 + 40) / 2 +
-                55,
-              backgroundColor: circleColor,
-              borderRadius: 110,
-              width: item.mealScore * 7 + 40,
-              height: item.mealScore * 7 + 40
-            }}
-          />
-          <CreateGihoIcon />
-          <Modal
-            animation="fade"
-            transparent={true}
-            visible={modalVisible}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                setModalVisible(!modalVisible);
-              }}
-              style={{ width: deviceWidth, height: deviceHeight }}
-            >
-              <Image
-                source={item.picURL}
-                style={{
-                  top: deviceHeight / 2 - 150,
-                  alignSelf: 'center',
-                  backgroundColor: 'pink',
-                  width: 300,
-                  height: 300,
-                  borderRadius: 50
-                }}
-              />
-            </TouchableOpacity>
-          </Modal>
-        </>
+        <Image
+          style={{
+            zIndex: 20,
+            width: 25,
+            height: 25,
+            resizeMode: 'contain',
+            position: 'absolute',
+            left:
+              (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
+              42.5
+          }}
+          source={require('../img/iconCupSmall.png')}
+        />
       );
-    });
+    }
+    if (item.giho === 'alcohol') {
+      return (
+        <Image
+          style={{
+            zIndex: 20,
+            width: 25,
+            height: 25,
+            resizeMode: 'contain',
+            position: 'absolute',
+            left:
+              (((deviceWidth * 5) / 3 - 338) / 20) * (item.mealTime - 6) +
+              42.5
+          }}
+          source={require('../img/iconBeerSmall.png')}
+        />
+      );
+    } else {
+      return null;
+    }
+  };
 
   return (
     <View style={circles.circlesContainer}>
@@ -198,44 +132,108 @@ const HomeCircles = props => {
           width: (deviceWidth * 5) / 3 - 211
         }}
       />
-      <CreateHomeCircle data={data} />
-    </View>
+      {
+        props.meals && props.meals.map(item => {
+          console.log('home modal:' + modalVisible);
+          var circleColor = mealColor.a;
+          if (item.mealType === 0) {
+            var circleColor = mealColor.a;
+          }
+          if (item.mealType === 1) {
+            var circleColor = mealColor.b;
+          }
+          if (item.mealType === 2) {
+            var circleColor = mealColor.c;
+          }
+          if (item.mealType === 3) {
+            var circleColor = mealColor.d;
+          }
+          return (
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+                style={{
+                  position: 'absolute',
+                  left:
+                    (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) -
+                    (item.average_rate * 7 + 40) / 2 +
+                    55,
+                  backgroundColor: circleColor,
+                  borderRadius: 110,
+                  width: item.average_rate * 7 + 40,
+                  height: item.average_rate * 7 + 40
+                }}
+              />
+
+              <CreateGihoIcon />
+              <Modal
+                animation="fade"
+                transparent={true}
+                visible={modalVisible}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                  style={{ width: deviceWidth, height: deviceHeight }}
+                >
+                  <Image
+                    source={{uri: item.picURL}}
+                    style={{
+                      top: deviceHeight / 2 - 150,
+                      alignSelf: 'center',
+                      backgroundColor: 'pink',
+                      width: 300,
+                      height: 300,
+                      borderRadius: 50
+                    }}
+                  />
+                </TouchableOpacity>
+              </Modal>
+            </>
+          );
+        })
+      }
+    </View>      
   );
 };
 
 const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
-  console.log(meals);
-  if (meals) console.log('meals exist');
+  console.log(meals)
 
-  // const loadTodayMeals = () => {
-  //   let access_token = null,
-  //     refresh_token = null;
-  //   AsyncStorage.multiGet(['jwt_access_token', 'jwt_refresh_token']).then(
-  //     response => {
-  //       access_token = response[0][1];
-  //       refresh_token = response[1][1];
+  const loadTodayMeals = () => {
+    let access_token = null, refresh_token = null;
+    AsyncStorage.multiGet(['jwt_access_token', 'jwt_refresh_token']).then(
+      response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
 
-  //       if (access_token !== null) {
-  //         const headers = {
-  //           Authorization: `Bearer ${access_token}`,
-  //           'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
-  //         };
+        if (access_token !== null) {
+          const headers = {
+            Authorization: `Bearer ${access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+          };
 
-  //         axios
-  //           .get(LOAD_MEALS_URL, { headers })
-  //           .then(response => {
-  //             setMeals(response['data']);
-  //           })
-  //           .catch(err => console.log(err));
-  //       }
-  //     }
-  //   );
-  // };
+          axios
+            .get(LOAD_MEALS_URL, { headers })
+            .then(response => {
+              setMeals(response['data']);
+            })
+            .catch(err => console.log(err));
+        }
+      }
+    );
+  };
 
   const today = (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
-      {/* <NavigationEvents onWillFocus={() => loadTodayMeals()} /> */}
+      <NavigationEvents onWillFocus={() => loadTodayMeals()} />
       <View style={styles.container}>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
@@ -298,7 +296,11 @@ const HomeScreen = props => {
                 style={circles.sun}
                 source={require('../img/iconSunBig.png')}
               />
-              <HomeCircles />
+              {
+                meals && (
+                  <HomeCircles meals={meals} />
+                )
+              }
               <Image
                 style={circles.moon}
                 source={require('../img/iconMoonBig.png')}
