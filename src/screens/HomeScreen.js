@@ -212,7 +212,7 @@ const HomeScreen = props => {
       setTodayScore(sum)
     }
   }
-
+  
   const loadTodayMeals = () => {
     let access_token = null, refresh_token = null;
     AsyncStorage.multiGet(['jwt_access_token', 'jwt_refresh_token']).then(
