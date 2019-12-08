@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {Platform, StyleSheet, Text, View, Image, YellowBox} from 'react-native';
+import {
+  Platform, StyleSheet, Text, 
+  View, Image, YellowBox, 
+  TextInput, Button
+} from 'react-native';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import NativeButton from 'apsl-react-native-button';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
@@ -11,9 +15,11 @@ if (!KakaoLogins) {
   console.error('Module is Not Linked');
 }
 
+const EMAIL_URL = "http://localhost:8000/email_login"
 const KAKAO_URL = "http://localhost:8000/kakao_login"
 const FB_URL = "http://localhost:8000/facebook_login"
 const AUTO_URL = "http://localhost:8000/auto_login"
+// const EMAIL_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/email_login"
 // const KAKAO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/kakao_login"
 // const FB_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/facebook_login"
 // const AUTO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/auto_login"
@@ -26,10 +32,44 @@ const logCallback = (log, callback) => {
 const LoginScreen = props => {
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
-    autoLogin()
+    // autoLogin()
   })
+
+  const onChangeEmail = (_email) => {
+    setEmail(_email)
+  }
+
+  const onChangePassword = (_password) => {
+    setPassword(_password)
+  }
+
+  const emailLogin = () => {
+    console.log(email, password)
+    const data = {
+      email,
+      password
+    }
+    axios.post(EMAIL_URL, data, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    })
+    .then(response => {
+      console.log("test: ", response['data'])
+      if(response.status == 200)
+        props.navigation.navigate('Home')
+      else if(response.status == 201)
+      {
+        AsyncStorage.setItem("jwt_access_token", response['data'])
+        props.navigation.navigate('Home')
+      }
+      else
+      {
+        console.log(response.data)
+      }
+    })
+    .catch(err => console.log(err))
+  }
 
   const autoLogin = () => {
     let access_token = null, refresh_token = null;
@@ -167,6 +207,30 @@ const LoginScreen = props => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
+        <Text>
+          이메일
+        </Text>
+        <TextInput
+          style={{ width: 150, height: 80, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={text => onChangeEmail(text)}
+          value={email}
+        />
+        <Text>
+          비밀번호
+        </Text>
+        <TextInput
+          style={{ width: 150, height: 80, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={text => onChangePassword(text)}
+          value={password}
+        />
+        <TouchableOpacity
+          onPress={emailLogin}
+        >
+        <Button
+          title="이메일로 로그인"
+          onPress={emailLogin}
+        />
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={kakaoLogin}
         >

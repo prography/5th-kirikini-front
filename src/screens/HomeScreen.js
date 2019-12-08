@@ -150,37 +150,36 @@ const HomeCircles = props => {
 
 const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
-  console.log(meals);
-  if (meals) console.log('meals exist');
+  console.log(meals)
 
-  // const loadTodayMeals = () => {
-  //   let access_token = null,
-  //     refresh_token = null;
-  //   AsyncStorage.multiGet(['jwt_access_token', 'jwt_refresh_token']).then(
-  //     response => {
-  //       access_token = response[0][1];
-  //       refresh_token = response[1][1];
+  const loadTodayMeals = () => {
+    let access_token = null,
+      refresh_token = null;
+    AsyncStorage.multiGet(['jwt_access_token', 'jwt_refresh_token']).then(
+      response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
 
-  //       if (access_token !== null) {
-  //         const headers = {
-  //           Authorization: `Bearer ${access_token}`,
-  //           'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
-  //         };
+        if (access_token !== null) {
+          const headers = {
+            Authorization: `Bearer ${access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+          };
 
-  //         axios
-  //           .get(LOAD_MEALS_URL, { headers })
-  //           .then(response => {
-  //             setMeals(response['data']);
-  //           })
-  //           .catch(err => console.log(err));
-  //       }
-  //     }
-  //   );
-  // };
+          axios
+            .get(LOAD_MEALS_URL, { headers })
+            .then(response => {
+              setMeals(response['data']);
+            })
+            .catch(err => console.log(err));
+        }
+      }
+    );
+  };
 
   const today = (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
-      {/* <NavigationEvents onWillFocus={() => loadTodayMeals()} /> */}
+      <NavigationEvents onWillFocus={() => loadTodayMeals()} />
       <View style={styles.container}>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
@@ -424,3 +423,14 @@ const circles = StyleSheet.create({
 export default connect(state => ({
   today: state.meal.meals.today
 }))(HomeScreen);
+
+// {meals && meals.map(meal => {
+//   return (
+//     <View key={meal.id}>
+//       <Image
+//         source={{uri: meal.picURL }} 
+//         style={{width: 100, height: 100, margin:10}}
+//       />
+//     </View>
+//   )
+// })}

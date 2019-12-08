@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import {
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  TouchableNativeFeedback,
-  TouchableHighlight,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-  Modal,
-  Image
+  Text, View, TouchableOpacity,
+  StyleSheet, ScrollView, Dimensions,
+  Modal, Image
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 import NavBar from '../Components/NavBar';
+
+// const LOAD_MONTH_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/month'
+const LOAD_MONTH_MEAL_URL = 'http://localhost:8000/meal/month'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -193,11 +190,89 @@ const Summary2 = props => {
     setWeeklyListState({ on: !weeklyListState.on });
     console.log(weeklyListState);
   };
+
+  const timezoneOffset = new Date().getTimezoneOffset() * 60000;
+  const timestamp = new Date(Date.now() - timezoneOffset).toISOString();
+  const month = Number(timestamp.slice(5, 7))
+  const day = Number(timestamp.slice(8, 10))
+
+  const [selectedMonth, setSelectedMonth] = useState(month)
+
+  const month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+  // Date 형태의 날짜를 가져온다.
+  // 각 월별로 해당 주의 마지막 날짜보다 작거나 같은지 체크해서 작거나 같으면 해당 주, 식으로 계산
+
+  const loadMonthMeals = (_month) => {
+    let access_token = null, refresh_token = null;
+    AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+      access_token = response[0][1];
+      refresh_token = response[1][1];
+
+      console.log("Acess:", access_token)
+      const headers = {
+        'Authorization': `Bearer ${access_token}`,
+        'Content-Type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+      };
+
+      const data = month
+  
+      axios.get(LOAD_MONTH_MEAL_URL, data, {headers})
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(err => console.log(err))
+    })
+  }
+
   return (
-    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
+    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}> 
       <View style={styles.container}>
         <View style={topBox.container}>
           <Text style={styles.txtBigTitle}>기록</Text>
+          <ScrollView horizontal={true}>
+          {month_list.map(month => {
+            if(selectedMonth == month)
+            {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelectedMonth(month)
+                    loadMonthMeals(month)
+                  }}
+                  style={{margin: 10}}
+                  key={month}
+                >
+                  <Text style={{color: 'red'}}>
+                    {month}월
+                  </Text>
+                </TouchableOpacity>
+              )
+            }
+            else
+            {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelectedMonth(month)
+                    loadMonthMeals(month)
+                  }}
+                  style={{margin: 10}}
+                  key={month}
+                >
+                  <Text style={{color: 'blue'}}>
+                    {month}월
+                  </Text>
+                </TouchableOpacity>
+              )
+            }
+          })}
+          </ScrollView>
+          <ScrollView horizontal={true}>
+          <Text>
+            1주
+          </Text>
+          </ScrollView>
         </View>
         <View style={styles.scrollview}>
           <ScrollView>
@@ -364,4 +439,5 @@ const barUntoggled = StyleSheet.create({
     // backgroundColor: gray.a
   }
 });
+
 export default Summary2;
