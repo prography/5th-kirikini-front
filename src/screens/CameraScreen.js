@@ -1,7 +1,10 @@
 import React from 'react';
 import {
-  View, Text, StyleSheet,
-  TouchableOpacity, Dimensions,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { RNCamera } from 'react-native-camera';
@@ -9,16 +12,29 @@ import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import { mealSaved } from '../store/meal/action';
+const deviceHeight = Dimensions.get('window').height;
+const gray = {
+  m: '#F2F9F2',
+  a: '#EAEAEA',
+  b: '#B7B7B7',
+  c: '#898989',
+  d: '#505151'
+};
+
+const yellow = {
+  a: '#FCDB3A',
+  b: '#F9CD15'
+};
 
 let email = null;
 AsyncStorage.getItem('email')
-  .then(data => email = data)
-  .catch(err => console.log("get email failed"))
+  .then(data => (email = data))
+  .catch(err => console.log('get email failed'));
 
 const deviceWidth = Dimensions.get('window').width;
 // const deviceHeight = Dimensions.get('window').height;
 
-const CameraScreen = (props) => {
+const CameraScreen = props => {
   const dispatch = useDispatch();
 
   const takePicture = async () => {
@@ -30,21 +46,21 @@ const CameraScreen = (props) => {
       const timezoneOffset = new Date().getTimezoneOffset() * 60000;
       const timestamp = new Date(Date.now() - timezoneOffset).toISOString();
 
-      console.log("takePicture time: ", timestamp)
+      console.log('takePicture time: ', timestamp);
 
       const file = {
         uri: data.uri,
         name: `${email}_${timestamp}.jpg`,
-        type: "image/jpg"
-      }
+        type: 'image/jpg'
+      };
       dispatch(mealSaved(file, timestamp));
-      
+
       AsyncStorage.setItem('mealImage', data.uri)
         .then(result => {
-          console.log("image saved to async storage")
+          console.log('image saved to async storage');
           props.navigation.goBack();
         })
-        .catch(err => console.log("image save failed"))
+        .catch(err => console.log('image save failed'));
 
       // CameraRoll.saveToCameraRoll( data.uri )
     }
@@ -60,22 +76,21 @@ const CameraScreen = (props) => {
       }
     };
     ImagePicker.launchImageLibrary(options, data => {
-      console.log("openAlbum time: ", data.timestamp)
+      console.log('openAlbum time: ', data.timestamp);
 
       const file = {
         uri: data.uri,
         name: `${email}_${data.timestamp}.jpg`,
-        type: "image/jpg"
-      }
+        type: 'image/jpg'
+      };
       dispatch(mealSaved(file, data.timestamp));
 
       AsyncStorage.setItem('mealImage', data.uri)
         .then(result => {
-          console.log("image saved to async storage")
+          console.log('image saved to async storage');
           props.navigation.goBack();
         })
-        .catch(err => console.log("image save failed"))
-
+        .catch(err => console.log('image save failed'));
     });
   };
 
@@ -93,7 +108,7 @@ const CameraScreen = (props) => {
   };
 
   return (
-    <View>
+    <View style={cameraSt.container}>
       {/* <TouchableOpacity onPress={() => takePicture()}>
         <RNCamera
           ref={ref => {
@@ -116,28 +131,40 @@ const CameraScreen = (props) => {
 };
 
 const cameraSt = StyleSheet.create({
+  container: {
+    backgroundColor: gray.m,
+    flex: 1
+  },
   cameraView: {
     width: deviceWidth,
     height: deviceWidth
   },
   buttonContainer: {
-    padding: 30,
-    flexDirection: 'column',
-    alignItems: 'stretch'
+    position: 'absolute',
+    top: deviceWidth,
+    padding: 17,
+    flexDirection: 'column'
   },
   button: {
-    justifyContent: 'center',
+    height: deviceHeight / 8,
+    width: deviceWidth - 34,
+    marginTop: 20,
     alignItems: 'center',
-    height: 100,
-    marginBottom: 30,
-    borderRadius: 100,
-    backgroundColor: '#7BB78E'
+    justifyContent: 'center',
+    borderTopLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 1
   },
   text: {
-    fontSize: 15,
+    fontSize: 16,
     lineHeight: 25,
-    fontWeight: '700',
-    color: 'white',
+    fontWeight: '600',
+    color: gray.d,
     textAlign: 'center'
   }
 });
