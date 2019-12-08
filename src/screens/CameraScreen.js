@@ -141,7 +141,7 @@ const cameraSt = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 17,
+    top: deviceWidth,
     padding: 17,
     flexDirection: 'column'
   },
