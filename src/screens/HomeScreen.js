@@ -40,7 +40,6 @@ const yellow = {
   b: '#F9CD15'
 };
 
-const todayScore = 5.7;
 const kiriColor = '#F2F9F2';
 
 let data = [
@@ -199,7 +198,20 @@ const HomeCircles = props => {
 
 const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
-  console.log(meals)
+  const [todayScore, setTodayScore] = useState(0);
+  
+  const calculateTodayScore = () => {
+    if(meals)
+    {
+      let sum = 0;
+      meals.map(meal => {
+        sum += meal.average_rate
+      })
+      sum = (sum / meals.length).toFixed(1)
+      
+      setTodayScore(sum)
+    }
+  }
 
   const loadTodayMeals = () => {
     let access_token = null, refresh_token = null;
@@ -227,7 +239,10 @@ const HomeScreen = props => {
 
   const today = (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
-      <NavigationEvents onWillFocus={() => loadTodayMeals()} />
+      <NavigationEvents onWillFocus={() => {
+        loadTodayMeals()
+        calculateTodayScore()
+      }} />
       <View style={styles.container}>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
