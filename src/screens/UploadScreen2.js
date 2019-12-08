@@ -94,15 +94,12 @@ const Upload2 = props => {
 
           axios.post(SAVE_MEAL_URL, data, {headers})
             .then(response => {
-              console.log("meals: ", response['data'])
-              
-              // let data = response['data']
-              // setMeals(data)
-              props.navigation.goBack();
+              if(response.status == 201)
+                props.navigation.goBack();
+              // todo: 201아니면 에러창 띄워주기
             })
             .catch(err => console.log(err))
         }
-        console.log(222)
       })
     });
   }
@@ -112,8 +109,6 @@ const Upload2 = props => {
       backgroundColor: 'white'
     }
   };
-
-  console.log("mealImage: ", mealImage)
 
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>

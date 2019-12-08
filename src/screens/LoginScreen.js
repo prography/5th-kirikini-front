@@ -24,12 +24,11 @@ const logCallback = (log, callback) => {
 };
 
 const LoginScreen = props => {
-  const [loginLoading, setLoginLoading] = useState(false);
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    // autoLogin()
+    autoLogin()
   })
 
   const autoLogin = () => {
@@ -65,28 +64,20 @@ const LoginScreen = props => {
   }
 
   const kakaoLogin = () => {
-    logCallback('Login Start', setLoginLoading(true));
-
     KakaoLogins.login()
       .then(result => {
         setToken(result.accessToken);
-        logCallback(
-          `Login Finished:${JSON.stringify(result)}`,
-          setLoginLoading(false),
-        );
-
+        
         KakaoLogins.getProfile()
-          .then(result => {
-            setEmail(result.email)
-            logCallback(
-              `Get Profile Finished:${JSON.stringify(result)}`,
-            );
-            AsyncStorage.setItem('email', result.email)
+          .then(res => {
+            setEmail(res.email)
+            
+            AsyncStorage.setItem('email', res.email)
               .then(() => {
                 axios.post(KAKAO_URL, 
                   {"access_token": result.accessToken, "refresh_token": result.refreshToken},
                   {
-                    headers: {'Content-type': 'application/x-www-form-urlencoded'}
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                   })
                   .then(response => response.data)
                   .then(jwt => {
@@ -105,14 +96,7 @@ const LoginScreen = props => {
           });
       })
       .catch(err => {
-        if (err.code === 'E_CANCELLED_OPERATION') {
-          logCallback(`Login Cancelled:${err.message}`, setLoginLoading(false));
-        } else {
-          logCallback(
-            `Login Failed:${err.code} ${err.message}`,
-            setLoginLoading(false),
-          );
-        }
+        console.log(err)
       });
   };
 

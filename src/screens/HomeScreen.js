@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Image
+  View, Text, ScrollView,
+  StyleSheet, Dimensions, TouchableOpacity,
+  Image,
 } from 'react-native';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import NavBar from '../Components/NavBar';
-import { useTheme } from 'react-navigation';
+import { NavigationEvents } from 'react-navigation';
 import axios from 'axios';
+import NavBar from '../Components/NavBar';
 
-const LOAD_MEALS_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/today'
+// const LOAD_MEALS_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/today'
+const LOAD_MEALS_URL = 'http://localhost:8000/meal/today'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -36,6 +33,9 @@ const kiriColor = '#F2F9F2';
 
 const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
+  console.log(meals)
+  if(meals)
+    console.log("meals exist")
 
   const loadTodayMeals = () => {
     let access_token = null, refresh_token = null;
@@ -45,28 +45,25 @@ const HomeScreen = props => {
       
       if(access_token !== null)
       {
-        axios.post(LOAD_MEALS_URL,
-          {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token},
-          {
-            headers: {'Content-type': 'application/x-www-form-urlencoded'}
-          })
+        const headers = {
+          'Authorization': `Bearer ${access_token}`,
+          'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+        };
+
+        axios.get(LOAD_MEALS_URL, {headers})
         .then(response => {
-          console.log("meals: ", response['data'])
-          
-          // let data = response['data']
-          // setMeals(data)
+          setMeals(response['data'])
         })
         .catch(err => console.log(err))
       }
     })
   }
 
-  useEffect(() => {
-    loadTodayMeals()
-  })
-
   const today = (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
+      <NavigationEvents
+        onWillFocus={() => loadTodayMeals()}
+      />
       <View style={styles.container}>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
@@ -124,7 +121,16 @@ const HomeScreen = props => {
         </View>
         <View style={styles.bottomHalf}>
           <ScrollView horizontal={true}>
-
+          {meals && meals.map(meal => {
+            return (
+              <View>
+                <Image
+                  source={{uri: meal.picURL }} 
+                  style={{width: 100, height: 100, margin:10}}
+                />
+              </View>
+            )
+          })}
           </ScrollView>
         </View>
       </View>
@@ -170,7 +176,6 @@ const navSt = StyleSheet.create({
     marginBottom: deviceWidth / 10,
     justifyContent: 'center',
     alignItems: 'center',
-
     borderRadius: 15,
     backgroundColor: gray.a,
     opacity: 0.3
@@ -336,17 +341,3 @@ const bottomBarSt = StyleSheet.create({
 export default connect(state => ({
   today: state.meal.meals.today
 }))(HomeScreen);
-
-// {this.props.meals && this.props.meals.map(meal => {
-//   (
-//     <View>
-//       <Image
-//         style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
-//         source={{uri: meal.file.uri}}
-//       />
-//       <Text>
-//         식사 1
-//       </Text>
-//     </View>
-//   )
-// })}
