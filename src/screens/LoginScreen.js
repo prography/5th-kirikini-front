@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {Platform, StyleSheet, Text, View, Image, YellowBox} from 'react-native';
+import {Platform, StyleSheet, Text, View, Image, YellowBox, Dimensions, Button} from 'react-native';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import NativeButton from 'apsl-react-native-button';
 import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
+
+const kiriColor = '#F2F9F2';
+
 
 if (!KakaoLogins) {
   console.error('Module is Not Linked');
@@ -73,7 +79,7 @@ const LoginScreen = props => {
         setToken(result.accessToken);
         logCallback(
           `Login Finished:${JSON.stringify(result)}`,
-          setLoginLoading(false),
+          setLoginLoading(false)
         );
 
         KakaoLogins.getProfile()
@@ -156,6 +162,14 @@ const LoginScreen = props => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
+      <Image
+      style={styles.kirini}
+      source={require('../img/kirini2.png')}
+                />
+      <Text style={styles.txtKiri}>Kirikini</Text>
+      <Text style={styles.textKini}>식단관리서비스</Text>
+</View>
+<View style={styles.button}>
         <TouchableOpacity
           onPress={kakaoLogin}
         >
@@ -164,7 +178,8 @@ const LoginScreen = props => {
           />
         </TouchableOpacity>
 
-        <LoginButton
+        {/* <LoginButton
+        style={{width:300, height: 49, margin:6 }}
           onLoginFinished={
             (error, result) => {
               if (error) {
@@ -176,7 +191,21 @@ const LoginScreen = props => {
               }
             }
           }
-          onLogoutFinished={() => console.log("logout.")}/>
+          onLogoutFinished={() => console.log("logout.")}/> */}
+                <TouchableOpacity
+        onPress={fbLogin}
+        title="페이스북 로그인"
+        style={styles.btnFbLogin} >
+          {/* <View
+          style={{alignItems:'flex-start', marginRight:70}}> */}
+          <Image
+            source={require('../img/facebook_logo.jpg')}
+            style={{width:30, height:30, margin:18}}
+          />
+          {/* </View> */}
+          
+          <Text style={styles.txtFbLogin}>페이스북 로그인</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -188,7 +217,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: Platform.OS === 'ios' ? 0 : 24,
     paddingTop: Platform.OS === 'ios' ? 24 : 0,
-    backgroundColor: 'white',
+    backgroundColor: kiriColor,
   },
   profile: {
     flex: 4,
@@ -202,9 +231,21 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   content: {
-    flex: 6,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtKiri: {
+    fontSize:40
+  },
+  textKini:{
+    fontSize:10
+  },
+  button: {
+    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginTop:30
   },
   title: {
     fontSize: 24,
@@ -227,11 +268,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8E71C',
     borderRadius: 0,
     borderWidth: 0,
+    
   },
   txtKakaoLogin: {
     fontSize: 16,
     color: '#3d3d3d',
   },
+  btnFbLogin: {
+    height: 49,
+    width: 300,
+    backgroundColor: '#3A589E',
+    borderRadius: 5,
+    justifyContent:'flex-start',
+    alignItems: 'center',
+    flexDirection:'row',
+    marginTop:7,
+  },
+  txtFbLogin: {
+    fontSize: 16,
+    color: 'white',
+    paddingLeft:50
+  },
+  kirini: {
+    marginTop:180,
+    width: (deviceWidth * 4) / 7,
+    height: deviceWidth / 3,
+    resizeMode: 'contain',
+    flex:1,
+    display: 'flex'
+  }
 });
 
 YellowBox.ignoreWarnings(['source.uri']);
