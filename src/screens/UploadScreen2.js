@@ -59,8 +59,8 @@ const Upload2 = props => {
       .catch(err => console.log("load image failed"))
   }
 
-  const change = mealScore => {
-    setMealScore(parseFloat(mealScore));
+  const onValueChange = mealScore => {
+    setMealScore(mealScore);
   };
 
   const upload = () => {
@@ -68,7 +68,6 @@ const Upload2 = props => {
     RNS3.put(file, s3_options).then(response => {
       if (response.status !== 201)
         throw new Error("Failed to upload image to S3");
-      console.log(response.body);
 
       const data = {
         mealType: props.saved.mealType,
@@ -77,7 +76,6 @@ const Upload2 = props => {
         rating: mealScore,
         created_at: props.saved.timestamp
       }
-      console.log("data: ", data)
 
       let access_token = null, refresh_token = null;
       AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
@@ -121,7 +119,7 @@ const Upload2 = props => {
           <Text style={styles.txtBigTitle}>끼니 추가</Text>
         </View>
         <View>
-          { mealImage ? (
+          { mealImage ? ( // todo: mealImage 없을때 '터치해서 끼니 촬영'이 안나옴
             <TouchableOpacity
               onPress={() => props.navigation.navigate('Camera')}
               activeOpacity={0.6}
@@ -161,8 +159,7 @@ const Upload2 = props => {
           maximumValue={10}
           minimumTrackTintColor={yellow.a}
           maximumTrackTintColor={gray.a}
-          onValueChange={change.bind(this)}
-          mealScore={mealScore}
+          onValueChange={onValueChange}
         />
       </View>
 

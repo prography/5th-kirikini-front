@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Dimensions, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
-
+import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 import NavBar from '../Components/NavBar';
+
+const RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
+// const RATE_MEAL_URL = 'http://localhost:8000/rate/'
+
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
 
@@ -26,12 +31,74 @@ const meal = {
   c: '#AFCAF2',
   d: '#9CD8C8'
 };
+
 const Rate = props => {
   const [mealScore, setMealScore] = useState(5);
+  const [mealToRate, setMealToRate] = useState({});
 
-  const change = mealScore => {
-    setMealScore(parseFloat(mealScore));
+  const onValueChange = mealScore => {
+    setMealScore(mealScore);
   };
+
+  const loadMealToRate = () => {
+    const access_token = null, refresh_token = null;
+      AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
+        console.log("access_token: ", access_token)
+
+        if(access_token !== null)
+        {
+          const headers = {
+            'Authorization': `Bearer ${access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+          };
+
+          axios.get(LOAD_MEAL_TO_RATE_URL, {headers})
+            .then(response => {
+              if(response.status == 200)
+                setMealToRate(response.data)
+            })
+            .catch(err => console.log(err))
+        }
+      })
+  }
+
+  const rateMeal = () => {
+    let access_token = null, refresh_token = null;
+      AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
+        console.log("access_token: ", access_token)
+
+        if(access_token !== null)
+        {
+          const headers = {
+            'Authorization': `Bearer ${access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+          };
+
+          const data = {
+            meal: mealToRate,
+            rating: mealScore
+          }
+
+          axios.post(RATE_MEAL_URL, data, {headers})
+            .then(response => {
+              if(response.status == 200)
+              {
+                                // todo: rerender to load new meal to rate
+
+              }
+            })
+            .catch(err => console.log(err))
+        }
+      })
+  }
+
+  // useEffect({
+    // loadMealToRate()
+  // })
 
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
@@ -40,10 +107,15 @@ const Rate = props => {
           <Text style={styles.txtBigTitle}>끼니 채점</Text>
         </View>
         <View>
-          <View style={mainImg.screen}></View>
+          <View style={mainImg.screen}>
+            <Image
+              style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+              source={{uri: mealToRate.mealImage}}
+            />
+          </View>
         </View>
         <View style={slider.container}>
-          <Text style={slider.txtScore}>{String(mealScore)}</Text>
+          <Text style={slider.txtScore}>{mealScore}</Text>
           <Slider
             step={1}
             value={5}
@@ -52,10 +124,17 @@ const Rate = props => {
             maximumValue={10}
             minimumTrackTintColor={yellow.a}
             maximumTrackTintColor={gray.b}
-            onValueChange={change.bind(this)}
-            mealScore={mealScore}
+            onValueChange={onValueChange}
           />
         </View>
+
+        <TouchableOpacity
+          onPress={rateMeal}
+        >
+          <Text>
+            채점
+          </Text>
+        </TouchableOpacity>
       </View>
       <NavBar navigation={props.navigation} />
     </View>

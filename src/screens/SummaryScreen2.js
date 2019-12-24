@@ -5,8 +5,10 @@ import {
   Modal, Image
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { connect, useDispatch } from 'react-redux';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
+import { mealMonth } from '../store/meal/action';
 
 // const LOAD_MONTH_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/month'
 const LOAD_MONTH_MEAL_URL = 'http://localhost:8000/meal/month'
@@ -185,6 +187,8 @@ const WeeklyListToggled = () => {
 };
 
 const Summary2 = props => {
+  const dispatch = useDispatch();
+
   const [weeklyListState, setWeeklyListState] = useState({ on: false });
   const weeklyListToggle = () => {
     setWeeklyListState({ on: !weeklyListState.on });
@@ -197,8 +201,10 @@ const Summary2 = props => {
   const day = Number(timestamp.slice(8, 10))
 
   const [selectedMonth, setSelectedMonth] = useState(month)
+  const [selectedWeek, setSelectedWeek] = useState(1)
 
   const month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  const week_list = [1, 2, 3, 4, 5]
 
   // Date 형태의 날짜를 가져온다.
   // 각 월별로 해당 주의 마지막 날짜보다 작거나 같은지 체크해서 작거나 같으면 해당 주, 식으로 계산
@@ -217,9 +223,9 @@ const Summary2 = props => {
 
       const data = month
   
-      axios.get(LOAD_MONTH_MEAL_URL, data, {headers})
-        .then(response => {
-          console.log(response.data)
+      axios.get(LOAD_MONTH_MEAL_URL, {headers})
+        .then(result => {
+          dispatch(mealMonth(result.data));
         })
         .catch(err => console.log(err))
     })
@@ -269,9 +275,40 @@ const Summary2 = props => {
           })}
           </ScrollView>
           <ScrollView horizontal={true}>
-          <Text>
-            1주
-          </Text>
+            {week_list.map(week => {
+              if(selectedWeek == week)
+              {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectedWeek(week)
+                    }}
+                    style={{margin: 10}}
+                    key={week}
+                  >
+                    <Text style={{color: 'red'}}>
+                      {week}주
+                    </Text>
+                  </TouchableOpacity>
+                )
+              }
+              else
+              {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectedWeek(week)
+                    }}
+                    style={{margin: 10}}
+                    key={week}
+                  >
+                    <Text style={{color: 'blue'}}>
+                      {week}주
+                    </Text>
+                  </TouchableOpacity>
+                )
+              }
+            })}
           </ScrollView>
         </View>
         <View style={styles.scrollview}>
@@ -440,4 +477,6 @@ const barUntoggled = StyleSheet.create({
   }
 });
 
-export default Summary2;
+export default connect(state => ({
+  meals: state.meal.meals.meals
+}))(Summary2);

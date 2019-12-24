@@ -35,7 +35,7 @@ const LoginScreen = props => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    // autoLogin()
+    autoLogin()
   })
 
   const onChangeEmail = (_email) => {
@@ -227,7 +227,7 @@ const LoginScreen = props => {
           onPress={emailLogin}
         >
         <Button
-          title="이메일로 로그인"
+          title="로그인"
           onPress={emailLogin}
         />
         </TouchableOpacity>

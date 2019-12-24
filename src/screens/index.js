@@ -19,7 +19,7 @@ import UploadScreen2 from './UploadScreen2';
 import CameraScreen from './CameraScreen';
 import NavBar from '../Components/NavBar';
 
-const AppNavigator = createStackNavigator(
+const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바꾸기(불필요한 back버튼 생성되니)
   {
     Home: HomeScreen,
     Login: LoginScreen,
@@ -33,7 +33,7 @@ const AppNavigator = createStackNavigator(
     NavBar: NavBar
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#F2F9F2',

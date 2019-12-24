@@ -28,7 +28,6 @@ const navBarButtons = [
     text: '오늘',
     iconSelected: require('../img/navIconS0.png'),
     iconUnselected: require('../img/navIconU0.png'),
-    // selected: true,
     nav: 'Home'
   },
   {
@@ -36,7 +35,6 @@ const navBarButtons = [
     text: '채점',
     iconSelected: require('../img/navIconS1.png'),
     iconUnselected: require('../img/navIconU1.png'),
-    // selected: false,
     nav: 'Rate'
   },
   {
@@ -44,7 +42,6 @@ const navBarButtons = [
     text: '기록',
     iconSelected: require('../img/navIconS2.png'),
     iconUnselected: require('../img/navIconU2.png'),
-    // selected: false,
     nav: 'Summary2'
   },
   {
@@ -52,7 +49,6 @@ const navBarButtons = [
     text: '설정',
     iconSelected: require('../img/navIconS3.png'),
     iconUnselected: require('../img/navIconU3.png'),
-    // selected: false,
     nav: 'Settings'
   }
 ];

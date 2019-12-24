@@ -11,10 +11,8 @@ const initialState = {
         gihoType: 0,
         timestamp: '',
     },
-    meals: {
-        today: [], // 오늘 먹은 음식
-        meals: [] // 해당 유저의 모든 meals
-    }
+    today: [], // 오늘 먹은 음식
+    meals: {} // 해당 유저의 모든 meals
 }
 
 export default handleActions({
@@ -25,7 +23,6 @@ export default handleActions({
         console.log("action: ", action)
         return produce(state, draft => {
             draft.meals = {
-                ...state.meal,
                 today: newToday
             }
         });
@@ -56,6 +53,12 @@ export default handleActions({
                 ...state.saved,
                 gihoType: action.gihoType
             }
+        });
+    },
+    [mealAction.month_meal]: (state, action) => {
+        console.log("action: ", action)
+        return produce(state, draft => {
+            draft.meals = action.meals
         });
     },
 }, initialState);
