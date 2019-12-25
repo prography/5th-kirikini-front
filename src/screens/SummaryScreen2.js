@@ -29,7 +29,7 @@ const yellow = {
   b: '#F9CD15'
 };
 
-const meal = {
+const mealColor = {
   a: '#C8BAE5',
   b: '#AFEAA2',
   c: '#AFCAF2',
@@ -72,12 +72,12 @@ const MonthlyReportUntoggled = () => (
   </View>
 );
 
-// 일단 보여주기 용.....
-const weeklyListArray = [
-  {
-    key: 0,
-    day: '월',
-    list: (
+const WeeklyListToggled = (props) => {
+  console.log("props: ", props)
+  const { week, meals } = props
+
+  const renderList = (_day) => { // 0:월, 1:화, ... , 6:일
+    return (
       <>
         <View
           style={{
@@ -88,75 +88,77 @@ const weeklyListArray = [
             width: 250
           }}
         ></View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            zIndex: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            left: 30,
-            width: 60,
-            height: 60,
-            borderRadius: 100,
-            backgroundColor: meal.a
-          }}
-        >
-          <Image
-            style={{ zIndex: 20, width: 20, height: 20, resizeMode: 'contain' }}
-            source={require('../img/iconBeerSmall.png')}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            zIndex: 10,
-            left: 80,
-            width: 30,
-            height: 30,
-            borderRadius: 100,
-            backgroundColor: meal.b
-          }}
-        ></TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            zIndex: 10,
-            left: 160,
-            width: 50,
-            height: 50,
-            borderRadius: 100,
-            backgroundColor: meal.c
-          }}
-        ></TouchableOpacity>
+        {meals[week].map(meal => {
+          if(meal.day == _day) {
+            return (
+              <TouchableOpacity
+                key={meal.id}
+                activeOpacity={0.8}
+                style={{
+                  zIndex: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 60,
+                  height: 60,
+                  borderRadius: 100,
+                  backgroundColor: meal.mealType == 0 ? mealColor.a : (meal.mealType == 1 ? mealColor.b : (meal.mealType == 2 ? mealColor.c : mealColor.d))
+                }}
+              >
+                <Image
+                  style={{ 
+                    zIndex: 20, 
+                    width: 20, 
+                    height: 20, 
+                    resizeMode: 'contain' 
+                  }}
+                  source={meal.gihoType == 0 ? require('../img/iconCupSmall.png') : require('../img/iconBeerSmall.png')}
+                />
+              </TouchableOpacity>
+            )
+          }
+        })}
       </>
     )
-  },
-  {
-    key: 1,
-    day: '화'
-  },
-  {
-    key: 2,
-    day: '수'
-  },
-  {
-    key: 3,
-    day: '목'
-  },
-  {
-    key: 4,
-    day: '금'
-  },
-  {
-    key: 5,
-    day: '토'
-  },
-  {
-    key: 6,
-    day: '일'
   }
-];
-const WeeklyListToggled = () => {
+
+  const weeklyListArray = [
+    {
+      key: 0,
+      day: '일',
+      list: renderList(6)
+    },
+    {
+      key: 1,
+      day: '월',
+      list: renderList(0)
+    },
+    {
+      key: 2,
+      day: '화',
+      list: renderList(1)
+    },
+    {
+      key: 3,
+      day: '수',
+      list: renderList(2)
+    },
+    {
+      key: 4,
+      day: '목',
+      list: renderList(3)
+    },
+    {
+      key: 5,
+      day: '금',
+      list: renderList(4)
+    },
+    {
+      key: 6,
+      day: '토',
+      list: renderList(5)
+    }
+  ];
+
   const MakeADay = () =>
     weeklyListArray.map(item => {
       return (
@@ -220,10 +222,8 @@ const Summary2 = props => {
         'Authorization': `Bearer ${access_token}`,
         'Content-Type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
       };
-
-      const data = month
   
-      axios.get(LOAD_MONTH_MEAL_URL, {headers})
+      axios.post(LOAD_MONTH_MEAL_URL, {month}, {headers})
         .then(result => {
           dispatch(mealMonth(result.data));
         })
@@ -322,7 +322,7 @@ const Summary2 = props => {
               onLongPress={weeklyListToggle}
             >
               {!weeklyListState.on && <WeeklyListUntoggled />}
-              {weeklyListState.on && <WeeklyListToggled />}
+              {weeklyListState.on && <WeeklyListToggled week={selectedWeek} meals={props.meals} />}
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} style={bar.container}>
               <WeeklyReportUntoggled />
@@ -478,5 +478,5 @@ const barUntoggled = StyleSheet.create({
 });
 
 export default connect(state => ({
-  meals: state.meal.meals.meals
+  meals: state.meal.meals
 }))(Summary2);
