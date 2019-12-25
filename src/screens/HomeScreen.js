@@ -128,6 +128,7 @@ const MENTS = {
 }
 
 const HomeCircles = props => {
+
   const [modalVisible, setModalVisible] = useState(false);
   
   return (
@@ -576,6 +577,10 @@ const circles = StyleSheet.create({
     marginRight: 17
   }
 });
+
+HomeScreen.navigationOptions = {
+  headershown: false,
+}
 
 export default connect(state => ({
   today: state.meal.meals.today

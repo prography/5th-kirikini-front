@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text, View, TouchableOpacity,
   StyleSheet, ScrollView, Dimensions,
@@ -73,7 +73,6 @@ const MonthlyReportUntoggled = () => (
 );
 
 const WeeklyListToggled = (props) => {
-  console.log("props: ", props)
   const { week, meals } = props
 
   const renderList = (_day) => { // 0:월, 1:화, ... , 6:일
@@ -98,8 +97,9 @@ const WeeklyListToggled = (props) => {
                   zIndex: 10,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  width: 60,
-                  height: 60,
+                  width: meal.average_rate + 35,
+                  height: meal.average_rate + 35,
+                  left: (((deviceWidth * 5) / 3 - 338) / 30) * (meal.created_at.slice(11, 13) - 6) - (meal.average_rate + 40) / 2 + 100,
                   borderRadius: 100,
                   backgroundColor: meal.mealType == 0 ? mealColor.a : (meal.mealType == 1 ? mealColor.b : (meal.mealType == 2 ? mealColor.c : mealColor.d))
                 }}
@@ -124,38 +124,38 @@ const WeeklyListToggled = (props) => {
   const weeklyListArray = [
     {
       key: 0,
-      day: '일',
-      list: renderList(6)
-    },
-    {
-      key: 1,
       day: '월',
       list: renderList(0)
     },
     {
-      key: 2,
+      key: 1,
       day: '화',
       list: renderList(1)
     },
     {
-      key: 3,
+      key: 2,
       day: '수',
       list: renderList(2)
     },
     {
-      key: 4,
+      key: 3,
       day: '목',
       list: renderList(3)
     },
     {
-      key: 5,
+      key: 4,
       day: '금',
       list: renderList(4)
     },
     {
-      key: 6,
+      key: 5,
       day: '토',
       list: renderList(5)
+    },
+    {
+      key: 6,
+      day: '일',
+      list: renderList(6)
     }
   ];
 
@@ -208,6 +208,11 @@ const Summary2 = props => {
   const month_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const week_list = [1, 2, 3, 4, 5]
 
+  useEffect(() => {
+    if(props.meals.length == 0)
+      loadMonthMeals(month)
+  })
+
   // Date 형태의 날짜를 가져온다.
   // 각 월별로 해당 주의 마지막 날짜보다 작거나 같은지 체크해서 작거나 같으면 해당 주, 식으로 계산
 
@@ -223,7 +228,7 @@ const Summary2 = props => {
         'Content-Type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
       };
   
-      axios.post(LOAD_MONTH_MEAL_URL, {month}, {headers})
+      axios.post(LOAD_MONTH_MEAL_URL, {month: _month}, {headers})
         .then(result => {
           dispatch(mealMonth(result.data));
         })

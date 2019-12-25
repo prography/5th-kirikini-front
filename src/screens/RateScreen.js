@@ -6,8 +6,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 
-const RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
-// const RATE_MEAL_URL = 'http://localhost:8000/rate/'
+const LOAD_RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
+// const LOAD_RATE_MEAL_URL = 'http://localhost:8000/rate/'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -34,13 +34,13 @@ const meal = {
 
 const Rate = props => {
   const [mealScore, setMealScore] = useState(5);
-  const [mealToRate, setMealToRate] = useState({});
+  const [mealToRate, setMealToRate] = useState([]);
 
   const onValueChange = mealScore => {
     setMealScore(mealScore);
   };
 
-  const loadMealToRate = () => {
+  const loadRateMeal = () => {
     const access_token = null, refresh_token = null;
       AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
         access_token = response[0][1];
@@ -54,7 +54,7 @@ const Rate = props => {
             'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
           };
 
-          axios.get(LOAD_MEAL_TO_RATE_URL, {headers})
+          axios.get(LOAD_RATE_MEAL_URL, {headers})
             .then(response => {
               if(response.status == 200)
                 setMealToRate(response.data)
@@ -87,7 +87,7 @@ const Rate = props => {
             .then(response => {
               if(response.status == 200)
               {
-                                // todo: rerender to load new meal to rate
+                // todo: rerender to load new meal to rate
 
               }
             })
@@ -96,9 +96,9 @@ const Rate = props => {
       })
   }
 
-  // useEffect({
-    // loadMealToRate()
-  // })
+  useEffect(() => {
+    loadRateMeal()
+  })
 
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
@@ -108,10 +108,25 @@ const Rate = props => {
         </View>
         <View>
           <View style={mainImg.screen}>
-            <Image
-              style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
-              source={{uri: mealToRate.mealImage}}
-            />
+            {
+              mealToRate.length == 0 
+              ?
+              (
+                <Text
+                  style={{marginTop: 130, alignSelf: 'center'}}
+                >
+                  채점할 끼니가 없습니다 {'\n'}
+                  다른 유저의 끼니 등록을 기다려주세요
+                </Text>
+              )
+              :
+              (
+                <Image
+                  style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+                  source={{uri: mealToRate.mealImage}}
+                />
+              )
+            }
           </View>
         </View>
         <View style={slider.container}>

@@ -12,7 +12,7 @@ const initialState = {
         timestamp: '',
     },
     today: [], // 오늘 먹은 음식
-    meals: {} // 해당 유저의 모든 meals
+    meals: [] // 해당 유저의 모든 meals
 }
 
 export default handleActions({

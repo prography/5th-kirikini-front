@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Platform, StyleSheet, Text, 
   View, Image, YellowBox, 
-  TextInput, Button
+  TextInput, Button, Dimensions
 } from 'react-native';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import NativeButton from 'apsl-react-native-button';
@@ -10,6 +10,10 @@ import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManag
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
+const kiriColor = '#F2F9F2';
 
 if (!KakaoLogins) {
   console.error('Module is Not Linked');
@@ -207,7 +211,14 @@ const LoginScreen = props => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text>
+          <Image
+            style={styles.kirini}
+            source={require('../img/kirini2.png')}
+          />
+          <Text style={styles.txtKiri}>KiriKini</Text>
+          <Text style={styles.textKini}>식단관리서비스</Text>
+      </View>
+        {/*<Text> // todo: 추후 추가
           이메일
         </Text>
         <TextInput
@@ -230,16 +241,19 @@ const LoginScreen = props => {
           title="로그인"
           onPress={emailLogin}
         />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={kakaoLogin}
-        >
-          <Image
-            source={require('../img/kakao_button.png')}
-          />
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
 
-        <LoginButton
+        <View style={styles.button}>
+          <TouchableOpacity
+            onPress={kakaoLogin}
+          >
+            <Image
+              source={require('../img/kakao_button.png')}
+            />
+          </TouchableOpacity>
+        </View>
+
+        {/*<LoginButton
           publishPermissions={["email"]}
           onLoginFinished={
             (error, result) => {
@@ -252,8 +266,17 @@ const LoginScreen = props => {
               }
             }
           }
-          onLogoutFinished={() => console.log("logout.")}/>
-      </View>
+        onLogoutFinished={() => console.log("logout.")}/>*/}
+        {/*<TouchableOpacity // 추후 추가
+          onPress={fbLogin}
+          title="페이스북 로그인"
+          style={styles.btnFbLogin} >
+            <Image
+              source={require('../img/facebook_logo.jpg')}
+              style={{width:30, height:30, margin:18}}
+            />          
+          <Text style={styles.txtFbLogin}>페이스북 로그인</Text>
+        </TouchableOpacity>*/}
     </View>
   );
 }
@@ -264,37 +287,24 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: Platform.OS === 'ios' ? 0 : 24,
     paddingTop: Platform.OS === 'ios' ? 24 : 0,
-    backgroundColor: 'white',
-  },
-  profile: {
-    flex: 4,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  profilePhoto: {
-    width: 120,
-    height: 120,
-    borderWidth: 1,
-    borderColor: 'black',
+    backgroundColor: kiriColor,
   },
   content: {
-    flex: 6,
-    justifyContent: 'flex-start',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  txtKiri: {
+    fontSize:40
   },
-  token: {
-    width: 200,
-    fontSize: 12,
-    padding: 5,
-    borderRadius: 8,
-    marginVertical: 20,
-    backgroundColor: 'grey',
-    color: 'white',
-    textAlign: 'center',
+  textKini:{
+    fontSize:10
+  },
+  button: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop:30
   },
   btnKakaoLogin: {
     height: 48,
@@ -308,6 +318,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#3d3d3d',
   },
+  btnFbLogin: {
+    height: 49,
+    width: 300,
+    backgroundColor: '#3A589E',
+    borderRadius: 5,
+    justifyContent:'flex-start',
+    alignItems: 'center',
+    flexDirection:'row',
+    marginTop:7,
+  },
+  txtFbLogin: {
+    fontSize: 16,
+    color: 'white',
+    paddingLeft:50
+  },
+  kirini: {
+    marginTop:180,
+    width: (deviceWidth * 4) / 7,
+    height: deviceWidth / 3,
+    resizeMode: 'contain',
+    flex:1,
+    display: 'flex'
+  }
 });
 
 YellowBox.ignoreWarnings(['source.uri']);

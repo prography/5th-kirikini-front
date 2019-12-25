@@ -946,6 +946,13 @@
     wcwidth "^1.0.1"
     ws "^1.1.0"
 
+"@react-native-community/datetimepicker@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-2.1.0.tgz#4e3413462cbbe5c48fab6cebd422835031cdf7b9"
+  integrity sha512-InktUrx0/4JTy1YsgswljgID7oB3L8wkFobRhnLGWPExSsNHeecGW2/nBP31ZaOPHcjVWhpOQMZt0zDpKfGE/Q==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/slider@^2.0.7":
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-2.0.7.tgz#5c2d474d6f5210193dd64d802254f45a8528a9a7"
@@ -6136,6 +6143,13 @@ react-native-level-fs@^3.0.0:
   dependencies:
     level-filesystem "^1.0.1"
     levelup "^0.18.2"
+
+react-native-modal-datetime-picker@8.x.x:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-8.0.4.tgz#f3867739b3d9c8f1373b0d93b71d75c15b5e3bf1"
+  integrity sha512-kqz+YzHTSZz28k/Z3tVw82XAi7HnPBNRivIfpPKstfAKi7jz2NuXW/0tv4paj3O0MEFn4oE+yPCPQHSzSNeYMA==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-os@^1.0.1:
   version "1.2.5"

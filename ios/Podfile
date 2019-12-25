@@ -41,6 +41,8 @@ target 'kirikini' do
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
 
+  pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec'
+
   target 'kirikiniTests' do
     inherit! :search_paths
     # Pods for testing
