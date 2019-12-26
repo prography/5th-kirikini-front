@@ -17,10 +17,7 @@ import {
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
-import { localhost } from '../utils/consts'
-
-// const LOAD_MONTH_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/month'
-const LOAD_MONTH_MEAL_URL = `http://${localhost}:8000/meal/month`
+import { localhost, LOAD_MONTH_MEAL_URL } from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;

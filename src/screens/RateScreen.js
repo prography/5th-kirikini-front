@@ -7,10 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealRate } from '../store/meal/action';
-import { localhost } from '../utils/consts'
-
-// const LOAD_RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
-const LOAD_RATE_MEAL_URL = `http://${localhost}:8000/rate/`
+import { localhost, LOAD_RATE_MEAL_URL} from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;

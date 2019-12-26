@@ -14,10 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
-import { localhost } from '../utils/consts'
-
-// const LOAD_MEALS_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/today'
-const LOAD_MEALS_URL = `http://${localhost}:8000/meal/today`;
+import { localhost, LOAD_MONTH_MEAL_URL } from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;

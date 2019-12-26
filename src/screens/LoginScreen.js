@@ -6,10 +6,10 @@ import {
 } from 'react-native';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { localhost } from '../utils/consts'
+import axios from 'axios';
+import { localhost, EMAIL_URL, KAKAO_URL, FB_URL, AUTO_URL } from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -18,16 +18,6 @@ const kiriColor = '#F2F9F2';
 if (!KakaoLogins) {
   console.error('Module is Not Linked');
 }
-
-const EMAIL_URL = `http://${localhost}:8000/email_login`
-const KAKAO_URL = `http://${localhost}:8000/kakao_login`
-const FB_URL = `http://${localhost}:8000/facebook_login`
-const AUTO_URL = `http://${localhost}:8000/auto_login`
-
-// const EMAIL_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/email_login"
-// const KAKAO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/kakao_login"
-// const FB_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/facebook_login"
-// const AUTO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/auto_login"
 
 const logCallback = (log, callback) => {
   console.log(log);
