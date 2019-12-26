@@ -4,7 +4,8 @@ export const mealAction = {
     saved: 'MEAL_SAVED',
     mealType: 'MEAL_TYPE',
     gihoType: 'GIHO_TYPE',
-    month_meal: 'MONTH_MEAL'
+    month_meal: 'MONTH_MEAL',
+    meal_rate: 'MEAL_RATE'
 };
 
 export const mealSaga = () => ({
@@ -35,4 +36,9 @@ export const mealType = (data) => ({
 export const gihoType = (data) => ({
     type: mealAction.gihoType,
     gihoType: data
+});
+
+export const mealRate = (meals) => ({
+    type: mealAction.meal_rate,
+    meals: meals
 });

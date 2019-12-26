@@ -12,6 +12,7 @@ import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import { mealSaved } from '../store/meal/action';
+
 const deviceHeight = Dimensions.get('window').height;
 const gray = {
   m: '#F2F9F2',

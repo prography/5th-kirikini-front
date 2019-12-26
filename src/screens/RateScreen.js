@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Dimensions, Image } from 'react-native';
+import { connect, useDispatch } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
+import { mealRate } from '../store/meal/action';
+import { localhost } from '../utils/consts'
 
-const LOAD_RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
-// const LOAD_RATE_MEAL_URL = 'http://localhost:8000/rate/'
+// const LOAD_RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
+const LOAD_RATE_MEAL_URL = `http://${localhost}:8000/rate/`
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -35,13 +38,20 @@ const meal = {
 const Rate = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealToRate, setMealToRate] = useState([]);
+  // const { meals } = props
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    loadRateMeal()
+  }, [])
 
   const onValueChange = mealScore => {
     setMealScore(mealScore);
   };
 
   const loadRateMeal = () => {
-    const access_token = null, refresh_token = null;
+    let access_token = null, refresh_token = null;
       AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
         access_token = response[0][1];
         refresh_token = response[1][1];
@@ -57,6 +67,7 @@ const Rate = props => {
           axios.get(LOAD_RATE_MEAL_URL, {headers})
             .then(response => {
               if(response.status == 200)
+                // dispatch(mealRate(response.data)) // todo: 어떤거는 props로 어떤거는 state로 어떤거는 async로 관리할 것인가?
                 setMealToRate(response.data)
             })
             .catch(err => console.log(err))
@@ -88,17 +99,13 @@ const Rate = props => {
               if(response.status == 200)
               {
                 // todo: rerender to load new meal to rate
-
+                
               }
             })
             .catch(err => console.log(err))
         }
       })
   }
-
-  useEffect(() => {
-    loadRateMeal()
-  })
 
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
@@ -123,7 +130,7 @@ const Rate = props => {
               (
                 <Image
                   style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
-                  source={{uri: mealToRate.mealImage}}
+                  source={{uri: mealToRate[0].mealImage}}
                 />
               )
             }
@@ -202,4 +209,6 @@ const mainImg = StyleSheet.create({
   }
 });
 
-export default Rate;
+export default connect(state => ({
+  meals: state.meal.meals
+}))(Rate);

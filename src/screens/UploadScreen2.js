@@ -11,9 +11,10 @@ import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
 import Time from '../Components/Time';
 import secretKey from '../../secrets_front.json'
+import { localhost } from '../utils/consts'
 
 // const SAVE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/'
-const SAVE_MEAL_URL = 'http://localhost:8000/meal/'
+const SAVE_MEAL_URL = `http://${localhost}:8000/meal/`
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;

@@ -6,12 +6,21 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect, useDispatch } from 'react-redux';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
+import { localhost } from '../utils/consts'
 
 // const LOAD_MONTH_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/month'
-const LOAD_MONTH_MEAL_URL = 'http://localhost:8000/meal/month'
+const LOAD_MONTH_MEAL_URL = `http://${localhost}:8000/meal/month`
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -331,6 +340,48 @@ const Summary2 = props => {
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} style={bar.container}>
               <WeeklyReportUntoggled />
+              <LineChart
+                data={{
+                  labels: ["January", "February", "March", "April", "May", "June"],
+                  datasets: [
+                    {
+                      data: [
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100,
+                        Math.random() * 100
+                      ]
+                    }
+                  ]
+                }}
+                width={Dimensions.get("window").width} // from react-native
+                height={220}
+                yAxisLabel={"$"}
+                yAxisSuffix={"k"}
+                chartConfig={{
+                  backgroundColor: "#e26a00",
+                  backgroundGradientFrom: "#fb8c00",
+                  backgroundGradientTo: "#ffa726",
+                  decimalPlaces: 2, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  style: {
+                    borderRadius: 16
+                  },
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "2",
+                    stroke: "#ffa726"
+                  }
+                }}
+                bezier
+                style={{
+                  marginVertical: 8,
+                  borderRadius: 16
+                }}
+              />
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.7} style={bar.container}>
               <MonthlyListUntoggled />

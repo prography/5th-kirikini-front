@@ -61,4 +61,10 @@ export default handleActions({
             draft.meals = action.meals
         });
     },
+    [mealAction.meal_rate]: (state, action) => {
+        console.log("action: ", action)
+        return produce(state, draft => {
+            draft.meals = action.meals
+        });
+    },
 }, initialState);
