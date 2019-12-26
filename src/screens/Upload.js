@@ -11,10 +11,7 @@ import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
 import Time from '../Components/Time';
 import secretKey from '../../secrets_front.json'
-import { localhost } from '../utils/consts'
-
-// const SAVE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/'
-const SAVE_MEAL_URL = `http://${localhost}:8000/meal/`
+import { SAVE_MEAL_URL } from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -52,8 +49,8 @@ const Upload2 = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealImage, setMealImage] = useState('');
 
-  const ampm = props.saved.timestamp == '' ? '' : (Number(props.saved.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? ' AM' : ' PM')
-  const time = props.saved.timestamp == '' ? '' : props.saved.timestamp.replace(/T/gi, ' ').slice(0, 19) + ampm
+  const ampm = props.saved.timestamp == null ? '' : (Number(props.saved.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? ' AM' : ' PM')
+  const time = props.saved.timestamp == null ? '' : props.saved.timestamp.replace(/T/gi, ' ').slice(0, 19) + ampm
 
   const updateMealImage = () => {
     AsyncStorage.getItem('mealImage')
@@ -308,7 +305,11 @@ const mainImg = StyleSheet.create({
   }
 });
 
-// export default Upload2;
+// todo: tab navigation
+Upload2.navigationOptions = ({navigation}) => ({
+  headerShown: false,
+})
+
 export default connect(state => ({
   saved: state.meal.saved
 }))(Upload2);

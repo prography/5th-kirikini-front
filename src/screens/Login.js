@@ -8,8 +8,9 @@ import KakaoLogins from '@react-native-seoul/kakao-login';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+// import CookieManager from 'react-native-cookies';
 import axios from 'axios';
-import { localhost, EMAIL_URL, KAKAO_URL, FB_URL, AUTO_URL } from '../utils/consts'
+import { EMAIL_URL, KAKAO_URL, FB_URL, AUTO_URL } from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -30,7 +31,7 @@ const LoginScreen = props => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    autoLogin()
+    // autoLogin()
   })
 
   const onChangeEmail = (_email) => {
@@ -47,7 +48,10 @@ const LoginScreen = props => {
       email,
       password
     }
-    axios.post(EMAIL_URL, data, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    axios.post(EMAIL_URL, data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
     })
     .then(response => {
       console.log("test: ", response['data'])
@@ -75,12 +79,12 @@ const LoginScreen = props => {
       
       if(access_token !== null)
       {
-        axios.post(AUTO_URL, 
-          {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token},
-          {headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
+        axios.post(AUTO_URL, {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token},
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            }})
         .then(response => {
-          console.log("test: ", response['data'])
           if(response.status == 200)
             props.navigation.navigate('Home')
           else if(response.status == 201)
@@ -101,27 +105,23 @@ const LoginScreen = props => {
   const kakaoLogin = () => {
     KakaoLogins.login()
       .then(result => {
-        console.log("result: ", result)
+        console.log("result", result)
         setToken(result.accessToken);
         
         KakaoLogins.getProfile()
           .then(res => {
-            console.log("res: ", res)
-
             setEmail(res.email)
             
             AsyncStorage.setItem('email', res.email)
               .then(() => {
-                console.log("success with ", result.accessToken, result.refreshToken)
                 axios.post(KAKAO_URL, 
                   {"access_token": result.accessToken, "refresh_token": result.refreshToken},
                   {
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                    }
                   })
-                  .then(response => {
-                    console.log("in axios: ", response)
-                    return response.data
-                  })
+                  .then(response => response.data)
                   .then(jwt => {
                     AsyncStorage.multiSet([
                       ['jwt_access_token', jwt['jwt_access_token']], 
@@ -137,9 +137,7 @@ const LoginScreen = props => {
             );
           });
       })
-      .catch(err => {
-        console.log(err)
-      });
+      .catch(err => console.log(err));
   };
 
   const fbLogin = (result) => {
@@ -340,6 +338,11 @@ const styles = StyleSheet.create({
     display: 'flex'
   }
 });
+
+// todo: tab navigation
+LoginScreen.navigationOptions = ({navigation}) => ({
+  headerShown: false,
+})
 
 YellowBox.ignoreWarnings(['source.uri']);
 export default LoginScreen

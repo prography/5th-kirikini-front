@@ -13,11 +13,13 @@ export const AUTO_URL = `http://${localhost}:8000/auto_login`
 export const LOAD_MONTH_MEAL_URL = `http://${localhost}:8000/meal/month`
 
 // HomeScreen
-export const LOAD_MEALS_URL = `http://${localhost}:8000/meal/today`;
+export const LOAD_MEALS_URL = `http://${localhost}:8000/meal/today`
 
 // RateScreen
 export const LOAD_RATE_MEAL_URL = `http://${localhost}:8000/rate/`
 
+// UploadScreen
+export const SAVE_MEAL_URL = `http://${localhost}:8000/meal/`
 
 // // real server
 // // LoginScreen
@@ -35,4 +37,6 @@ export const LOAD_RATE_MEAL_URL = `http://${localhost}:8000/rate/`
 // RateScreen
 // export const LOAD_RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
 
+// UploadScreen
+// const SAVE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/'
 

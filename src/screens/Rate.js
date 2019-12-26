@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealRate } from '../store/meal/action';
-import { localhost, LOAD_RATE_MEAL_URL} from '../utils/consts'
+import { LOAD_RATE_MEAL_URL} from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -205,6 +205,11 @@ const mainImg = StyleSheet.create({
     elevation: 1
   }
 });
+
+// todo: tab navigation
+Rate.navigationOptions = ({navigation}) => ({
+  headerShown: false,
+})
 
 export default connect(state => ({
   meals: state.meal.meals

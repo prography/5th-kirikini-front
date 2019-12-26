@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
-import { localhost, LOAD_MONTH_MEAL_URL } from '../utils/consts'
+import { LOAD_MEALS_URL } from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -378,7 +378,7 @@ const HomeScreen = props => {
 
               <TouchableOpacity
                 style={balloonSt.kiriniContainer}
-                onPress={() => props.navigation.navigate('Upload2')}
+                onPress={() => props.navigation.navigate('Upload')}
               >
                 <Image
                   style={balloonSt.kirini}
@@ -576,9 +576,10 @@ const circles = StyleSheet.create({
   }
 });
 
-HomeScreen.navigationOptions = {
-  headershown: false,
-}
+// todo: tab navigation
+HomeScreen.navigationOptions = ({navigation}) => ({
+  headerShown: false,
+})
 
 export default connect(state => ({
   today: state.meal.meals.today

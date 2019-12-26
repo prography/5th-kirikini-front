@@ -103,6 +103,7 @@ const CameraScreen = props => {
             camera = ref;
           }}
           style={cameraSt.cameraView}
+          captureAudio={false}
         />
       </TouchableOpacity>
     );

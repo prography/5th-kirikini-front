@@ -17,7 +17,7 @@ import {
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
-import { localhost, LOAD_MONTH_MEAL_URL } from '../utils/consts'
+import { LOAD_MONTH_MEAL_URL } from '../utils/consts'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -529,6 +529,11 @@ const barUntoggled = StyleSheet.create({
     // backgroundColor: gray.a
   }
 });
+
+// todo 
+Summary2.navigationOptions = ({navigation}) => ({
+  headerShown: false,
+})
 
 export default connect(state => ({
   meals: state.meal.meals

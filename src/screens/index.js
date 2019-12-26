@@ -2,35 +2,30 @@ import React, { useState } from 'react';
 import { AppRegistry } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 // RCTRootView cancelTouches 오류를 해결해준다고 함...
-import 'react-native-gesture-handler';
-import { YellowBox } from 'react-native';
-YellowBox.ignoreWarnings(['`-[RCTRootView cancelTouches]`']);
+// import 'react-native-gesture-handler';
+// import { YellowBox } from 'react-native';
+// YellowBox.ignoreWarnings(['`-[RCTRootView cancelTouches]`']);
 
-import HomeScreen from './HomeScreen';
-import LoginScreen from './LoginScreen';
-import RateScreen from './RateScreen';
-import SummaryScreen from './SummaryScreen';
-import SummaryScreen2 from './SummaryScreen2';
-import SettingsScreen from './SettingsScreen';
-import UploadScreen from './UploadScreen';
-import UploadScreen2 from './UploadScreen2';
-import CameraScreen from './CameraScreen';
-import NavBar from '../Components/NavBar';
+import Home from './Home';
+import Login from './Login';
+import Rate from './Rate';
+import Summary from './Summary';
+import Settings from './Settings';
+import Upload from './Upload';
+import Camera from './Camera';
 
 const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바꾸기(불필요한 back버튼 생성되니)
   {
-    Home: HomeScreen,
-    Login: LoginScreen,
-    Rate: RateScreen,
-    Summary: SummaryScreen,
-    Summary2: SummaryScreen2,
-    Settings: SettingsScreen,
-    Upload: UploadScreen,
-    Upload2: UploadScreen2,
-    Camera: CameraScreen,
-    NavBar: NavBar
+    Home: Home,
+    Login: Login,
+    Rate: Rate,
+    Summary: Summary,
+    Settings: Settings,
+    Upload: Upload,
+    Camera: Camera,
   },
   {
     initialRouteName: 'Login',
@@ -44,7 +39,7 @@ const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바
       headerTitleStyle: {
         fontWeight: '700'
       }
-    }
+    },
   }
 );
 

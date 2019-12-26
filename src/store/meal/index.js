@@ -9,7 +9,7 @@ const initialState = {
         countType: 0,
         mealType: 0,
         gihoType: 0,
-        timestamp: '',
+        timestamp: null,
     },
     today: [], // 오늘 먹은 음식
     meals: [] // 해당 유저의 모든 meals
