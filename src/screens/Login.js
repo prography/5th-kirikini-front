@@ -31,8 +31,8 @@ const LoginScreen = props => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    // autoLogin()
-  })
+    autoLogin()
+  }, [])
 
   const onChangeEmail = (_email) => {
     setEmail(_email)
@@ -59,7 +59,7 @@ const LoginScreen = props => {
         props.navigation.navigate('Home')
       else if(response.status == 201)
       {
-        AsyncStorage.setItem("jwt_access_token", response['data'])
+        AsyncStorage.setItem("@jwt_access_token", response['data'])
         props.navigation.navigate('Home')
       }
       else
@@ -72,7 +72,7 @@ const LoginScreen = props => {
 
   const autoLogin = () => {
     let access_token = null, refresh_token = null;
-    AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+    AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
       access_token = response[0][1];
       refresh_token = response[1][1];
       console.log("autoLogin access_token: ", access_token)
@@ -89,7 +89,7 @@ const LoginScreen = props => {
             props.navigation.navigate('Home')
           else if(response.status == 201)
           {
-            AsyncStorage.setItem("jwt_access_token", response['data'])
+            AsyncStorage.setItem("@jwt_access_token", response['data'])
             props.navigation.navigate('Home')
           }
           else
@@ -112,7 +112,7 @@ const LoginScreen = props => {
           .then(res => {
             setEmail(res.email)
             
-            AsyncStorage.setItem('email', res.email)
+            AsyncStorage.setItem('@email', res.email)
               .then(() => {
                 axios.post(KAKAO_URL, 
                   {"access_token": result.accessToken, "refresh_token": result.refreshToken},
@@ -124,8 +124,8 @@ const LoginScreen = props => {
                   .then(response => response.data)
                   .then(jwt => {
                     AsyncStorage.multiSet([
-                      ['jwt_access_token', jwt['jwt_access_token']], 
-                      ['jwt_refresh_token', jwt['jwt_refresh_token']],
+                      ['@jwt_access_token', jwt['jwt_access_token']], 
+                      ['@jwt_refresh_token', jwt['jwt_refresh_token']],
                     ], () => autoLogin())
                   })
                   .catch(error => console.log('failed', error))
@@ -180,8 +180,8 @@ const LoginScreen = props => {
         .then(response => response.data)
         .then(jwt => {
           AsyncStorage.multiSet([
-            ['jwt_access_token', jwt['jwt_access_token']], 
-            ['jwt_refresh_token', jwt['jwt_refresh_token']]
+            ['@jwt_access_token', jwt['jwt_access_token']], 
+            ['@jwt_refresh_token', jwt['jwt_refresh_token']]
           ], () => autoLogin())
         })
         .catch(error => console.log('failed', error))

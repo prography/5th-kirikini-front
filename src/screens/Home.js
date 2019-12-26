@@ -252,7 +252,7 @@ const HomeScreen = props => {
   const [name, setName] = useState('')
 
   useEffect(() => {
-    AsyncStorage.getItem('email')
+    AsyncStorage.getItem('@email')
       .then(result => setName(result))
   })
   
@@ -307,7 +307,7 @@ const HomeScreen = props => {
 
   const loadTodayMeals = () => {
     let access_token = null, refresh_token = null;
-    AsyncStorage.multiGet(['jwt_access_token', 'jwt_refresh_token']).then(
+    AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
       response => {
         access_token = response[0][1];
         refresh_token = response[1][1];

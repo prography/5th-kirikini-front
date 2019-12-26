@@ -53,7 +53,7 @@ const Upload2 = props => {
   const time = props.saved.timestamp == null ? '' : props.saved.timestamp.replace(/T/gi, ' ').slice(0, 19) + ampm
 
   const updateMealImage = () => {
-    AsyncStorage.getItem('mealImage')
+    AsyncStorage.getItem('@mealImage')
       .then(uri => setMealImage(uri))
       .catch(err => console.log("load image failed"))
   }
@@ -77,7 +77,7 @@ const Upload2 = props => {
       }
 
       let access_token = null, refresh_token = null;
-      AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+      AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
         access_token = response[0][1];
         refresh_token = response[1][1];
         console.log("access_token: ", access_token)

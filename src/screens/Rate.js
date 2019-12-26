@@ -49,7 +49,7 @@ const Rate = props => {
 
   const loadRateMeal = () => {
     let access_token = null, refresh_token = null;
-      AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+      AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
         access_token = response[0][1];
         refresh_token = response[1][1];
         console.log("access_token: ", access_token)
@@ -74,7 +74,7 @@ const Rate = props => {
 
   const rateMeal = () => {
     let access_token = null, refresh_token = null;
-      AsyncStorage.multiGet(["jwt_access_token", "jwt_refresh_token"]).then(response => {
+      AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
         access_token = response[0][1];
         refresh_token = response[1][1];
         console.log("access_token: ", access_token)
@@ -87,7 +87,7 @@ const Rate = props => {
           };
 
           const data = {
-            meal: mealToRate,
+            meal: mealToRate[0]['id'],
             rating: mealScore
           }
 
@@ -95,8 +95,10 @@ const Rate = props => {
             .then(response => {
               if(response.status == 200)
               {
-                // todo: rerender to load new meal to rate
-                
+                let copiedMealToRate = []
+                Object.assign(copiedMealToRate, mealToRate);
+                copiedMealToRate.shift()
+                setMealToRate(copiedMealToRate)
               }
             })
             .catch(err => console.log(err))
@@ -127,7 +129,7 @@ const Rate = props => {
               (
                 <Image
                   style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
-                  source={{uri: mealToRate[0].mealImage}}
+                  source={{uri: mealToRate[0]['mealImage']}}
                 />
               )
             }
@@ -149,8 +151,11 @@ const Rate = props => {
 
         <TouchableOpacity
           onPress={rateMeal}
+          style={{borderWidth: 1, width: deviceWidth*0.3, alignSelf: 'center'}}
         >
-          <Text>
+          <Text
+            style={{textAlign: 'center'}}
+          >
             채점
           </Text>
         </TouchableOpacity>

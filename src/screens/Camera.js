@@ -28,7 +28,7 @@ const yellow = {
 };
 
 let email = null;
-AsyncStorage.getItem('email')
+AsyncStorage.getItem('@email')
   .then(data => (email = data))
   .catch(err => console.log('get email failed'));
 
@@ -56,7 +56,7 @@ const CameraScreen = props => {
       };
       dispatch(mealSaved(file, timestamp));
 
-      AsyncStorage.setItem('mealImage', data.uri)
+      AsyncStorage.setItem('@mealImage', data.uri)
         .then(result => {
           console.log('image saved to async storage');
           props.navigation.goBack();
@@ -77,21 +77,21 @@ const CameraScreen = props => {
       }
     };
     ImagePicker.launchImageLibrary(options, data => {
-      console.log('openAlbum time: ', data.timestamp);
-
-      const file = {
-        uri: data.uri,
-        name: `${email}_${data.timestamp}.jpg`,
-        type: 'image/jpg'
-      };
-      dispatch(mealSaved(file, data.timestamp));
-
-      AsyncStorage.setItem('mealImage', data.uri)
-        .then(result => {
-          console.log('image saved to async storage');
-          props.navigation.goBack();
-        })
-        .catch(err => console.log('image save failed'));
+      if(data.uri) {
+        const file = {
+          uri: data.uri,
+          name: `${email}_${data.timestamp}.jpg`,
+          type: 'image/jpg'
+        };
+        dispatch(mealSaved(file, data.timestamp));
+  
+        AsyncStorage.setItem('@mealImage', data.uri)
+          .then(result => {
+            console.log('image saved to async storage');
+            props.navigation.goBack();
+          })
+          .catch(err => console.log('image save failed'));
+      }
     });
   };
 
