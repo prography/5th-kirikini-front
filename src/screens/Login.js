@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import {
   Platform, StyleSheet, Text, 
   View, Image, YellowBox, 
-  TextInput, Button, Dimensions
+  TextInput, Button
 } from 'react-native';
+import { connect, useDispatch } from 'react-redux';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-// import CookieManager from 'react-native-cookies';
 import axios from 'axios';
+import {loginSuccess} from '../store/auth/action';
 import { EMAIL_URL, KAKAO_URL, FB_URL, AUTO_URL, deviceWidth, kiriColor } from '../utils/consts'
 
 if (!KakaoLogins) {
@@ -21,10 +22,13 @@ const logCallback = (log, callback) => {
   callback;
 };
 
-const LoginScreen = props => {
+const Login = props => {
+  console.log(props.auth)
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     autoLogin()
@@ -67,25 +71,30 @@ const LoginScreen = props => {
   }
 
   const autoLogin = () => {
-    let access_token = null, refresh_token = null;
-    AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
+    let access_token = null, refresh_token = null, email = null;
+    AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token", "@email"]).then(response => {
       access_token = response[0][1];
       refresh_token = response[1][1];
+      email = response[2][1];
       console.log("autoLogin access_token: ", access_token)
       
       if(access_token !== null)
       {
-        axios.post(AUTO_URL, {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token},
+        axios.post(AUTO_URL, {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token, "email": email},
           {
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
             }})
         .then(response => {
           if(response.status == 200)
+          {
+            dispatch(loginSuccess())
             props.navigation.navigate('Home')
+          }
           else if(response.status == 201)
           {
             AsyncStorage.setItem("@jwt_access_token", response['data'])
+            dispatch(loginSuccess())
             props.navigation.navigate('Home')
           }
           else
@@ -336,9 +345,11 @@ const styles = StyleSheet.create({
 });
 
 // todo: tab navigation
-LoginScreen.navigationOptions = ({navigation}) => ({
+Login.navigationOptions = ({navigation}) => ({
   headerShown: false,
 })
 
 YellowBox.ignoreWarnings(['source.uri']);
-export default LoginScreen
+export default connect(state => ({
+  auth: state.auth
+}))(Login);

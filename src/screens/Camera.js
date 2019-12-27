@@ -11,28 +11,13 @@ import { RNCamera } from 'react-native-camera';
 // import CameraRoll from "@react-native-community/cameraroll";
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
-import { mealSaved, deviceHeight } from '../store/meal/action';
-
-const gray = {
-  m: '#F2F9F2',
-  a: '#EAEAEA',
-  b: '#B7B7B7',
-  c: '#898989',
-  d: '#505151'
-};
-
-const yellow = {
-  a: '#FCDB3A',
-  b: '#F9CD15'
-};
+import { mealSaved } from '../store/meal/action';
+import { deviceWidth, deviceHeight, gray } from '../utils/consts'
 
 let email = null;
 AsyncStorage.getItem('@email')
   .then(data => (email = data))
   .catch(err => console.log('get email failed'));
-
-const deviceWidth = Dimensions.get('window').width;
-// const deviceHeight = Dimensions.get('window').height;
 
 const CameraScreen = props => {
   const dispatch = useDispatch();
@@ -77,9 +62,13 @@ const CameraScreen = props => {
     };
     ImagePicker.launchImageLibrary(options, data => {
       if(data.uri) {
+        console.log("Data ", data.timestamp)
+        console.log("Data ", email)
+
+        const timestamp = data.timestamp ? data.timestamp : new Date().toISOString()
         const file = {
           uri: data.uri,
-          name: `${email}_${data.timestamp}.jpg`,
+          name: `${email}_${timestamp}.jpg`,
           type: 'image/jpg'
         };
         dispatch(mealSaved(file, data.timestamp));

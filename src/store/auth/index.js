@@ -1,6 +1,6 @@
 import produce from 'immer';
 import { handleActions } from 'redux-actions';
-import { KakaoLoginAction } from './action';
+import { loginAction } from './action';
 
 const initialState = {
     user: {
@@ -11,23 +11,30 @@ const initialState = {
 }
 
 export default handleActions({
-    [KakaoLoginAction.request]: (state) => {
-        produce(state, draft => {
+    [loginAction.request]: (state) => {
+        return produce(state, draft => {
             draft.loginStatus = 'FETCHING'
         });
     },
-    [KakaoLoginAction.success]: (state, action) => {
-        produce(state, draft => {
+    [loginAction.success]: (state) => {
+        return produce(state, draft => {
             draft.loginStatus = 'SUCCESS'
             draft.user = {
-                ...action.payload,
                 isLoggedIn: true,
             }
         });
     },
-    [KakaoLoginAction.failure]: (state) => {
-        produce(state, draft => {
+    [loginAction.failure]: (state) => {
+        return produce(state, draft => {
             draft.loginStatus = 'FAILURE'
+        });
+    },
+    [loginAction.logout]: (state) => {
+        return produce(state, draft => {
+            draft.loginStatus = 'INIT'
+            draft.user = {
+                isLoggedIn: false,
+            }
         });
     },
 }, initialState);

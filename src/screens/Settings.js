@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
 import { Text, View, TouchableOpacity, Modal } from 'react-native';
+import { connect, useDispatch } from 'react-redux';
 import { WebView } from 'react-native-webview';
 import NavBar from '../Components/NavBar';
+import { logout } from '../store/auth/action';
 
 const Settings = props => {
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    dispatch(logout())
+    props.navigation.navigate('Login')
+  }
 
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1}}>
@@ -23,7 +31,7 @@ const Settings = props => {
         </Modal>
 
         <TouchableOpacity
-          onPress={() => console.log(1)}
+          onPress={() => handleLogout()}
           style={{alignSelf: 'center'}}
         >
           <Text
@@ -104,4 +112,6 @@ Settings.navigationOptions = ({navigation}) => ({
   headerShown: false,
 })
 
-export default Settings;
+export default connect(state => ({
+  auth: state.auth
+}))(Settings);

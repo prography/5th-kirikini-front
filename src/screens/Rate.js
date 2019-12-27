@@ -7,18 +7,20 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealRate } from '../store/meal/action';
-import { LOAD_RATE_MEAL_URL, deviceWidth, gray, yellow, meal } from '../utils/consts'
+import { RATE_MEAL_URL, deviceWidth, gray, yellow, meal } from '../utils/consts'
 
 
 const Rate = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealToRate, setMealToRate] = useState([]);
   // const { meals } = props
+  console.log("mealsToRate:", mealToRate[0])
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     loadRateMeal()
+    console.log("loadRateMeal()")
   }, [])
 
   const onValueChange = mealScore => {
@@ -39,7 +41,7 @@ const Rate = props => {
             'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
           };
 
-          axios.get(LOAD_RATE_MEAL_URL, {headers})
+          axios.get(RATE_MEAL_URL, {headers})
             .then(response => {
               if(response.status == 200)
                 // dispatch(mealRate(response.data)) // todo: 어떤거는 props로 어떤거는 state로 어떤거는 async로 관리할 것인가?
@@ -57,7 +59,7 @@ const Rate = props => {
         refresh_token = response[1][1];
         console.log("access_token: ", access_token)
 
-        if(access_token !== null)
+        if(access_token !== null && mealToRate.length > 0)
         {
           const headers = {
             'Authorization': `Bearer ${access_token}`,
@@ -107,7 +109,7 @@ const Rate = props => {
               (
                 <Image
                   style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
-                  source={{uri: mealToRate[0]['mealImage']}}
+                  source={{uri: mealToRate[0]['picURL']}}
                 />
               )
             }

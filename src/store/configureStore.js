@@ -14,7 +14,7 @@ const configureStore = () => {
       rootReducer,
       composeWithDevTools(enhancer)
     );
-    sagaMiddleware.run(rootSaga);
+    // sagaMiddleware.run(rootSaga);
     return store;
 };
 

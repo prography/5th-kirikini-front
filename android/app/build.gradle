@@ -136,6 +136,11 @@ android {
 
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
+
+        // for below android 5.0 
+        ndk {
+        // abiFilters "armeabi-v7a", "x86"
+        }
     }
     splits {
         abi {

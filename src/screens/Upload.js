@@ -11,7 +11,7 @@ import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
 import Time from '../Components/Time';
 import secretKey from '../../secrets_front.json'
-import { SAVE_MEAL_URL, deviceWidth, deviceHeight, gray, yellow, meal } from '../utils/consts'
+import { SAVE_MEAL_URL, deviceWidth, deviceHeight, gray, yellow } from '../utils/consts'
 
 
 // AWS S3
@@ -71,7 +71,11 @@ const Upload2 = props => {
           axios.post(SAVE_MEAL_URL, data, {headers})
             .then(response => {
               if(response.status == 201)
-                props.navigation.goBack();
+              {
+                AsyncStorage.removeItem('@mealImage')
+                  .then(() => props.navigation.goBack())
+                  .catch(err => console.log(err))
+              }
               // todo: 201아니면 에러창 띄워주기
             })
             .catch(err => console.log(err))
