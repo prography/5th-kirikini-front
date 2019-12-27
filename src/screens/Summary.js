@@ -17,30 +17,8 @@ import {
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
-import { LOAD_MONTH_MEAL_URL } from '../utils/consts'
+import { LOAD_MONTH_MEAL_URL, deviceWidth, gray, yellow, mealColor } from '../utils/consts'
 
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
-
-const gray = {
-  m: '#F2F9F2',
-  a: '#EAEAEA',
-  b: '#B7B7B7',
-  c: '#898989',
-  d: '#505151'
-};
-
-const yellow = {
-  a: '#FCDB3A',
-  b: '#F9CD15'
-};
-
-const mealColor = {
-  a: '#C8BAE5',
-  b: '#AFEAA2',
-  c: '#AFCAF2',
-  d: '#9CD8C8'
-};
 
 const WeeklyListUntoggled = () => (
   <View style={barUntoggled.contentContainer}>

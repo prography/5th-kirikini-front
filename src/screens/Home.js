@@ -14,10 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
-import { LOAD_MEALS_URL } from '../utils/consts'
-
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
+import { LOAD_MEALS_URL, deviceHeight, deviceWidth } from '../utils/consts'
 
 const gray = {
   m: '#F2F9F2',

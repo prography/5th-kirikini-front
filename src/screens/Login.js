@@ -10,11 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import CookieManager from 'react-native-cookies';
 import axios from 'axios';
-import { EMAIL_URL, KAKAO_URL, FB_URL, AUTO_URL } from '../utils/consts'
-
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
-const kiriColor = '#F2F9F2';
+import { EMAIL_URL, KAKAO_URL, FB_URL, AUTO_URL, deviceWidth, kiriColor } from '../utils/consts'
 
 if (!KakaoLogins) {
   console.error('Module is Not Linked');

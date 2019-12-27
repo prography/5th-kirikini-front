@@ -11,10 +11,8 @@ import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
 import Time from '../Components/Time';
 import secretKey from '../../secrets_front.json'
-import { SAVE_MEAL_URL } from '../utils/consts'
+import { SAVE_MEAL_URL, deviceWidth, deviceHeight, gray, yellow, meal } from '../utils/consts'
 
-const deviceWidth = Dimensions.get('window').width;
-const deviceHeight = Dimensions.get('window').height;
 
 // AWS S3
 const s3_options = {
@@ -26,25 +24,6 @@ const s3_options = {
   successActionStatus: 201
 }
 
-const gray = {
-  m: '#F2F9F2',
-  a: '#EAEAEA',
-  b: '#B7B7B7',
-  c: '#898989',
-  d: '#505151'
-};
-
-const yellow = {
-  a: '#FCDB3A',
-  b: '#F9CD15'
-};
-
-const meal = {
-  a: '#C8BAE5',
-  b: '#AFEAA2',
-  c: '#AFCAF2',
-  d: '#9CD8C8'
-};
 const Upload2 = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealImage, setMealImage] = useState('');

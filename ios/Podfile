@@ -43,7 +43,7 @@ target 'kirikini' do
 
   pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker/RNDateTimePicker.podspec'
 
-  pod 'react-native-cookies', :path => '../node_modules/react-native-cookies'
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
   target 'kirikiniTests' do
     inherit! :search_paths
