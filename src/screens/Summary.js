@@ -17,8 +17,9 @@ import {
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
-import { LOAD_MONTH_MEAL_URL, deviceWidth, gray, yellow, mealColor } from '../utils/consts'
+import { LOAD_MONTH_MEAL_URL, deviceWidth, gray, yellow, mealColor, meal, kiriColor } from '../utils/consts'
 
+const todayScore = 5.7;
 
 const WeeklyListUntoggled = () => (
   <View style={barUntoggled.contentContainer}>
@@ -55,6 +56,171 @@ const MonthlyReportUntoggled = () => (
     <View style={barUntoggled.content}></View>
   </View>
 );
+
+const WeeklyReportToggled = () => {
+  const data1 = {
+    labels: ["월", "화", "수", "목", "금", "토", "일"],
+    datasets: [
+      {
+        data: [6, 5, 8, 8, 9, 4, 2],
+        color: (opacity = 1) => `rgba(0,0,0, ${opacity})`
+      }
+    ]
+    // legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
+  };
+
+  const data2 = {
+    labels: ["집밥", "외식", "배달", "간편"],
+    datasets: [
+      {
+        data: [1,2,3,4],
+        color: (opacity = 1) => `rgba(249, 205, 21, ${opacity})`
+      }
+    ]
+  };
+
+  const data3 = [
+    {
+      name: "집밥",
+      population: 7,
+      color: meal.a,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "외식",
+      population: 4,
+      color: meal.b,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "배달",
+      population: 3,
+      color: meal.c,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "간편",
+      population: 8,
+      color: meal.d,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    }
+  ];
+
+  const chartConfig1 = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0,
+    
+    color: (opacity = 1) => `rgba(0,0,0, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5
+  };
+
+  const chartConfig2 = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0,
+    
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5
+  };
+
+  const chartConfig3 = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0.5,
+    
+    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5
+  };
+
+  const graphStyle = {
+    borderRadius: 16
+  };
+  const screenWidth = Dimensions.get("window").width;
+
+  return (
+    <View style={balloonSt.balloon}>
+      <View style={balloonSt.topBar}>
+        <Text style={styles.txtBigTitle}>이주의 건강도</Text>
+        <Text style={balloonText.todayScore}>{todayScore}</Text>
+      </View>
+      <View style={balloonSt.scoreCompareArea}>
+        <Text style={balloonText.scoreCompare}>▲ 1.2</Text>
+      </View>
+      <View style={balloonSt.lastMealTimeContainer}>
+        <View style={balloonSt.lastMealIconWrapper}>
+          <Text style={balloonText.lastMealTime}>
+            이주의 총 끼니 횟수는 🍽 :{'\n'}
+            이주의 하루 평균 끼니 횟수는 🍽 :{'\n'}
+            이주의 총 음주 횟수는 🍺 :{'\n'}
+            이주의 총 커피 횟수는 ☕️ :{'\n'}
+          </Text>
+        </View>
+        <View style={balloonSt.lastMealTimeWrapper}>
+          <Text style={balloonText.lastMealTime}>
+            12회
+            {'\n'}
+            2회
+            {'\n'}
+            3회
+            {'\n'}
+            10회
+            {'\n'}
+          </Text>
+        </View>
+      </View>
+      <View style={graph.chart}>
+        <Text style={graph.text}>일별 건강도 추이(점)</Text>
+        <LineChart
+        data={data1}
+        width={300}
+        height={220}
+        chartConfig={chartConfig1}
+      /></View>
+      <View style={graph.chart}>
+      <Text style={graph.text}>끼니 유형별 건강도(점)</Text>
+        <BarChart 
+        style={graphStyle} 
+        data={data2} 
+        width={300} 
+        height={220}
+        chartConfig={chartConfig2}/>
+      </View>
+      <View style={graph.chart}>
+      <Text style={graph.text}>끼니 유형별 횟수(회)</Text>              
+        <PieChart
+        data={data3}
+        width={350}
+        height={220}
+        chartConfig={chartConfig3}
+        accessor="population"
+        backgroundColor="transparent"
+        paddingLeft="15"
+        absolute
+        />
+      </View>
+
+      <View style={graph.chart}>
+      <Text style={graph.text}>이주의 피드백</Text>
+        <Text >
+          Zwon 님은 커피왕에 선정되었습니다{'\n'}
+          나보다 잘 먹네... {'\n'}
+          대체 뭘 먹은거야?
+        </Text>
+      </View>
+    </View>
+  );
+}
 
 const WeeklyListToggled = (props) => {
   const { week, meals } = props
@@ -179,6 +345,12 @@ const Summary2 = props => {
   const weeklyListToggle = () => {
     setWeeklyListState({ on: !weeklyListState.on });
     console.log(weeklyListState);
+  };
+
+  const [weeklyReportState, setWeeklyReportState] = useState({ on: false });
+  const weeklyReportToggle = () => {
+    setWeeklyReportState({ on: !weeklyReportState.on });
+    console.log(weeklyReportState);
   };
 
   const timezoneOffset = new Date().getTimezoneOffset() * 60000;
@@ -313,51 +485,17 @@ const Summary2 = props => {
               {!weeklyListState.on && <WeeklyListUntoggled />}
               {weeklyListState.on && <WeeklyListToggled week={selectedWeek} meals={props.meals} />}
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7} style={bar.container}>
-              <WeeklyReportUntoggled />
-              <LineChart
-                data={{
-                  labels: ["January", "February", "March", "April", "May", "June"],
-                  datasets: [
-                    {
-                      data: [
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100
-                      ]
-                    }
-                  ]
-                }}
-                width={Dimensions.get("window").width} // from react-native
-                height={220}
-                yAxisLabel={"$"}
-                yAxisSuffix={"k"}
-                chartConfig={{
-                  backgroundColor: "#e26a00",
-                  backgroundGradientFrom: "#fb8c00",
-                  backgroundGradientTo: "#ffa726",
-                  decimalPlaces: 2, // optional, defaults to 2dp
-                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                  style: {
-                    borderRadius: 16
-                  },
-                  propsForDots: {
-                    r: "6",
-                    strokeWidth: "2",
-                    stroke: "#ffa726"
-                  }
-                }}
-                bezier
-                style={{
-                  marginVertical: 8,
-                  borderRadius: 16
-                }}
-              />
+            <TouchableOpacity
+              style={bar.container}
+              //   onPress={weeklyListToggle}
+              activeOpacity={0.7}
+              delayLongPress={150}
+              onLongPress={weeklyReportToggle}
+            >
+              {!weeklyReportState.on && <WeeklyReportUntoggled />}
+              {weeklyReportState.on && <WeeklyReportToggled />}
             </TouchableOpacity>
+
             <TouchableOpacity activeOpacity={0.7} style={bar.container}>
               <MonthlyListUntoggled />
             </TouchableOpacity>
@@ -465,6 +603,17 @@ const wLToggled = StyleSheet.create({
   }
 });
 
+const graph = StyleSheet.create({
+  chart: {
+    alignItems:'center',
+    display:'flex'
+  },
+  text:{
+    width:180,
+    padding:20
+  }
+})
+
 const bar = StyleSheet.create({
   topMargin: {
     height: 40
@@ -505,6 +654,118 @@ const barUntoggled = StyleSheet.create({
     height: 67,
     width: '100%'
     // backgroundColor: gray.a
+  }
+});
+
+// 하얀 말풍선 속 View 스타일
+const balloonSt = StyleSheet.create({
+  container: {
+    flex: 4,
+    flexDirection: 'column'
+  },
+  balloon: {
+    flex: 2,
+    flexDirection: 'column',
+    width: deviceWidth,
+    padding: deviceWidth / 10,
+    borderTopLeftRadius: 70,
+    borderBottomRightRadius: 70,
+    backgroundColor: 'white'
+  },
+  topBar: {
+    flex: 0.65,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  scoreCompareArea: {
+    alignItems: 'flex-end'
+  },
+  lastMealTimeContainer: {
+    flex: 1.5,
+    flexDirection: 'row',
+    paddingTop: 7
+  },
+  lastMealIconWrapper: {
+    flex: 7,
+    justifyContent: 'center'
+  },
+  lastMealTimeWrapper: {
+    flex: 3,
+    justifyContent: 'center',
+    paddingLeft: 6
+  },
+  feedbackArea: {
+    flex: 1.2,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
+  },
+  tailContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: deviceWidth / 10
+  },
+  tailWhiteArea: {
+    width: deviceWidth / 3,
+    height: deviceWidth / 5,
+    backgroundColor: 'white'
+  },
+  tailKiriColorArea: {
+    position: 'absolute',
+    width: deviceWidth / 3,
+    height: deviceWidth / 3,
+    borderTopLeftRadius: 100,
+    backgroundColor: kiriColor
+  },
+  kiriniContainer: {
+    position: 'absolute',
+    right: 40,
+    width: (deviceWidth * 4) / 10,
+    height: deviceWidth / 4,
+    alignSelf: 'center'
+  },
+  kirini: {
+    position: 'absolute',
+    marginLeft: 40,
+    width: (deviceWidth * 4) / 10,
+    height: deviceWidth / 4,
+    alignSelf: 'center',
+    resizeMode: 'contain'
+  }
+});
+
+// 하얀 말풍선 속 Text 스타일
+const balloonText = StyleSheet.create({
+  title: {
+    fontSize: 27,
+    lineHeight: 35,
+    fontWeight: '700',
+    color: gray.d
+  },
+  todayScore: {
+    fontSize: 35,
+    lineHeight: 35,
+    fontWeight: '700',
+    color: yellow.b
+  },
+  scoreCompare: {
+    fontSize: 12,
+    color: gray.b
+  },
+  lastMealTime: {
+    fontSize: 13,
+    lineHeight: 25,
+    fontWeight: '500',
+    color: gray.c,
+    textAlign: 'right'
+  },
+  feedback: {
+    fontSize: 15,
+    lineHeight: 25,
+    fontWeight: '600',
+    color: gray.d,
+    textAlign: 'right'
   }
 });
 

@@ -3,26 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Text, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { gihoType } from '../store/meal/action';
-
-const gray = {
-  m: '#F2F9F2',
-  a: '#EAEAEA',
-  b: '#B7B7B7',
-  c: '#898989',
-  d: '#505151'
-};
-
-const yellow = {
-  a: '#FCDB3A',
-  b: '#F9CD15'
-};
-
-const meal = {
-  a: '#C8BAE5',
-  b: '#AFEAA2',
-  c: '#AFCAF2',
-  d: '#9CD8C8'
-};
+import { meal, gray, yellow } from '../utils/consts'
 
 const drinkTypes = [
   {
