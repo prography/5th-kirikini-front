@@ -1,14 +1,9 @@
 export const loginAction = {
-    saga: 'LOGIN_SAGA',
     request: 'LOGIN_REQUEST',
     success: 'LOGIN_SUCCESS',
     failure: 'LOGIN_FAILURE',
     logout: 'LOGOUT'
 };
-
-export const loginSaga = () => ({
-    type: loginAction.saga
-});
 
 export const loginRequest = () => ({
     type: loginAction.request

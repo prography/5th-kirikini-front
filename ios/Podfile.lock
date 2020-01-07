@@ -220,8 +220,6 @@ PODS:
     - React
   - react-native-camera/RN (3.9.0):
     - React
-  - react-native-cookies (3.2.0):
-    - React
   - react-native-fbsdk (1.1.1):
     - React
     - react-native-fbsdk/Core (= 1.1.1)
@@ -283,14 +281,20 @@ PODS:
     - React
   - RNDateTimePicker (2.1.0):
     - React
-  - RNGestureHandler (1.5.0):
+  - RNGestureHandler (1.5.3):
     - React
   - RNReanimated (1.4.0):
     - React
   - RNScreens (2.0.0-alpha.11):
     - React
+  - RNSentry (1.2.1):
+    - React
+    - Sentry (~> 4.4.0)
   - RNSVG (9.13.6):
     - React
+  - Sentry (4.4.3):
+    - Sentry/Core (= 4.4.3)
+  - Sentry/Core (4.4.3)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -314,7 +318,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
-  - react-native-cookies (from `../node_modules/react-native-cookies/ios`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
@@ -336,6 +339,7 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - "RNSentry (from `../node_modules/@sentry/react-native`)"
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -346,6 +350,7 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKShareKit
     - KakaoOpenSDK
+    - Sentry
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -380,8 +385,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
-  react-native-cookies:
-    :path: "../node_modules/react-native-cookies/ios"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
   react-native-image-picker:
@@ -422,6 +425,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSentry:
+    :path: "../node_modules/@sentry/react-native"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   Yoga:
@@ -449,7 +454,6 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-camera: c529629e3ecd017dcdacfd0355576ef489d9d198
-  react-native-cookies: 854d59c4135c70b92a02ca4930e68e4e2eb58150
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
   react-native-slider: 718ed45db20672b26a92fcf4217ced078b1ac7ce
@@ -467,12 +471,14 @@ SPEC CHECKSUMS:
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
   RNCAsyncStorage: 3c304d1adfaea02ec732ac218801cb13897aa8c0
   RNDateTimePicker: 9db00606d689f5653f08aa601c81b9d3266a0a19
-  RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
+  RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: ad3661f864ef18d952e9a4799b6791683e33c1fc
+  RNSentry: 9b1d983b2d5d1c215ba6490348fd2a4cc23a8a9d
   RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
+  Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 35ffc18878491dd0610e64ea981cc2478e6a06e5
+PODFILE CHECKSUM: 9bfb68705fd86a58ea8698a61d6e4b363ff1308c
 
 COCOAPODS: 1.8.4

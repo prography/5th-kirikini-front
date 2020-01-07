@@ -3,12 +3,6 @@ import { AppRegistry } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-
-// RCTRootView cancelTouches 오류를 해결해준다고 함...
-// import 'react-native-gesture-handler';
-// import { YellowBox } from 'react-native';
-// YellowBox.ignoreWarnings(['`-[RCTRootView cancelTouches]`']);
-
 import Home from './Home';
 import Login from './Login';
 import Rate from './Rate';

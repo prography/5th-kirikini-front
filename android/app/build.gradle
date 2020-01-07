@@ -81,6 +81,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -131,8 +132,8 @@ android {
         applicationId "com.kirikini"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.0.5"
 
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
@@ -197,7 +198,6 @@ android {
 
 dependencies {
     implementation project(':react-native-webview')
-    implementation project(':react-native-cookies')
     implementation project(':@react-native-community_datetimepicker')
     implementation project(':@react-native-community_slider')
     // implementation project(':react-native-randombytes')

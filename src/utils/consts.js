@@ -3,44 +3,46 @@ import { Platform, Dimensions } from 'react-native';
 export const localhost = Platform.OS === 'ios' ? '127.0.0.1' : '10.0.2.2'
 
 // // localhost
-// // LoginScreen
+// // Login
 // export const EMAIL_URL = `http://${localhost}:8000/email_login`
 // export const KAKAO_URL = `http://${localhost}:8000/kakao_login`
 // export const FB_URL = `http://${localhost}:8000/facebook_login`
 // export const AUTO_URL = `http://${localhost}:8000/auto_login`
 
-// // SummaryScreen2
+// // Summary
 // export const LOAD_MONTH_MEAL_URL = `http://${localhost}:8000/meal/month`
 
-// // HomeScreen
+// // Home
 // export const LOAD_MEALS_URL = `http://${localhost}:8000/meal/today`
+// export const LOAD_YESTERDAY_RATING_URL = `http://${localhost}:8000/meal/yesterday_rating`
 
-// // RateScreen
+// // Rate
 // export const RATE_MEAL_URL = `http://${localhost}:8000/rate/`
 
-// // UploadScreen
+// // Upload
 // export const SAVE_MEAL_URL = `http://${localhost}:8000/meal/`
 
 
 
 // real server
-// LoginScreen
-export const EMAIL_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/email_login"
-export const KAKAO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/kakao_login"
-export const FB_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/facebook_login"
-export const AUTO_URL = "http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/auto_login"
+// Login
+export const EMAIL_URL = "http://13.124.158.62/email_login"
+export const KAKAO_URL = "http://13.124.158.62/kakao_login"
+export const FB_URL = "http://13.124.158.62/facebook_login"
+export const AUTO_URL = "http://13.124.158.62/auto_login"
 
-// SummaryScreen2
-export const LOAD_MONTH_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/month'
+// Summary
+export const LOAD_MONTH_MEAL_URL = 'http://13.124.158.62/meal/month'
 
-// HomeScreen
-export const LOAD_MEALS_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/today'
+// Home
+export const LOAD_MEALS_URL = 'http://13.124.158.62/meal/today'
+export const LOAD_YESTERDAY_RATING_URL = `http://13.124.158.62/meal/yesterday_rating`
 
-// RateScreen
-export const RATE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/rate/'
+// Rate
+export const RATE_MEAL_URL = 'http://13.124.158.62/rate/'
 
-// UploadScreen
-export const SAVE_MEAL_URL = 'http://ec2-52-78-23-61.ap-northeast-2.compute.amazonaws.com/meal/'
+// Upload
+export const SAVE_MEAL_URL = 'http://13.124.158.62/meal/'
 
 
 // Device

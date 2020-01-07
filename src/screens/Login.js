@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Platform, StyleSheet, Text, 
   View, Image, YellowBox, 
-  TextInput, Button
+  TextInput, Button, Alert
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import KakaoLogins from '@react-native-seoul/kakao-login';
@@ -23,7 +23,6 @@ const logCallback = (log, callback) => {
 };
 
 const Login = props => {
-  console.log(props.auth)
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +30,7 @@ const Login = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    autoLogin()
+    // autoLogin()
   }, [])
 
   const onChangeEmail = (_email) => {
@@ -76,6 +75,7 @@ const Login = props => {
       access_token = response[0][1];
       refresh_token = response[1][1];
       email = response[2][1];
+      Alert.alert("1", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
       console.log("autoLogin access_token: ", access_token)
       
       if(access_token !== null)
@@ -86,6 +86,8 @@ const Login = props => {
               'Content-Type': 'application/x-www-form-urlencoded',
             }})
         .then(response => {
+          Alert.alert("2", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
+
           if(response.status == 200)
           {
             dispatch(loginSuccess())
@@ -99,6 +101,7 @@ const Login = props => {
           }
           else
           {
+            Alert.alert("3", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
             console.log(response.data)
           }
         })
@@ -112,7 +115,8 @@ const Login = props => {
       .then(result => {
         console.log("result", result)
         setToken(result.accessToken);
-        
+        Alert.alert("4", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
+
         KakaoLogins.getProfile()
           .then(res => {
             setEmail(res.email)
@@ -128,21 +132,29 @@ const Login = props => {
                   })
                   .then(response => response.data)
                   .then(jwt => {
+                    Alert.alert("6", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
                     AsyncStorage.multiSet([
                       ['@jwt_access_token', jwt['jwt_access_token']], 
                       ['@jwt_refresh_token', jwt['jwt_refresh_token']],
                     ], () => autoLogin())
                   })
-                  .catch(error => console.log('failed', error))
+                  .catch(err => {
+                    Alert.alert("7", err, [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
+                    console.log('failed', err)
+                  })
               })
           })
           .catch(err => {
+            Alert.alert("5", err, [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
             logCallback(
               `Get Profile Failed:${err.code} ${err.message}`,
             );
           });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err)
+        Alert.alert("8", err, [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
+      })
   };
 
   const fbLogin = (result) => {

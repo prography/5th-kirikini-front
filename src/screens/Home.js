@@ -14,7 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
-import { LOAD_MEALS_URL, deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS } from '../utils/consts'
+import { LOAD_MEALS_URL, LOAD_YESTERDAY_RATING_URL, deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS } from '../utils/consts'
 
 
 const HomeCircles = props => {
@@ -33,20 +33,20 @@ const HomeCircles = props => {
       />
       {
         props.meals && props.meals.map(item => {
-          console.log('home modal:' + modalVisible);
           var circleColor = mealColor.a;
           if (item.mealType === 0) {
-            var circleColor = mealColor.a;
+            circleColor = mealColor.a;
           }
           if (item.mealType === 1) {
-            var circleColor = mealColor.b;
+            circleColor = mealColor.b;
           }
           if (item.mealType === 2) {
-            var circleColor = mealColor.c;
+            circleColor = mealColor.c;
           }
           if (item.mealType === 3) {
-            var circleColor = mealColor.d;
+            circleColor = mealColor.d;
           }
+
           return (
             <Fragment key={item.id}>
               <TouchableOpacity
@@ -137,19 +137,21 @@ const HomeCircles = props => {
 
 const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
-  const [todayScore, setTodayScore] = useState(0);
-  const [ment, setMent] = useState('');
+  const [todayScore, setTodayScore] = useState(null);
+  const [ment, setMent] = useState('오늘 먹은 끼니를 등록해줘!');
   const [scoreCompare, setScoreCompare] = useState(0);
   const [name, setName] = useState('')
 
   useEffect(() => {
     AsyncStorage.getItem('@email')
       .then(result => setName(result))
+    onChangeScoreCompare()
   }, [])
   
   const calculateTodayScore = () => {
     if(meals.length > 0)
     {
+      console.log("meals.length: ", meals.length)
       let sum = 0;
       meals.map(meal => {
         sum += meal.average_rate
@@ -157,9 +159,8 @@ const HomeScreen = props => {
       sum = (sum / meals.length).toFixed(1)
       
       setTodayScore(sum)
+      onChangeMent()
     }
-    onChangeMent()
-    onChangeScoreCompare()
   }
 
   const onChangeMent = () => {
@@ -193,7 +194,28 @@ const HomeScreen = props => {
   }
 
   const onChangeScoreCompare = () => {
-    // todo
+    let access_token = null, refresh_token = null;
+    AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
+      response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
+
+        if (access_token !== null) {
+          const headers = {
+            Authorization: `Bearer ${access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+          };
+
+          axios
+            .get(LOAD_YESTERDAY_RATING_URL, { headers })
+            .then(response => {
+              console.log("yesterday: ", response['data'])
+              setScoreCompare(response['data'])
+            })
+            .catch(err => console.log(err));
+        }
+      }
+    );
   }
 
   const loadTodayMeals = () => {
@@ -233,10 +255,10 @@ const HomeScreen = props => {
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
                 <Text style={styles.txtBigTitle}>오늘 건강도</Text>
-                <Text style={balloonText.todayScore}>{todayScore}</Text>
+                <Text style={balloonText.todayScore}>{todayScore == null ? '-' : todayScore}</Text>
               </View>
               <View style={balloonSt.scoreCompareArea}>
-                <Text style={balloonText.scoreCompare}>▲ 1.2</Text>
+                <Text style={balloonText.scoreCompare}>{todayScore == null ? '-' : ((todayScore-scoreCompare) > 0 ? '▲' : '▼' (todayScore - scoreCompare))}</Text>
               </View>
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
@@ -259,8 +281,8 @@ const HomeScreen = props => {
               </View>
               <View style={balloonSt.feedbackArea}>
                 <Text style={balloonText.feedback}>
-                  {name}님의 현재 건강도는... {todayScore}점! {'\n'}
-                  {ment}
+                  {todayScore == null ? (`${name}님,`) : (`${name}님의 현재 건강도는...`)}
+                  {`\n${ment}`}
                 </Text>
               </View>
             </View>

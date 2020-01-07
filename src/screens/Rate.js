@@ -20,7 +20,6 @@ const Rate = props => {
 
   useEffect(() => {
     loadRateMeal()
-    console.log("loadRateMeal()")
   }, [])
 
   const onValueChange = mealScore => {
