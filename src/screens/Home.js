@@ -141,10 +141,17 @@ const HomeScreen = props => {
   const [ment, setMent] = useState('오늘 먹은 끼니를 등록해줘!');
   const [scoreCompare, setScoreCompare] = useState(0);
   const [name, setName] = useState('')
+  const [mealTime, setMealTime] = useState()
+  const [coffeeTime, setCoffeeTime] = useState()
+  const [alcoholTime, setAlcoholTime] = useState()
+
 
   useEffect(() => {
     AsyncStorage.getItem('@email')
-      .then(result => setName(result))
+      .then(result => {
+        const id = result.slice(0, result.indexOf('@'));
+        setName(id)
+      })
     onChangeScoreCompare()
   }, [])
   
@@ -270,11 +277,11 @@ const HomeScreen = props => {
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
                   <Text style={balloonText.lastMealTime}>
-                    1시간 58분
+                    식사를 한지 {} 지났어요
                     {'\n'}
-                    254시간
+                    술을 마신지 {} 지났어요
                     {'\n'}
-                    31시간
+                    커피를 마신지 {} 지났어요
                     {'\n'}
                   </Text>
                 </View>

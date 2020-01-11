@@ -21,42 +21,6 @@ import { LOAD_MONTH_MEAL_URL, deviceWidth, gray, yellow, mealColor, meal, kiriCo
 
 const todayScore = 5.7;
 
-const WeeklyListUntoggled = () => (
-  <View style={barUntoggled.contentContainer}>
-    <View style={wLUntoggled.sunMoonContainer}>
-      <Image
-        style={{ width: 20, height: 20, resizeMode: 'contain' }}
-        source={require('../img/iconSunSmall.png')}
-      />
-      <Image
-        style={{ width: 20, height: 20, resizeMode: 'contain' }}
-        source={require('../img/iconMoonSmall.png')}
-      />
-    </View>
-    <Text style={barUntoggled.txtTitle}>끼니 리스트</Text>
-    <View style={barUntoggled.content}></View>
-  </View>
-);
-
-const WeeklyReportUntoggled = () => (
-  <View style={barUntoggled.contentContainer}>
-    <Text style={barUntoggled.txtTitle}>주간 레포트</Text>
-    <View style={barUntoggled.content}></View>
-  </View>
-);
-const MonthlyListUntoggled = () => (
-  <View style={barUntoggled.contentContainer}>
-    <Text style={barUntoggled.txtTitle}>끼니 달력</Text>
-    <View style={barUntoggled.content}></View>
-  </View>
-);
-const MonthlyReportUntoggled = () => (
-  <View style={barUntoggled.contentContainer}>
-    <Text style={barUntoggled.txtTitle}>월간 레포트</Text>
-    <View style={barUntoggled.content}></View>
-  </View>
-);
-
 const WeeklyReportToggled = () => {
   const data1 = {
     labels: ["월", "화", "수", "목", "금", "토", "일"],
@@ -66,7 +30,6 @@ const WeeklyReportToggled = () => {
         color: (opacity = 1) => `rgba(0,0,0, ${opacity})`
       }
     ]
-    // legend: ["Rainy Days", "Sunny Days", "Snowy Days"] // optional
   };
 
   const data2 = {
@@ -237,7 +200,7 @@ const WeeklyListToggled = (props) => {
             width: 250
           }}
         ></View>
-        {meals[week].map(meal => {
+        {meals && meals[week].map(meal => {
           if(meal.day == _day) {
             return (
               <TouchableOpacity
@@ -338,20 +301,8 @@ const WeeklyListToggled = (props) => {
   );
 };
 
-const Summary2 = props => {
+const Summary = props => {
   const dispatch = useDispatch();
-
-  const [weeklyListState, setWeeklyListState] = useState({ on: false });
-  const weeklyListToggle = () => {
-    setWeeklyListState({ on: !weeklyListState.on });
-    console.log(weeklyListState);
-  };
-
-  const [weeklyReportState, setWeeklyReportState] = useState({ on: false });
-  const weeklyReportToggle = () => {
-    setWeeklyReportState({ on: !weeklyReportState.on });
-    console.log(weeklyReportState);
-  };
 
   const timezoneOffset = new Date().getTimezoneOffset() * 60000;
   const timestamp = new Date(Date.now() - timezoneOffset).toISOString();
@@ -477,31 +428,17 @@ const Summary2 = props => {
             <View style={bar.topMargin} />
             <TouchableOpacity
               style={bar.container}
-              //   onPress={weeklyListToggle}
               activeOpacity={0.7}
-              delayLongPress={150}
-              onLongPress={weeklyListToggle}
             >
-              {!weeklyListState.on && <WeeklyListUntoggled />}
-              {weeklyListState.on && <WeeklyListToggled week={selectedWeek} meals={props.meals} />}
+              <WeeklyListToggled week={selectedWeek} meals={props.meals} />
             </TouchableOpacity>
             <TouchableOpacity
               style={bar.container}
-              //   onPress={weeklyListToggle}
               activeOpacity={0.7}
-              delayLongPress={150}
-              onLongPress={weeklyReportToggle}
             >
-              {!weeklyReportState.on && <WeeklyReportUntoggled />}
-              {weeklyReportState.on && <WeeklyReportToggled />}
+              <WeeklyReportToggled />
             </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.7} style={bar.container}>
-              <MonthlyListUntoggled />
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7} style={bar.container}>
-              <MonthlyReportUntoggled />
-            </TouchableOpacity>
             <View style={bar.bottomMargin} />
           </ScrollView>
         </View>
@@ -555,18 +492,6 @@ const barToggled = StyleSheet.create({
   }
 });
 
-const wLUntoggled = StyleSheet.create({
-  sunMoonContainer: {
-    position: 'absolute',
-    alignSelf: 'flex-end',
-    top: -10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 20,
-    width: 310
-    // backgroundColor: gray.a
-  }
-});
 const wLToggled = StyleSheet.create({
   sunMoonContainer: {
     position: 'absolute',
@@ -633,27 +558,6 @@ const bar = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 10,
     elevation: 1
-  }
-});
-
-const barUntoggled = StyleSheet.create({
-  contentContainer: {
-    height: 74,
-    // backgroundColor: yellow.a,
-    alignItems: 'center'
-  },
-  txtTitle: {
-    fontWeight: '600',
-    fontSize: 15,
-    lineHeight: 16,
-    color: gray.d
-  },
-  content: {
-    marginTop: 5,
-    marginBottom: 10,
-    height: 67,
-    width: '100%'
-    // backgroundColor: gray.a
   }
 });
 
@@ -770,10 +674,10 @@ const balloonText = StyleSheet.create({
 });
 
 // todo 
-Summary2.navigationOptions = ({navigation}) => ({
+Summary.navigationOptions = ({navigation}) => ({
   headerShown: false,
 })
 
 export default connect(state => ({
   meals: state.meal.meals
-}))(Summary2);
+}))(Summary);

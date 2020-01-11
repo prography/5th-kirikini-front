@@ -5,10 +5,9 @@ import { mealAction } from './action';
 const initialState = {
     saved: { // CameraScreen에서 저장하는 식사 정보
         file: {},
-        mealType: 0,
-        countType: 0,
-        mealType: 0,
-        gihoType: 0,
+        countType: null,
+        mealType: null,
+        gihoType: null,
         timestamp: null,
     },
     today: [], // 오늘 먹은 음식

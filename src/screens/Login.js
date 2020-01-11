@@ -26,6 +26,7 @@ const Login = props => {
   const [token, setToken] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const dispatch = useDispatch()
 
@@ -122,7 +123,7 @@ const Login = props => {
             setEmail(res.email)
             
             AsyncStorage.setItem('@email', res.email)
-              .then(() => {
+              .then(() => { 
                 axios.post(KAKAO_URL, 
                   {"access_token": result.accessToken, "refresh_token": result.refreshToken},
                   {
@@ -139,21 +140,25 @@ const Login = props => {
                     ], () => autoLogin())
                   })
                   .catch(err => {
-                    Alert.alert("7", err, [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
+                    Alert.alert("7", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
                     console.log('failed', err)
                   })
               })
           })
           .catch(err => {
-            Alert.alert("5", err, [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
+            Alert.alert("5", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
             logCallback(
               `Get Profile Failed:${err.code} ${err.message}`,
             );
           });
       })
       .catch(err => {
-        console.log(err)
-        Alert.alert("8", err, [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
+        axios.get("http://248fc7d0.ngrok.io", {params: {data: err.toString()}}, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          }
+        })
+        Alert.alert(err.toString(), typeof(err), [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
       })
   };
 
@@ -255,7 +260,9 @@ const Login = props => {
           onPress={emailLogin}
         />
         </TouchableOpacity>*/}
-
+        <Text>
+          {error}
+        </Text>
         <View style={styles.button}>
           <TouchableOpacity
             onPress={kakaoLogin}

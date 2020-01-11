@@ -22,7 +22,7 @@ const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바
     Camera: Camera,
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Home',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#F2F9F2',

@@ -69,3 +69,5 @@ Pods/
 .vscode/
 
 secrets_front.json
+
+sentry.properties

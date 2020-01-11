@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Dimensions, ScrollView, Image } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, ScrollView, Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationEvents } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -24,7 +24,7 @@ const s3_options = {
   successActionStatus: 201
 }
 
-const Upload2 = props => {
+const Upload = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealImage, setMealImage] = useState('');
 
@@ -42,6 +42,11 @@ const Upload2 = props => {
   };
 
   const upload = () => {
+    if(props.saved.mealType == null)
+      return Alert.alert("끼니 형태를 선택해주세요!", "", [{text: '확인', onPress: () => console.log()}])
+    if(props.saved.file == {})
+      return Alert.alert("끼니 사진을 찍어주세요!", "", [{text: '확인', onPress: () => console.log()}])
+
     const { file } = props.saved;
     RNS3.put(file, s3_options).then(response => {
       if (response.status !== 201)
@@ -110,6 +115,7 @@ const Upload2 = props => {
               <Image
                 style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
                 source={{uri: mealImage}}
+                rotate='90deg'
               />
             </TouchableOpacity>
           ) : (
@@ -288,11 +294,6 @@ const mainImg = StyleSheet.create({
   }
 });
 
-// todo: tab navigation
-Upload2.navigationOptions = ({navigation}) => ({
-  headerShown: false,
-})
-
 export default connect(state => ({
   saved: state.meal.saved
-}))(Upload2);
+}))(Upload);

@@ -22,6 +22,9 @@ export const localhost = Platform.OS === 'ios' ? '127.0.0.1' : '10.0.2.2'
 // // Upload
 // export const SAVE_MEAL_URL = `http://${localhost}:8000/meal/`
 
+// Setting
+// export const PRIVACY_URL = `http://${localhost}:8000/privacy/`
+
 
 
 // real server
@@ -43,6 +46,10 @@ export const RATE_MEAL_URL = 'http://13.124.158.62/rate/'
 
 // Upload
 export const SAVE_MEAL_URL = 'http://13.124.158.62/meal/'
+
+// Setting
+export const PRIVACY_URL = `http://13.124.158.62/privacy/`
+
 
 
 // Device
