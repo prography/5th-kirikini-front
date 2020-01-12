@@ -70,4 +70,5 @@ Pods/
 
 secrets_front.json
 
-sentry.properties
+android/sentry.properties
+ios/sentry.properties
