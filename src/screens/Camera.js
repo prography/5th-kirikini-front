@@ -159,6 +159,10 @@ const cameraSt = StyleSheet.create({
   }
 });
 
+CameraScreen.navigationOptions = ({navigation}) => ({
+  headerShown: false,
+})
+
 export default connect(state => ({
   file: state.meal.saved.file
 }))(CameraScreen);

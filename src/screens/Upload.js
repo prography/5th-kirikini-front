@@ -294,6 +294,10 @@ const mainImg = StyleSheet.create({
   }
 });
 
+Upload.navigationOptions = ({navigation}) => ({
+  headerShown: false,
+})
+
 export default connect(state => ({
   saved: state.meal.saved
 }))(Upload);
