@@ -200,7 +200,7 @@ const WeeklyListToggled = (props) => {
             width: 250
           }}
         ></View>
-        {meals && meals[week].map(meal => {
+        {meals.length > 0 && meals[week].map(meal => {
           if(meal.day == _day) {
             return (
               <TouchableOpacity

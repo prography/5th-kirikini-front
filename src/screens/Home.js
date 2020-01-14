@@ -16,48 +16,6 @@ import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { LOAD_MEALS_URL, LOAD_YESTERDAY_RATING_URL, deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS } from '../utils/consts'
 
-const AddOneCapsule = props => {
-  return (
-    <View style={capsuleSt.capsuleContainer}>
-      <View
-        style={{
-          width: 7,
-          height: 7,
-          marginBottom: 8,
-          borderRadius: 100,
-          backgroundColor: props.beingRated ? kiri.p : kiriColor,
-        }}></View>
-      <Text style={capsuleText.mealTime}>{props.oneMealtime}</Text>
-      <View
-        style={{
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          width: deviceWidth / 4,
-          height: deviceHeight / 4.9,
-          marginBottom: 6,
-          borderStyle: 'solid',
-          borderWidth: 3,
-          borderColor: gray.a,
-          borderRadius: 100,
-          backgroundColor: props.beingRated ? gray.a : props.oneCapsuleColor,
-          opacity: props.beingRated ? 0.7 : 1,
-        }}>
-        <Text
-          style={{
-            marginBottom: 15,
-            opacity: props.beingRated ? 0.5 : 1,
-            fontSize: 30,
-            fontWeight: '500',
-            color: props.beingRated ? kiriColor : gray.a,
-          }}>
-          {props.oneMealScore}
-        </Text>
-        <Image style={capsuleSt.circlePhoto} source={props.imgSrc}></Image>
-      </View>
-    </View>
-  );
-};
-
 const HomeCircles = props => {
   const [modalVisible, setModalVisible] = useState(false);
   
@@ -95,11 +53,6 @@ const HomeCircles = props => {
                   setModalVisible(!modalVisible);
                 }}
                 style={{
-                  position: 'absolute',
-                  left:
-                    (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) -
-                    (item.average_rate * 7 + 40) / 2 +
-                    55,
                   backgroundColor: circleColor,
                   borderRadius: 110,
                   width: item.average_rate * 7 + 40,
@@ -306,7 +259,7 @@ const HomeScreen = props => {
                 <Text style={styles.txtBigTitle}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>{!todayScore ? '-' : todayScore}</Text>
               </View>
-              {/*<View style={balloonSt.scoreCompareArea}>
+              {/* todo: <View style={balloonSt.scoreCompareArea}>
                 <Text style={balloonText.scoreCompare}>{!todayScore ? '-' : ((todayScore-scoreCompare) > 0 ? '▲' : '▼' (todayScore - scoreCompare))}</Text>
               </View>*/}
               <View style={balloonSt.lastMealTimeContainer}>
@@ -330,7 +283,7 @@ const HomeScreen = props => {
               </View>
               <View style={balloonSt.feedbackArea}>
                 <Text style={balloonText.feedback}>
-                  {todayScore == null ? (`${name}님,`) : (`${name}님의 현재 건강도는...`)}
+                  {todayScore == null ? (`${name}님,`) : (`${name}님의 건강도는...`)}
                   {`\n${ment}`}
                 </Text>
               </View>
@@ -354,19 +307,11 @@ const HomeScreen = props => {
         <View style={styles.bottomHalf}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={circles.container}>
-              <Image
-                style={circles.sun}
-                source={require('../img/iconSunBig.png')}
-              />
               {
                 meals && (
                   <HomeCircles meals={meals} />
                 )
               }
-              <Image
-                style={circles.moon}
-                source={require('../img/iconMoonBig.png')}
-              />
             </View>
           </ScrollView>
         </View>
@@ -463,11 +408,11 @@ const balloonSt = StyleSheet.create({
     paddingTop: 7
   },
   lastMealIconWrapper: {
-    flex: 7,
+    flex: 1,
     justifyContent: 'center'
   },
   lastMealTimeWrapper: {
-    flex: 3,
+    flex: 1,
     justifyContent: 'center',
     paddingLeft: 6
   },

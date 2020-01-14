@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -14,9 +14,15 @@ const Rate = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealToRate, setMealToRate] = useState([]);
   // const { meals } = props
+  let user_name, user_meal_date;
   console.log("mealsToRate:", mealToRate[0])
 
   const dispatch = useDispatch()
+
+  if(mealToRate.length > 0) {
+    user_name = mealToRate[0]['picURL'].slice(mealToRate[0]['picURL'].indexOf('uploads/')+8, mealToRate[0]['picURL'].indexOf('@'))
+    user_meal_date = mealToRate[0]['created_at'].slice(0, 10)
+  }
 
   useEffect(() => {
     loadRateMeal()
@@ -105,15 +111,15 @@ const Rate = props => {
               )
               :
               (
-                <Fragement>
+                <Fragment>
                   <Image
-                    style={{width: 20, height: 20}} // todo: 이미지 사이즈 조절
+                    style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
                     source={{uri: mealToRate[0]['picURL']}}
                   />
                   <Text>
-                    님이 언제 먹은 끼니입니다\n\n\n\n\n\n\n\nsdfasdfsd
+                    {user_name}님이 {user_meal_date}에 먹은 끼니입니다
                   </Text>
-                </Fragement>
+                </Fragment>
               )
             }
         </View>
