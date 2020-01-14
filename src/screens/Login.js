@@ -76,7 +76,6 @@ const Login = props => {
       access_token = response[0][1];
       refresh_token = response[1][1];
       email = response[2][1];
-      Alert.alert("1", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
       console.log("autoLogin access_token: ", access_token)
       
       if(access_token !== null)
@@ -87,8 +86,6 @@ const Login = props => {
               'Content-Type': 'application/x-www-form-urlencoded',
             }})
         .then(response => {
-          Alert.alert("2", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
-
           if(response.status == 200)
           {
             dispatch(loginSuccess())
@@ -102,7 +99,6 @@ const Login = props => {
           }
           else
           {
-            Alert.alert("3", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
             console.log(response.data)
           }
         })
@@ -116,8 +112,12 @@ const Login = props => {
       .then(result => {
         console.log("result", result)
         setToken(result.accessToken);
+<<<<<<< Updated upstream
         Alert.alert("4", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
 
+=======
+        
+>>>>>>> Stashed changes
         KakaoLogins.getProfile()
           .then(res => {
             setEmail(res.email)
@@ -133,20 +133,17 @@ const Login = props => {
                   })
                   .then(response => response.data)
                   .then(jwt => {
-                    Alert.alert("6", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
                     AsyncStorage.multiSet([
                       ['@jwt_access_token', jwt['jwt_access_token']], 
                       ['@jwt_refresh_token', jwt['jwt_refresh_token']],
                     ], () => autoLogin())
                   })
                   .catch(err => {
-                    Alert.alert("7", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
                     console.log('failed', err)
                   })
               })
           })
           .catch(err => {
-            Alert.alert("5", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
             logCallback(
               `Get Profile Failed:${err.code} ${err.message}`,
             );
@@ -158,7 +155,6 @@ const Login = props => {
             'Content-Type': 'application/x-www-form-urlencoded',
           }
         })
-        Alert.alert(err.toString(), typeof(err), [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
       })
   };
 

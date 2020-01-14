@@ -45,6 +45,7 @@
     "react-native-http": "tradle/react-native-http#834492d",
     "react-native-image-picker": "^1.1.0",
     "react-native-level-fs": "^3.0.0",
+    "react-native-modal": "^11.5.3",
     "react-native-modal-datetime-picker": "8.x.x",
     "react-native-os": "^1.0.1",
     "react-native-reanimated": "^1.4.0",

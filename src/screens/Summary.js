@@ -424,22 +424,22 @@ const Summary = props => {
           </ScrollView>
         </View>
         <View style={styles.scrollview}>
-          <ScrollView>
-            <View style={bar.topMargin} />
-            <TouchableOpacity
+          <ScrollView
+            style={{flex:1}}
+          >
+            <View
               style={bar.container}
               activeOpacity={0.7}
             >
               <WeeklyListToggled week={selectedWeek} meals={props.meals} />
-            </TouchableOpacity>
-            <TouchableOpacity
+            </View>
+            <View
               style={bar.container}
               activeOpacity={0.7}
             >
               <WeeklyReportToggled />
-            </TouchableOpacity>
+            </View>
 
-            <View style={bar.bottomMargin} />
           </ScrollView>
         </View>
       </View>
@@ -459,8 +459,7 @@ const styles = StyleSheet.create({
     color: gray.d
   },
   scrollview: {
-    height: 600,
-    top: -40
+    flex: 1,
   }
 });
 

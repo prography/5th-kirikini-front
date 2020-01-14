@@ -16,6 +16,47 @@ import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { LOAD_MEALS_URL, LOAD_YESTERDAY_RATING_URL, deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS } from '../utils/consts'
 
+const AddOneCapsule = props => {
+  return (
+    <View style={capsuleSt.capsuleContainer}>
+      <View
+        style={{
+          width: 7,
+          height: 7,
+          marginBottom: 8,
+          borderRadius: 100,
+          backgroundColor: props.beingRated ? kiri.p : kiriColor,
+        }}></View>
+      <Text style={capsuleText.mealTime}>{props.oneMealtime}</Text>
+      <View
+        style={{
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          width: deviceWidth / 4,
+          height: deviceHeight / 4.9,
+          marginBottom: 6,
+          borderStyle: 'solid',
+          borderWidth: 3,
+          borderColor: gray.a,
+          borderRadius: 100,
+          backgroundColor: props.beingRated ? gray.a : props.oneCapsuleColor,
+          opacity: props.beingRated ? 0.7 : 1,
+        }}>
+        <Text
+          style={{
+            marginBottom: 15,
+            opacity: props.beingRated ? 0.5 : 1,
+            fontSize: 30,
+            fontWeight: '500',
+            color: props.beingRated ? kiriColor : gray.a,
+          }}>
+          {props.oneMealScore}
+        </Text>
+        <Image style={capsuleSt.circlePhoto} source={props.imgSrc}></Image>
+      </View>
+    </View>
+  );
+};
 
 const HomeCircles = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -139,12 +180,11 @@ const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
   const [todayScore, setTodayScore] = useState(null);
   const [ment, setMent] = useState('오늘 먹은 끼니를 등록해줘!');
-  const [scoreCompare, setScoreCompare] = useState(0);
+  const [scoreCompare, setScoreCompare] = useState(null);
   const [name, setName] = useState('')
   const [mealTime, setMealTime] = useState()
   const [coffeeTime, setCoffeeTime] = useState()
   const [alcoholTime, setAlcoholTime] = useState()
-
 
   useEffect(() => {
     AsyncStorage.getItem('@email')
@@ -152,10 +192,11 @@ const HomeScreen = props => {
         const id = result.slice(0, result.indexOf('@'));
         setName(id)
       })
-    onChangeScoreCompare()
+    loadTodayMeals()
   }, [])
   
   const calculateTodayScore = () => {
+    console.log("meals:",meals)
     if(meals.length > 0)
     {
       console.log("meals.length: ", meals.length)
@@ -166,12 +207,13 @@ const HomeScreen = props => {
       sum = (sum / meals.length).toFixed(1)
       
       setTodayScore(sum)
+      onChangeScoreCompare()
       onChangeMent()
     }
   }
 
   const onChangeMent = () => {
-    const _get_rand = (end) =>  Math.floor((Math.random() * (end+1)));
+    const _get_rand = (end) =>  Math.floor((Math.random() * (end)));
 
     let rand, idx;
 
@@ -216,8 +258,7 @@ const HomeScreen = props => {
           axios
             .get(LOAD_YESTERDAY_RATING_URL, { headers })
             .then(response => {
-              console.log("yesterday: ", response['data'])
-              setScoreCompare(response['data'])
+              setScoreCompare((response['data']['sum'] / response['data']['count']).toFixed(1))
             })
             .catch(err => console.log(err));
         }
@@ -243,6 +284,7 @@ const HomeScreen = props => {
             .get(LOAD_MEALS_URL, { headers })
             .then(response => {
               setMeals(response['data'])
+              calculateTodayScore()
             })
             .catch(err => console.log(err));
         }
@@ -262,11 +304,11 @@ const HomeScreen = props => {
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
                 <Text style={styles.txtBigTitle}>오늘 건강도</Text>
-                <Text style={balloonText.todayScore}>{todayScore == null ? '-' : todayScore}</Text>
+                <Text style={balloonText.todayScore}>{!todayScore ? '-' : todayScore}</Text>
               </View>
-              <View style={balloonSt.scoreCompareArea}>
-                <Text style={balloonText.scoreCompare}>{todayScore == null ? '-' : ((todayScore-scoreCompare) > 0 ? '▲' : '▼' (todayScore - scoreCompare))}</Text>
-              </View>
+              {/*<View style={balloonSt.scoreCompareArea}>
+                <Text style={balloonText.scoreCompare}>{!todayScore ? '-' : ((todayScore-scoreCompare) > 0 ? '▲' : '▼' (todayScore - scoreCompare))}</Text>
+              </View>*/}
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
                   <Text style={balloonText.lastMealTime}>
@@ -277,11 +319,11 @@ const HomeScreen = props => {
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
                   <Text style={balloonText.lastMealTime}>
-                    식사를 한지 {} 지났어요
+                    식사를 한지 {mealTime ? mealTime : '2시간'} 지났어요
                     {'\n'}
-                    술을 마신지 {} 지났어요
+                    술을 마신지 {alcoholTime ? alcoholTime : '234시간'} 지났어요
                     {'\n'}
-                    커피를 마신지 {} 지났어요
+                    커피를 마신지 {coffeeTime ? coffeeTime : '4시간'} 지났어요
                     {'\n'}
                   </Text>
                 </View>

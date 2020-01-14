@@ -91,7 +91,6 @@ const Rate = props => {
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>끼니 채점</Text>
         </View>
-        <View>
           <View style={mainImg.screen}>
             {
               mealToRate.length == 0 
@@ -106,13 +105,17 @@ const Rate = props => {
               )
               :
               (
-                <Image
-                  style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
-                  source={{uri: mealToRate[0]['picURL']}}
-                />
+                <Fragement>
+                  <Image
+                    style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+                    source={{uri: mealToRate[0]['picURL']}}
+                  />
+                  <Text>
+                    님이 언제 먹은 끼니입니다
+                  </Text>
+                </Fragement>
               )
             }
-          </View>
         </View>
         <View style={slider.container}>
           <Text style={slider.txtScore}>{mealScore}</Text>
