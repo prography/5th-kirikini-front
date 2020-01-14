@@ -112,12 +112,7 @@ const Login = props => {
       .then(result => {
         console.log("result", result)
         setToken(result.accessToken);
-<<<<<<< Updated upstream
-        Alert.alert("4", "", [{text: 'OK', onPress: () => console.log('Ask me later pressed')}])
-
-=======
         
->>>>>>> Stashed changes
         KakaoLogins.getProfile()
           .then(res => {
             setEmail(res.email)

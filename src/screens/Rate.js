@@ -107,11 +107,11 @@ const Rate = props => {
               (
                 <Fragement>
                   <Image
-                    style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+                    style={{width: 20, height: 20}} // todo: 이미지 사이즈 조절
                     source={{uri: mealToRate[0]['picURL']}}
                   />
                   <Text>
-                    님이 언제 먹은 끼니입니다
+                    님이 언제 먹은 끼니입니다\n\n\n\n\n\n\n\nsdfasdfsd
                   </Text>
                 </Fragement>
               )
