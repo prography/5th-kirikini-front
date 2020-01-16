@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">끼리끼니</string>
+    <string name="kakao_app_key">20a0812666f6e47b7b531d7c57bfda84</string>
+    <string name="facebook_app_id">650104882182241</string>
+</resources>
