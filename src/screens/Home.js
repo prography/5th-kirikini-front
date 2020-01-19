@@ -15,7 +15,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
-import { LOAD_MEALS_URL, LOAD_YESTERDAY_RATING_URL, deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS } from '../utils/consts'
+import { 
+  LOAD_MEALS_URL, LOAD_YESTERDAY_RATING_URL, LOAD_SINCE_MEAL_INFO_URL,
+  deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS 
+} from '../utils/consts'
 
 const HomeCircles = props => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -136,17 +139,20 @@ const HomeScreen = props => {
   const [ment, setMent] = useState('오늘 먹은 끼니를 등록해줘!');
   const [scoreCompare, setScoreCompare] = useState(null);
   const [name, setName] = useState('')
-  const [mealTime, setMealTime] = useState()
-  const [coffeeTime, setCoffeeTime] = useState()
-  const [alcoholTime, setAlcoholTime] = useState()
+  const [mealSince, setMealSince] = useState()
+  const [coffeeSince, setCoffeeSince] = useState()
+  const [drinkSince, setDrinkSince] = useState()
+
+  console.log(mealSince)
 
   useEffect(() => {
     AsyncStorage.getItem('@email')
       .then(result => {
         const id = result.slice(0, result.indexOf('@'));
         setName(id)
+        loadTodayMeals()
+        loadSinceMealInfo()
       })
-    loadTodayMeals()
   }, [])
   
   const calculateTodayScore = () => {
@@ -246,10 +252,66 @@ const HomeScreen = props => {
     );
   };
 
+  const loadSinceMealInfo = () => {
+    const _calculateSinceTime = (seconds) => {
+      if (seconds < 3600) { // 1시간 이내
+        const minutes = parseInt(seconds / 60)
+        return `${minutes}분`
+        
+      } else if (seconds < 86400) { // 24시간 이내
+        const hours = parseInt(seconds / 3600)
+        const minutes = ((seconds % 3600) / 60).toFixed(0)
+        return `${hours}시간 ${minutes}분`
+
+      } else { // 그 외는 '일'로 표시
+        const days = parseInt(seconds / 86400)
+        return `${days}일`
+      }
+    }
+
+    let access_token = null, refresh_token = null;
+    AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
+      access_token = response[0][1];
+      refresh_token = response[1][1];
+
+      if(access_token !== null)
+      {
+        const headers = {
+          'Authorization': `Bearer ${access_token}`,
+          'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+        };
+
+        axios.get(LOAD_SINCE_MEAL_INFO_URL, {headers})
+          .then(response => {
+            if(response.status == 200)
+            {
+              const since_data = response.data
+              console.log(since_data)
+
+              if (since_data['meal'] > 0) {
+                const since_text = _calculateSinceTime(since_data['meal'])
+                setMealSince(since_text)
+              }
+              if (since_data['drink'] > 0) {
+                const since_text = _calculateSinceTime(since_data['drink'])
+                setDrinkSince(since_text)
+              }
+              if (since_data['coffee'] > 0) {
+                const since_text = _calculateSinceTime(since_data['coffee'])
+                setCoffeeSince(since_text)
+              }
+            }
+          })
+          .catch(err => console.log(err))
+      }
+    })
+  }
+
   const today = (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <NavigationEvents onWillFocus={() => {
         loadTodayMeals()
+        loadSinceMealInfo()
         calculateTodayScore()
       }} />
       <View style={styles.container}>
@@ -275,11 +337,11 @@ const HomeScreen = props => {
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
                   <Text style={balloonText.lastMealTime}>
-                    {mealTime ? mealTime : '2시간 8분'} 
+                    {mealSince} 
                     {'\n'}
-                    {alcoholTime ? alcoholTime : '234시간'}
+                    {drinkSince}
                     {'\n'}
-                    {coffeeTime ? coffeeTime : '31시간'} 
+                    {coffeeSince} 
                     {'\n'}
                   </Text>
                 </View>

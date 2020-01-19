@@ -77,6 +77,7 @@ const Upload = props => {
             .then(response => {
               if(response.status == 201)
               {
+                setMealImage('');
                 AsyncStorage.removeItem('@mealImage')
                   .then(() => props.navigation.goBack())
                   .catch(err => console.log(err))

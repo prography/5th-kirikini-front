@@ -2,54 +2,57 @@ import { Platform, Dimensions } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 export const localhost = Platform.OS === 'ios' ? '127.0.0.1' : '10.0.2.2'
+export const SERVER_URL = '13.124.158.62'
 
 // // localhost
 // // Login
-// export const EMAIL_URL = `http://${localhost}:8000/email_login`
-// export const KAKAO_URL = `http://${localhost}:8000/kakao_login`
-// export const FB_URL = `http://${localhost}:8000/facebook_login`
-// export const AUTO_URL = `http://${localhost}:8000/auto_login`
+export const EMAIL_URL = `http://${localhost}:8000/email_login`
+export const KAKAO_URL = `http://${localhost}:8000/kakao_login`
+export const FB_URL = `http://${localhost}:8000/facebook_login`
+export const AUTO_URL = `http://${localhost}:8000/auto_login`
 
-// // Summary
-// export const LOAD_MONTH_MEAL_URL = `http://${localhost}:8000/meal/month`
+// Summary
+export const LOAD_MONTH_MEAL_URL = `http://${localhost}:8000/meal/month`
 
-// // Home
-// export const LOAD_MEALS_URL = `http://${localhost}:8000/meal/today`
-// export const LOAD_YESTERDAY_RATING_URL = `http://${localhost}:8000/meal/yesterday_rating`
+// Home
+export const LOAD_MEALS_URL = `http://${localhost}:8000/meal/today`
+export const LOAD_YESTERDAY_RATING_URL = `http://${localhost}:8000/meal/yesterday_rating`
+export const LOAD_SINCE_MEAL_INFO_URL = `http://${localhost}:8000/meal/since`
 
-// // Rate
-// export const RATE_MEAL_URL = `http://${localhost}:8000/rate/`
+// Rate
+export const RATE_MEAL_URL = `http://${localhost}:8000/rate/`
 
-// // Upload
-// export const SAVE_MEAL_URL = `http://${localhost}:8000/meal/`
+// Upload
+export const SAVE_MEAL_URL = `http://${localhost}:8000/meal/`
 
 // Setting
-// export const PRIVACY_URL = `http://${localhost}:8000/privacy/`
+export const PRIVACY_URL = `http://${localhost}:8000/privacy/`
 
 
 
 // real server
 // Login
-export const EMAIL_URL = "http://13.124.158.62/email_login"
-export const KAKAO_URL = "http://13.124.158.62/kakao_login"
-export const FB_URL = "http://13.124.158.62/facebook_login"
-export const AUTO_URL = "http://13.124.158.62/auto_login"
+// export const EMAIL_URL = `http://${SERVER_URL}/email_login`
+// export const KAKAO_URL = `http://${SERVER_URL}/kakao_login`
+// export const FB_URL = `http://${SERVER_URL}/facebook_login`
+// export const AUTO_URL = `http://${SERVER_URL}/auto_login`
 
-// Summary
-export const LOAD_MONTH_MEAL_URL = 'http://13.124.158.62/meal/month'
+// // Summary
+// export const LOAD_MONTH_MEAL_URL = `http://${SERVER_URL}/meal/month`
 
-// Home
-export const LOAD_MEALS_URL = 'http://13.124.158.62/meal/today'
-export const LOAD_YESTERDAY_RATING_URL = `http://13.124.158.62/meal/yesterday_rating`
+// // Home
+// export const LOAD_MEALS_URL = `http://${SERVER_URL}/meal/today`
+// export const LOAD_YESTERDAY_RATING_URL = `http://${SERVER_URL}/meal/yesterday_rating`
+// export const LOAD_SINCE_MEAL_INFO_URL = `http://${SERVER_URL}/meal/since`
 
-// Rate
-export const RATE_MEAL_URL = 'http://13.124.158.62/rate/'
+// // Rate
+// export const RATE_MEAL_URL = `http://${SERVER_URL}/rate/`
 
-// Upload
-export const SAVE_MEAL_URL = 'http://13.124.158.62/meal/'
+// // Upload
+// export const SAVE_MEAL_URL = `http://${SERVER_URL}/meal/`
 
-// Setting
-export const PRIVACY_URL = `http://13.124.158.62/privacy/`
+// // Setting
+// export const PRIVACY_URL = `http://${SERVER_URL}/privacy/`
 
 
 
