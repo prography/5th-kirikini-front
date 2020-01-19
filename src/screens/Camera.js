@@ -12,7 +12,9 @@ import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import { mealSaved } from '../store/meal/action';
-import { deviceWidth, deviceHeight, gray } from '../utils/consts'
+import { deviceWidth, deviceHeight, gray, yellow, kiriColor } from '../utils/consts';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
 
 let email = null;
 AsyncStorage.getItem('@email')
@@ -109,53 +111,77 @@ const CameraScreen = props => {
       </TouchableOpacity> */}
       <CameraView />
       <View style={cameraSt.buttonContainer}>
-        <TouchableOpacity onPress={() => takePicture()} style={cameraSt.button}>
-          <Text style={cameraSt.text}>촬영</Text>
+      <TouchableOpacity onPress={() => openAlbum()} style={cameraSt.button1}>
+          <Text style={cameraSt.text1}>앨범에서 불러오기</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => openAlbum()} style={cameraSt.button}>
-          <Text style={cameraSt.text}>앨범에서 불러오기</Text>
+        <TouchableOpacity onPress={() => takePicture()} style={cameraSt.button2}>
+          <Text style={cameraSt.text2}>촬영</Text>
         </TouchableOpacity>
+        
       </View>
     </View>
   );
 };
 
-const cameraSt = StyleSheet.create({
+const cameraSt = EStyleSheet.create({
   container: {
     backgroundColor: gray.m,
-    flex: 1
+    flex: 1,
+    alignItems: 'center'
   },
   cameraView: {
     width: deviceWidth,
-    height: deviceWidth
+    height:deviceWidth
   },
   buttonContainer: {
     position: 'absolute',
-    top: deviceWidth,
+    bottom: '20rem',
     padding: 17,
-    flexDirection: 'column'
-  },
-  button: {
-    height: deviceHeight / 8,
-    width: deviceWidth - 34,
-    marginTop: 20,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderTopLeftRadius: 40,
-    borderBottomRightRadius: 40,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 1
+    
   },
-  text: {
-    fontSize: 16,
-    lineHeight: 25,
-    fontWeight: '600',
-    color: gray.d,
-    textAlign: 'center'
+  button1: {
+    bottom: 10,
+    width: '160rem',
+    height: deviceHeight / 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: '30rem',
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 5 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 7,
+    // elevation: 7,
+    marginRight: '20rem'
+  },
+  button2: {
+    bottom: 10,
+    width: '150rem',
+    height: deviceHeight / 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: yellow.a,
+    borderRadius: '30rem',
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 5 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 7,
+    // elevation: 7
+  },
+  text1: {
+    textAlign: 'center',
+    fontSize: '15rem', 
+    fontFamily:'NotoSansCJKkr-Bold',
+    color:gray.c
+  },
+  text2: {
+    textAlign: 'center',
+    fontSize: '15rem', 
+    fontFamily:'NotoSansCJKkr-Bold',
+    color: 'white'
   }
 });
 

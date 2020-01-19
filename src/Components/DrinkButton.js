@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { gihoType } from '../store/meal/action';
 import { meal, gray, yellow } from '../utils/consts'
-
+import EStyleSheet from 'react-native-extended-stylesheet';
 const drinkTypes = [
   {
     key: 0,
@@ -24,7 +24,7 @@ const DrinkTypeButton = props => {
   const MakeDrinkTypeButton = () =>
     drinkTypes.map(item => {
       return (
-        <View key={item.key}>
+        <View  key={item.key}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.circle}
@@ -49,13 +49,15 @@ const DrinkTypeButton = props => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 30,
-    width: 370
+    width: "50%",
+    
+    
+    
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -64,22 +66,23 @@ const styles = StyleSheet.create({
   circle: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 27,
-    width: 27,
-    marginRight: 15,
+    height: '25rem',
+    width: '25rem',
+    marginRight: '8rem',
     borderRadius: 100,
-    borderWidth: 2.5,
+    borderWidth: '3rem',
     borderColor: gray.a
   },
   checkedCircle: {
-    width: 22,
-    height: 22,
+    width: '19rem',
+    height: '19rem',
     borderRadius: 100,
     backgroundColor: yellow.a
   },
   txt: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: '13.5rem',
+    lineHeight: '21rem',
+    fontFamily: 'NotoSansCJKkr-Medium',
     color: gray.d
   }
 });

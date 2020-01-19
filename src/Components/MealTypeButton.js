@@ -9,6 +9,7 @@ import {
   Image
 } from 'react-native';
 import { mealType } from '../store/meal/action';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -93,36 +94,34 @@ const MealTypeButton = props => {
 };
 
 const btColor = color =>
-  StyleSheet.create({
+  EStyleSheet.create({
     button: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: 70,
-      height: 70,
-      marginBottom: 10,
+      width: '55rem',
+      height: '55rem',
       borderRadius: 100,
       backgroundColor: color + '70'
     },
     selected: {
+      justifyContent: 'center',
+      alignItems: 'center',
       position: 'absolute',
-      width: 70,
-      height: 70,
-      marginBottom: 10,
+      width: '56rem',
+      height: '56rem',
       borderRadius: 100,
-      borderWidth: 4,
+      borderWidth: '3.5rem',
       borderColor: yellow.a,
-      backgroundColor: color
+      backgroundColor: color,
+      
     }
   });
 
-const mealbtSt = StyleSheet.create({
+const mealbtSt = EStyleSheet.create({
   container: {
     flexDirection: 'row',
-    // flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 100
-
     // backgroundColor: 'pink'
   },
 
@@ -138,15 +137,18 @@ const mealbtSt = StyleSheet.create({
   // },
   txtUnselected: {
     position: 'absolute',
-    color: gray.d,
-    fontSize: 18,
-    fontWeight: '500'
+    left: '10.3rem',
+    fontSize: '15rem',
+    lineHeight: '21rem',
+    fontFamily: 'NotoSansCJKkr-Medium',
+    color: gray.d
   },
   txtSelected: {
     position: 'absolute',
-    color: gray.d,
-    fontSize: 18,
-    fontWeight: '900'
+    left: '10.2rem',
+    color: 'white',
+    fontSize: '15rem',
+    fontFamily: 'NotoSansCJKkr-Black'
   }
 });
 

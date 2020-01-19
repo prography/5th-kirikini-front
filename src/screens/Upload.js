@@ -11,8 +11,8 @@ import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
 import Time from '../Components/Time';
 import secretKey from '../../secrets_front.json'
-import { SAVE_MEAL_URL, deviceWidth, deviceHeight, gray, yellow } from '../utils/consts'
-
+import { SAVE_MEAL_URL, deviceWidth, deviceHeight, gray, yellow, kiriColor } from '../utils/consts'
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 // AWS S3
 const s3_options = {
@@ -101,6 +101,7 @@ const Upload = props => {
         onWillFocus={() => updateMealImage()}
       />
       <View style={styles.container}>
+      <View style={styles.topMargin}/>
         <View style={styles.mintbackground} />
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>끼니 추가</Text>
@@ -113,7 +114,7 @@ const Upload = props => {
               style={mainImg.screen}
             >
               <Image
-                style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+                style={mainImg.img} // todo: 이미지 사이즈 조절
                 source={{uri: mealImage}}
                 rotate='90deg'
               />
@@ -128,29 +129,33 @@ const Upload = props => {
             </TouchableOpacity>
           )}
         </View>
-        <ScrollView>
+      
+        <View style={styles.bottomHalf}>
           <View style={dateTime.container}>
             <Text style={dateTime.txt}> {time} </Text>
           </View>
-          <DrinkTypeButton />
-          <MealTypeButton />
+          <View style={{flex:1, justifyContent: 'center'}}><DrinkTypeButton /></View>
+          <View style={{flex:2, justifyContent: 'center'}}><MealTypeButton /></View>
           {/*<Time /> todo */}
-        </ScrollView>
+          <View style={slider.container}>
+           <Text style={slider.txtScore}>{String(mealScore)}</Text>
+            <Slider
+            step={1}
+            value={5}
+            thumbTintColor={yellow.a}
+            minimumValue={0}
+            maximumValue={10}
+            minimumTrackTintColor={yellow.a}
+            maximumTrackTintColor={gray.a}
+            onValueChange={onValueChange}
+          />
+         </View>
+         </View>
+   
+        
       </View>
 
-      <View style={slider.container}>
-        <Text style={slider.txtScore}>{String(mealScore)}</Text>
-        <Slider
-          step={1}
-          value={5}
-          thumbTintColor={yellow.a}
-          minimumValue={0}
-          maximumValue={10}
-          minimumTrackTintColor={yellow.a}
-          maximumTrackTintColor={gray.a}
-          onValueChange={onValueChange}
-        />
-      </View>
+     
 
       <View style={styles.submitButton}>
         <TouchableOpacity
@@ -164,21 +169,26 @@ const Upload = props => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingLeft: 17,
-    paddingRight: 17,
+    paddingLeft: '16rem',
+    paddingRight: '16rem',
     backgroundColor: 'white'
   },
+  topMargin:{
+    height: '20rem',
+  },
   titleHeader: {
-    height: 60
+    marginBottom: '15rem',
   },
   txtBigTitle: {
-    fontSize: 27,
-    fontWeight: '700',
-    color: gray.d
+    fontSize: '23rem',
+    color: gray.d,
+    fontFamily: 'NotoSansCJKkr-Bold',
+    lineHeight: '30rem',
+    
   },
   mintbackground: {
     flexDirection: 'column',
@@ -194,6 +204,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 35,
     backgroundColor: gray.m
   },
+  bottomHalf: {
+    flex:1,  
+    flexDirection: 'column', 
+    padding: 10,
+    paddingTop: 0
+
+  },
   submitButton: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -203,12 +220,12 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
-    backgroundColor: gray.m,
+    backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.4,
     shadowRadius: 7,
-    elevation: 2
+    elevation: 40
   },
   //   shadow 때문에 따로 만들어서 적용
   submitTouchable: {
@@ -220,41 +237,32 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 35
   },
   txtSubmit: {
-    fontSize: 20,
-    marginTop: 15,
-    fontWeight: '600',
-    color: gray.c
+    fontSize: '16rem',
+    color: gray.d,
+    fontFamily:'NotoSansCJKkr-Medium',
   }
 });
-const dateTime = StyleSheet.create({
+const dateTime = EStyleSheet.create({
   container: {
+    flex:0.7,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 30,
-    marginTop: 3,
-    marginBottom: 5
   },
   txt: {
-    fontWeight: '700',
-    fontSize: 15,
+    fontFamily:'NotoSansCJKkr-Black',
+    fontSize: '12rem',
     color: gray.b
   }
 });
 
-const slider = StyleSheet.create({
+const slider = EStyleSheet.create({
   container: {
+    flex:2.2,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
-    position: 'absolute',
+    justifyContent: 'center',
     bottom: 0,
-    height: (deviceHeight / 9) * 2.2,
-    width: deviceWidth,
-    paddingTop: 16,
-    paddingLeft: 17,
-    paddingRight: 17,
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
-    backgroundColor: 'white'
+    // height: (deviceHeight / 9) * 2.2,
+    width: '100%',
     // shadowColor: '#000',
     // shadowOffset: { width: 0, height: 5 },
     // shadowOpacity: 0.2,
@@ -262,30 +270,44 @@ const slider = StyleSheet.create({
     // elevation: 6
   },
   txtScore: {
-    marginBottom: 6,
-    fontSize: 25,
-    fontWeight: '600',
+    marginBottom: '2rem',
+    fontSize: '28rem',
+    fontFamily:'Rubik-Medium',
     color: yellow.b,
     textAlign: 'center'
+
   }
 });
 
-const mainImg = StyleSheet.create({
+const mainImg = EStyleSheet.create({
   screen: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: deviceWidth - 34,
-    height: 290,
-    borderTopLeftRadius: 45,
-    borderBottomRightRadius: 45,
+    height: deviceWidth * 70 /100,
+    borderTopLeftRadius: '70rem',
+    borderBottomRightRadius: '70rem',
     borderColor: gray.m,
-    borderWidth: 4,
-    backgroundColor: 'white'
-    // shadowColor: '#000',
+    borderWidth: 10,
+    backgroundColor: 'white',
+    //  shadowColor: '#000',
     // shadowOffset: { width: 0, height: 7 },
     // shadowOpacity: 0.05,
     // shadowRadius: 10,
-    // elevation: 1
+    // elevation: 10
+  },
+  img:{
+    height: deviceWidth -54,
+    width: deviceWidth * 70 /100 -20,
+    borderTopRightRadius: '60rem',
+    borderBottomLeftRadius: '60rem',
+    resizeMode: 'cover',
+    transform: [{ rotate: '90deg' }]
+    // 이미지가 안 돌아가기 시작한다면 아래 코드 사용...
+    // width: '100%',
+    // height: deviceWidth * 70 /100 -20,
+    // borderTopLeftRadius: '60rem',
+    // borderBottomRightRadius: '60rem',
+    // resizeMode: 'cover',
   },
   txt: {
     color: gray.b,

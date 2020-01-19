@@ -1,4 +1,5 @@
 import { Platform, Dimensions } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export const localhost = Platform.OS === 'ios' ? '127.0.0.1' : '10.0.2.2'
 
@@ -55,7 +56,7 @@ export const PRIVACY_URL = `http://13.124.158.62/privacy/`
 // Device
 export const deviceWidth = Dimensions.get('window').width;
 export const deviceHeight = Dimensions.get('window').height;
-
+EStyleSheet.build({$rem: deviceWidth / 380});
 
 // Colors
 export const kiriColor = '#F2F9F2';

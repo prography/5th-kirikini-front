@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect, useDispatch } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Slider from '@react-native-community/slider';
@@ -7,7 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealRate } from '../store/meal/action';
-import { RATE_MEAL_URL, deviceWidth, gray, yellow, meal } from '../utils/consts'
+import { RATE_MEAL_URL, deviceWidth, gray, yellow, meal, kiriColor, deviceHeight } from '../utils/consts'
 
 
 const Rate = props => {
@@ -94,6 +95,7 @@ const Rate = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
+        <View style={styles.topMargin}/>
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>끼니 채점</Text>
         </View>
@@ -101,22 +103,27 @@ const Rate = props => {
             {
               mealToRate.length == 0 
               ?
-              (
+              (<>
+              <Image
+                style={mainImg.noMealKirini}
+                source={require('../img/kirini5.png')}
+              />
                 <Text
-                  style={{marginTop: 130, alignSelf: 'center'}}
+                  style={mainImg.noMealAlert}
                 >
-                  채점할 끼니가 없습니다 {'\n'}
-                  다른 유저의 끼니 등록을 기다려주세요
+                  채점할 끼니가 없습니다. {'\n'}
+                  다른 유저의 끼니 등록을 기다려주세요!
                 </Text>
+              </>  
               )
               :
               (
                 <Fragment>
                   <Image
-                    style={{width: 200, height: 200}} // todo: 이미지 사이즈 조절
+                    style={mainImg.img} // todo: 이미지 사이즈 조절
                     source={{uri: mealToRate[0]['picURL']}}
                   />
-                  <Text>
+                  <Text style={mainImg.whoseKini}>
                     {user_name}님이 {user_meal_date}에 먹은 끼니입니다
                   </Text>
                 </Fragment>
@@ -135,68 +142,138 @@ const Rate = props => {
             maximumTrackTintColor={gray.b}
             onValueChange={onValueChange}
           />
+          <TouchableOpacity
+            onPress={rateMeal}
+            style={slider.button}
+          >
+            <Text
+              style={slider.txtSubmit}
+            >
+              다음 끼니 채점하기 👉
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity
-          onPress={rateMeal}
-          style={{borderWidth: 1, width: deviceWidth*0.3, alignSelf: 'center'}}
-        >
-          <Text
-            style={{textAlign: 'center'}}
-          >
-            채점
-          </Text>
-        </TouchableOpacity>
+        
       </View>
       <NavBar navigation={props.navigation} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingLeft: 17,
-    paddingRight: 17,
+    paddingLeft: '16rem',
+    paddingRight: '16rem',
     backgroundColor: '#F2F9F2'
   },
+  topMargin:{
+    height: '20rem',
+    backgroundColor: kiriColor
+  },
   titleHeader: {
-    height: 60
+    marginBottom: '15rem',
+    
   },
   txtBigTitle: {
-    fontSize: 27,
-    fontWeight: '700',
-    color: gray.d
+    fontSize: '23rem',
+    color: gray.d,
+    fontFamily: 'NotoSansCJKkr-Bold',
+    lineHeight: '30rem',
+    
   }
 });
 
-const slider = StyleSheet.create({
+const slider = EStyleSheet.create({
   container: {
-    marginTop: 120
+    flex:1,
+    justifyContent: 'flex-end',
+    // marginTop: 120
+    // backgroundColor: gray.a,
+    paddingBottom: '20rem',
   },
   txtScore: {
-    marginBottom: 20,
-    fontSize: 40,
-    fontWeight: '700',
+    marginBottom: '10rem',
+    fontSize: '40rem',
+    // fontFamily:'FredokaOne-Regular',
+    // fontFamily:'Quicksand-Bold',
+    fontFamily:'Rubik-Bold',
     color: yellow.b,
     textAlign: 'center'
+  },
+  button:{
+    marginTop: '20rem',
+    width: '50%',
+    height: deviceHeight / 13,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: 'white',
+   borderRadius: '30rem',
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 7 },
+    // shadowOpacity: 0.05,
+    // shadowRadius: 10,
+    // elevation: 20
+  },
+  txtSubmit: {
+    textAlign: 'center',
+    fontSize: '13rem', 
+    fontFamily:'NotoSansCJKkr-Bold',
+    color: gray.c
   }
 });
 
-const mainImg = StyleSheet.create({
+const mainImg = EStyleSheet.create({
+  noMealKirini:{
+    width: '100rem', 
+    height: '70rem',
+    resizeMode: 'contain'
+  },
+  noMealAlert: {
+    fontSize: '11rem',
+    color: gray.c,
+    textAlign: 'center',
+    fontFamily: 'NotoSansCJKkr-Bold'
+  },
   screen: {
-    width: deviceWidth - 34,
-    height: 290,
-    borderTopLeftRadius: 45,
-    borderBottomRightRadius: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: deviceWidth * 75 /100,
+    borderTopLeftRadius: '70rem',
+    borderBottomRightRadius: '70rem',
+    borderColor: 'white',
+    borderWidth: 10,
     backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 7 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 1
-  }
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 7 },
+    // shadowOpacity: 0.05,
+    // shadowRadius: 10,
+    // elevation: 10
+  },
+  whoseKini:{
+    top: -10,
+    fontSize: '11rem',
+    color: gray.c,
+    textAlign: 'center',
+    fontFamily: 'NotoSansCJKkr-Bold'
+  },
+  img:{
+    top: 17,
+    height: deviceWidth -54,
+    width: deviceWidth * 75 /100 -20,
+    borderTopRightRadius: '60rem',
+    borderBottomLeftRadius: '60rem',
+    resizeMode: 'cover',
+    transform: [{ rotate: '90deg' }]
+    // 이미지가 안 돌아가기 시작한다면 아래 코드 사용...
+    // width: '100%',
+    // height: deviceWidth * 75 /100 -20,
+    
+    // resizeMode: 'cover',
+  },
 });
 
 // todo: tab navigation

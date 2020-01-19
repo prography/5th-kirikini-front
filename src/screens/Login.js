@@ -11,7 +11,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 import {loginSuccess} from '../store/auth/action';
-import { EMAIL_URL, KAKAO_URL, FB_URL, AUTO_URL, deviceWidth, kiriColor } from '../utils/consts'
+import { deviceHeight, EMAIL_URL, gray,KAKAO_URL, FB_URL, AUTO_URL, deviceWidth, kiriColor, yellow } from '../utils/consts'
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 if (!KakaoLogins) {
   console.error('Module is Not Linked');
@@ -112,11 +113,11 @@ const Login = props => {
       .then(result => {
         console.log("result", result)
         setToken(result.accessToken);
-        
+      
         KakaoLogins.getProfile()
           .then(res => {
             setEmail(res.email)
-            
+
             AsyncStorage.setItem('@email', res.email)
               .then(() => { 
                 axios.post(KAKAO_URL, 
@@ -220,12 +221,27 @@ const Login = props => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
+      
+        <View style={{flexDirection: 'row', width: deviceWidth, justifyContent: 'space-between'}}>
+        <Image
+            style={styles.leaf}
+            source={require('../img/leaf_left.png')}
+          />
+          <Image
+            style={styles.leaf}
+            source={require('../img/leaf_right.png')}
+          />
+          
+        </View>
+        <Text style={styles.txtKiri}>KIRIKINI</Text>
+      
           <Image
             style={styles.kirini}
-            source={require('../img/kirini2.png')}
+            source={require('../img/kirini1.png')}
           />
-          <Text style={styles.txtKiri}>KiriKini</Text>
-          <Text style={styles.textKini}>식단관리서비스</Text>
+           
+          
+         
       </View>
         {/*<Text> // todo: 추후 추가
           이메일
@@ -251,18 +267,19 @@ const Login = props => {
           onPress={emailLogin}
         />
         </TouchableOpacity>*/}
-        <Text>
+        <Text style={styles.textKini}>
           {error}
         </Text>
-        <View style={styles.button}>
+  
           <TouchableOpacity
-            onPress={kakaoLogin}
-          >
-            <Image
-              source={require('../img/kakao_button.png')}
-            />
-          </TouchableOpacity>
-        </View>
+              onPress={kakaoLogin}
+              style={styles.kakaoButton}
+            >
+              <Image style={styles.kakaoLogo} source={require('../img/kakao_logo.png')}/>
+              <Text style={styles.txtKakao}>카카오 로그인</Text>           
+            </TouchableOpacity>
+   
+      
 
         {/*<LoginButton
           publishPermissions={["email"]}
@@ -292,27 +309,34 @@ const Login = props => {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    marginTop: Platform.OS === 'ios' ? 0 : 24,
-    paddingTop: Platform.OS === 'ios' ? 24 : 0,
+    justifyContent: 'flex-start',
+    paddingTop: '40rem',
+    alignItems: 'center',
     backgroundColor: kiriColor,
   },
   content: {
-    flex: 1,
-    justifyContent: 'center',
+    
+    
     alignItems: 'center',
+    
   },
   txtKiri: {
-    fontSize:40
+    fontSize:'60rem',
+    fontFamily: 'Digitalt',
+    color: yellow.a,
+    top: '-40rem'
   },
   textKini:{
-    fontSize:10
+    fontSize: '15rem',
+    color: gray.d,
+    textAlign: 'center',
+    fontFamily: 'NotoSansCJKkr-Black'
   },
   button: {
-    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginTop:30
@@ -324,6 +348,28 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8E71C',
     borderRadius: 0,
     borderWidth: 0,
+  },
+  kakaoButton: {
+    marginTop:'20rem',
+    flexDirection: 'row',
+    width: '250rem',
+    backgroundColor: yellow.a,
+    borderRadius: '30rem',
+    height: deviceHeight / 13,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  kakaoLogo:{
+    width:'20rem',
+    height: '20rem',
+    marginRight: '20rem',
+    resizeMode: 'contain'
+  },
+  txtKakao:{
+    fontSize: '14rem',
+    color: gray.d,
+    textAlign: 'center',
+    fontFamily: 'NotoSansCJKkr-Bold'
   },
   txtKakaoLogin: {
     fontSize: 16,
@@ -345,12 +391,14 @@ const styles = StyleSheet.create({
     paddingLeft:50
   },
   kirini: {
-    marginTop:180,
-    width: (deviceWidth * 4) / 7,
-    height: deviceWidth / 3,
+    width: (deviceWidth * 1) / 2,
+    height: deviceWidth / 4,
     resizeMode: 'contain',
-    flex:1,
-    display: 'flex'
+  },
+ leaf: {
+    width: (deviceWidth * 1) / 3,
+    height: deviceWidth / 5,
+    resizeMode: 'contain',
   }
 });
 

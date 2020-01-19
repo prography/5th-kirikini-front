@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import {
   View,
   Text,
@@ -118,40 +119,40 @@ const NavBar = props => {
   );
 };
 
-const navBar = StyleSheet.create({
+const navBar = EStyleSheet.create({
   roundContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: deviceHeight / 9,
     width: deviceWidth,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderTopLeftRadius: 35,
-    borderTopRightRadius: 35,
+    paddingLeft: '7rem',
+    paddingRight: '7rem',
+    borderTopLeftRadius: '37rem',
+    borderTopRightRadius:'37rem',
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
     shadowRadius: 7,
-    elevation: 6
+    elevation: 40
   },
   oneButton: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 10
+    paddingTop: '7rem'
     // backgroundColor: 'red'
   },
   txtSelected: {
     color: yellow.a,
-    fontWeight: '900',
-    fontSize: 11.5,
-    lineHeight: 12
+    fontFamily: 'NotoSansCJKkr-Black',
+    fontSize: '9.5rem',
+    lineHeight: '12rem'
   },
   txtUnselected: {
     color: gray.c,
-    fontWeight: '600',
-    fontSize: 11,
-    lineHeight: 12
+    fontFamily: 'NotoSansCJKkr-Medium',
+    fontSize: '9rem',
+    lineHeight: '12rem'
   }
 });
 

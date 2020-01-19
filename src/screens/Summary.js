@@ -14,6 +14,7 @@ import {
   ContributionGraph,
   StackedBarChart
 } from "react-native-chart-kit";
+import EStyleSheet from 'react-native-extended-stylesheet';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
@@ -346,6 +347,7 @@ const Summary = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}> 
       <View style={styles.container}>
+        
         <View style={topBox.container}>
           <Text style={styles.txtBigTitle}>기록</Text>
           <ScrollView horizontal={true}>
@@ -448,15 +450,18 @@ const Summary = props => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F2F9F2'
   },
+ 
   txtBigTitle: {
-    fontSize: 27,
-    fontWeight: '700',
-    color: gray.d
+    marginTop: '20rem',
+    fontSize: '23rem',
+    color: gray.d,
+    fontFamily: 'NotoSansCJKkr-Bold',
+    lineHeight: '30rem', 
   },
   scrollview: {
     flex: 1,

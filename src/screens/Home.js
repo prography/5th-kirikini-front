@@ -9,6 +9,7 @@ import {
   Image,
   Modal
 } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationEvents } from 'react-navigation';
@@ -252,12 +253,14 @@ const HomeScreen = props => {
         calculateTodayScore()
       }} />
       <View style={styles.container}>
+      <View style={styles.topMargin}/>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
                 <Text style={styles.txtBigTitle}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>{!todayScore ? '-' : todayScore}</Text>
+                {/* <Text style={balloonText.todayScore}>9.3</Text> */}
               </View>
               {/* todo: <View style={balloonSt.scoreCompareArea}>
                 <Text style={balloonText.scoreCompare}>{!todayScore ? '-' : ((todayScore-scoreCompare) > 0 ? '▲' : '▼' (todayScore - scoreCompare))}</Text>
@@ -265,25 +268,25 @@ const HomeScreen = props => {
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
                   <Text style={balloonText.lastMealTime}>
-                    🍽 :{'\n'}
-                    🍺 :{'\n'}
-                    ☕️ :{'\n'}
+                    🍽 밥 먹은 지{'\n'}
+                    🍺 음주한 지{'\n'}
+                    ☕️ 커피 마신 지{'\n'}
                   </Text>
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
                   <Text style={balloonText.lastMealTime}>
-                    식사를 한지 {mealTime ? mealTime : '2시간'} 지났어요
+                    {mealTime ? mealTime : '2시간 8분'} 
                     {'\n'}
-                    술을 마신지 {alcoholTime ? alcoholTime : '234시간'} 지났어요
+                    {alcoholTime ? alcoholTime : '234시간'}
                     {'\n'}
-                    커피를 마신지 {coffeeTime ? coffeeTime : '4시간'} 지났어요
+                    {coffeeTime ? coffeeTime : '31시간'} 
                     {'\n'}
                   </Text>
                 </View>
               </View>
               <View style={balloonSt.feedbackArea}>
                 <Text style={balloonText.feedback}>
-                  {todayScore == null ? (`${name}님,`) : (`${name}님의 건강도는...`)}
+                  {todayScore == null ? (`${name}님,`) : (`${name}님의 오늘 건강도는 ${todayScore}!`)}
                   {`\n${ment}`}
                 </Text>
               </View>
@@ -324,38 +327,46 @@ const HomeScreen = props => {
 };
 
 // 공통적으로 쓰일? View 스타일 (화면 분할 등)
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: kiriColor
   },
+  topMargin:{
+    flex: 0.5,
+    backgroundColor: kiriColor
+  },
   topHalf: {
-    flex: 2.8,
+    flex: 5,
     flexDirection: 'row'
   },
   bottomHalf: {
-    flex: 1
+    flex: 2
   },
   txtBigTitle: {
-    fontSize: 27,
-    fontWeight: '700',
-    color: gray.d
+    fontSize: '23rem',
+    color: gray.d,
+    fontFamily: 'NotoSansCJKkr-Bold',
+    lineHeight: '30rem',
+   
   }
 });
 
 // 하얀 말풍선 속 Text 스타일
-const balloonText = StyleSheet.create({
+const balloonText = EStyleSheet.create({
   title: {
-    fontSize: 27,
+    fontSize: '10rem',
     lineHeight: 35,
     fontWeight: '700',
     color: gray.d
   },
   todayScore: {
-    fontSize: 35,
-    lineHeight: 35,
-    fontWeight: '700',
+    fontSize: '30rem',
+    lineHeight: '40rem',
+    //  fontFamily:'FredokaOne-Regular',
+    // fontFamily:'Quicksand-Bold',
+    fontFamily:'Rubik-Bold',
     color: yellow.b
   },
   scoreCompare: {
@@ -363,23 +374,21 @@ const balloonText = StyleSheet.create({
     color: gray.b
   },
   lastMealTime: {
-    fontSize: 13,
-    lineHeight: 25,
-    fontWeight: '500',
+    fontSize: '11rem',
     color: gray.c,
-    textAlign: 'right'
+    textAlign: 'right',
+    fontFamily: 'NotoSansCJKkr-Bold'
   },
   feedback: {
-    fontSize: 15,
-    lineHeight: 25,
-    fontWeight: '600',
+    fontSize: '14rem',
     color: gray.d,
-    textAlign: 'right'
+    textAlign: 'right',
+    fontFamily: 'NotoSansCJKkr-Medium'
   }
 });
 
 // 하얀 말풍선 속 View 스타일
-const balloonSt = StyleSheet.create({
+const balloonSt = EStyleSheet.create({
   container: {
     flex: 4,
     flexDirection: 'column'
@@ -389,8 +398,8 @@ const balloonSt = StyleSheet.create({
     flexDirection: 'column',
     width: deviceWidth,
     padding: deviceWidth / 10,
-    borderTopLeftRadius: 70,
-    borderBottomRightRadius: 70,
+    borderTopLeftRadius: '70rem',
+    borderBottomRightRadius: '70rem',
     backgroundColor: 'white'
   },
   topBar: {
@@ -403,23 +412,26 @@ const balloonSt = StyleSheet.create({
     alignItems: 'flex-end'
   },
   lastMealTimeContainer: {
-    flex: 1.5,
+    flex: 1.2,
     flexDirection: 'row',
-    paddingTop: 7
+    paddingTop: '12rem',
+    
   },
   lastMealIconWrapper: {
-    flex: 1,
+    flex: 3,
     justifyContent: 'center'
   },
   lastMealTimeWrapper: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
-    paddingLeft: 6
+    paddingLeft: '10rem',
+    
   },
   feedbackArea: {
-    flex: 1.2,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end'
+    flex: 1.7,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    
   },
   tailContainer: {
     flex: 1,
@@ -436,21 +448,22 @@ const balloonSt = StyleSheet.create({
     position: 'absolute',
     width: deviceWidth / 3,
     height: deviceWidth / 3,
-    borderTopLeftRadius: 100,
+    borderTopLeftRadius: '70rem',
     backgroundColor: kiriColor
   },
   kiriniContainer: {
     position: 'absolute',
-    right: 40,
-    width: (deviceWidth * 4) / 10,
-    height: deviceWidth / 4,
+    right: deviceWidth / 10,
+    top:'-9rem',
+    width: (deviceWidth * 3) / 10,
+    height: deviceWidth / 3,
     alignSelf: 'center'
   },
   kirini: {
     position: 'absolute',
     marginLeft: 40,
-    width: (deviceWidth * 4) / 10,
-    height: deviceWidth / 4,
+    width: (deviceWidth * 3) / 10,
+    height: deviceWidth / 3,
     alignSelf: 'center',
     resizeMode: 'contain'
   }
