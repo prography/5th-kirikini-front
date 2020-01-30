@@ -13,6 +13,7 @@ export const SERVER_URL = '13.124.158.62'
 
 // // Summary
 // export const LOAD_MONTH_MEAL_URL = `http://${localhost}:8000/meal/month`
+// export const LOAD_WEEK_REPORT_URL = `http://${localhost}:8000/report/week`
 
 // // Home
 // export const LOAD_MEALS_URL = `http://${localhost}:8000/meal/today`
@@ -39,6 +40,7 @@ export const AUTO_URL = `http://${SERVER_URL}/auto_login`
 
 // Summary
 export const LOAD_MONTH_MEAL_URL = `http://${SERVER_URL}/meal/month`
+export const LOAD_WEEK_REPORT_URL = `http://${SERVER_URL}/report/week`
 
 // Home
 export const LOAD_MEALS_URL = `http://${SERVER_URL}/meal/today`

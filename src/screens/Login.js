@@ -32,7 +32,7 @@ const Login = props => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // autoLogin()
+    autoLogin()
   }, [])
 
   const onChangeEmail = (_email) => {
@@ -98,10 +98,11 @@ const Login = props => {
             dispatch(loginSuccess())
             props.navigation.navigate('Home')
           }
-          else
+          else if(response.status == 401)
           {
-            console.log(response.data)
+            Alert.alert("소셜로그인을 다시 진행해주세요!")
           }
+          else console.log(response.data)
         })
         .catch(err => console.log(err))
       }

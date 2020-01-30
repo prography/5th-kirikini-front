@@ -234,7 +234,7 @@ PODS:
   - react-native-fbsdk/Share (1.1.1):
     - FBSDKShareKit (= 5.8)
     - React
-  - react-native-image-picker (1.1.0):
+  - react-native-image-picker (2.2.0):
     - React
   - react-native-slider (2.0.7):
     - React
@@ -455,7 +455,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-camera: c529629e3ecd017dcdacfd0355576ef489d9d198
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
-  react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
+  react-native-image-picker: 5f9eabde109955b2faf6ef5d5114a49a8ff45ded
   react-native-slider: 718ed45db20672b26a92fcf4217ced078b1ac7ce
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 52af6e38e861f449ce486db98ee54d39c682655e

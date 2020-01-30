@@ -11,6 +11,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 import { RATE_MEAL_URL, deviceWidth, gray, yellow, meal, kiriColor, deviceHeight } from '../utils/consts'
 
+// todo: 자동로그인 on/off
 const Settings = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch()

@@ -143,8 +143,6 @@ const HomeScreen = props => {
   const [coffeeSince, setCoffeeSince] = useState()
   const [drinkSince, setDrinkSince] = useState()
 
-  console.log(mealSince)
-
   useEffect(() => {
     AsyncStorage.getItem('@email')
       .then(result => {
@@ -227,7 +225,6 @@ const HomeScreen = props => {
   }
 
   const loadTodayMeals = () => {
-    console.log("loadTodayMeals()")
     let access_token = null, refresh_token = null;
     AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
       response => {
@@ -286,7 +283,6 @@ const HomeScreen = props => {
             if(response.status == 200)
             {
               const since_data = response.data
-              console.log(since_data)
 
               if (since_data['meal'] > 0) {
                 const since_text = _calculateSinceTime(since_data['meal'])
@@ -322,7 +318,6 @@ const HomeScreen = props => {
               <View style={balloonSt.topBar}>
                 <Text style={styles.txtBigTitle}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>{!todayScore ? '-' : todayScore}</Text>
-                {/* <Text style={balloonText.todayScore}>9.3</Text> */}
               </View>
               {/* todo: <View style={balloonSt.scoreCompareArea}>
                 <Text style={balloonText.scoreCompare}>{!todayScore ? '-' : ((todayScore-scoreCompare) > 0 ? '▲' : '▼' (todayScore - scoreCompare))}</Text>

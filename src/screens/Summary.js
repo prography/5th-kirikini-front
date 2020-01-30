@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import {
   Text, View, TouchableOpacity,
   StyleSheet, ScrollView, Dimensions,
@@ -6,28 +6,73 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect, useDispatch } from 'react-redux';
+import { NavigationEvents } from 'react-navigation';
 import {
   LineChart,
   BarChart,
   PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
 } from "react-native-chart-kit";
 import EStyleSheet from 'react-native-extended-stylesheet';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
-import { LOAD_MONTH_MEAL_URL, deviceWidth, gray, yellow, mealColor, meal, kiriColor } from '../utils/consts'
-
-const todayScore = 5.7;
+import { LOAD_MONTH_MEAL_URL, LOAD_WEEK_REPORT_URL, deviceWidth, gray, yellow, mealColor, meal, kiriColor, screenWidth } from '../utils/consts'
 
 const WeeklyReportToggled = () => {
+  const [mealCount, setMealCount] = useState(0)
+  const [avgMealCount, setAvgMealCount] = useState(0)
+  const [weekScore, setWeekScore] = useState(0)
+  const [drinkCount, setDrinkCount] = useState(0)
+  const [coffeeCount, setCoffeeCount] = useState(0)
+  const [scoreByDay, setScoreByDay] = useState([])
+  const [scoreByMealType, setScoreByMealType] = useState([])
+  const [countsByMealType, setCountsByMealType] = useState([])
+
+  const loadWeekReport = () => {
+    let access_token = null, refresh_token = null;
+    AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
+      response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
+
+        if (access_token !== null) {
+          const headers = {
+            Authorization: `Bearer ${access_token}`,
+            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
+          };
+          
+          axios
+            .get(LOAD_WEEK_REPORT_URL, { headers })
+            .then(response => {
+              const { 
+                avg_meal_count, coffee_count, drink_count, counts_by_meal_type, score_by_day, score_by_meal_type, week_score 
+              } = response["data"]
+
+              setAvgMealCount(avg_meal_count)
+              setCoffeeCount(coffee_count)
+              setDrinkCount(drink_count)
+              setCountsByMealType(counts_by_meal_type)
+              setScoreByDay(score_by_day)
+              setScoreByMealType(score_by_meal_type)
+              setWeekScore(week_score)
+            })
+            .catch(err => {
+              console.log(err)});
+        }
+      }
+    );
+  }
+
   const data1 = {
     labels: ["월", "화", "수", "목", "금", "토", "일"],
     datasets: [
       {
-        data: [6, 5, 8, 8, 9, 4, 2],
+        data: scoreByDay.length > 0
+          ? 
+          [scoreByDay[0]["score"], scoreByDay[1]["score"], scoreByDay[2]["score"], 
+          scoreByDay[3]["score"], scoreByDay[4]["score"], scoreByDay[5]["score"], scoreByDay[6]["score"]]
+          :
+          [0, 0, 0, 0, 0, 0, 0],
         color: (opacity = 1) => `rgba(0,0,0, ${opacity})`
       }
     ]
@@ -37,37 +82,75 @@ const WeeklyReportToggled = () => {
     labels: ["집밥", "외식", "배달", "간편"],
     datasets: [
       {
-        data: [1,2,3,4],
+        data: scoreByMealType.length > 0
+          ?
+          [scoreByMealType[0]["score"], scoreByMealType[1]["score"], scoreByMealType[2]["score"], scoreByMealType[3]["score"]]
+          : 
+          [1,2,3,4],
         color: (opacity = 1) => `rgba(249, 205, 21, ${opacity})`
       }
     ]
   };
 
-  const data3 = [
+  const data3 = 
+  scoreByMealType.length > 0
+  ?
+  [
     {
       name: "집밥",
-      population: 7,
+      population: scoreByMealType[0]["count"],
       color: meal.a,
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
       name: "외식",
-      population: 4,
+      population: scoreByMealType[1]["count"],
       color: meal.b,
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
       name: "배달",
-      population: 3,
+      population: scoreByMealType[2]["count"],
       color: meal.c,
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
     },
     {
       name: "간편",
-      population: 8,
+      population: scoreByMealType[3]["count"],
+      color: meal.d,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    }
+  ]
+  :
+  [
+    {
+      name: "집밥",
+      population: 1,
+      color: meal.a,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "외식",
+      population: 1,
+      color: meal.b,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "배달",
+      population: 1,
+      color: meal.c,
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15
+    },
+    {
+      name: "간편",
+      population: 1,
       color: meal.d,
       legendFontColor: "#7F7F7F",
       legendFontSize: 15
@@ -110,16 +193,18 @@ const WeeklyReportToggled = () => {
   const graphStyle = {
     borderRadius: 16
   };
-  const screenWidth = Dimensions.get("window").width;
 
   return (
     <View style={balloonSt.balloon}>
+      <NavigationEvents onWillFocus={() => {
+        loadWeekReport()
+      }} />
       <View style={balloonSt.topBar}>
         <Text style={styles.txtBigTitle}>이주의 건강도</Text>
-        <Text style={balloonText.todayScore}>{todayScore}</Text>
+        <Text style={balloonText.todayScore}>{weekScore}</Text>
       </View>
       <View style={balloonSt.scoreCompareArea}>
-        <Text style={balloonText.scoreCompare}>▲ 1.2</Text>
+        <Text style={balloonText.scoreCompare}>▲ 1.2(수정?)</Text>
       </View>
       <View style={balloonSt.lastMealTimeContainer}>
         <View style={balloonSt.lastMealIconWrapper}>
@@ -132,13 +217,13 @@ const WeeklyReportToggled = () => {
         </View>
         <View style={balloonSt.lastMealTimeWrapper}>
           <Text style={balloonText.lastMealTime}>
-            12회
+            {mealCount}회
             {'\n'}
-            2회
+            {avgMealCount}회
             {'\n'}
-            3회
+            {drinkCount}회
             {'\n'}
-            10회
+            {coffeeCount}회
             {'\n'}
           </Text>
         </View>
@@ -191,7 +276,7 @@ const WeeklyListToggled = (props) => {
 
   const renderList = (_day) => { // 0:월, 1:화, ... , 6:일
     return (
-      <>
+      <Fragment>
         <View
           style={{
             position: 'absolute',
@@ -231,7 +316,7 @@ const WeeklyListToggled = (props) => {
             )
           }
         })}
-      </>
+      </Fragment>
     )
   }
 
@@ -338,6 +423,7 @@ const Summary = props => {
   
       axios.post(LOAD_MONTH_MEAL_URL, {month: _month}, {headers})
         .then(result => {
+          console.log("result.data", result.data)
           dispatch(mealMonth(result.data));
         })
         .catch(err => console.log(err))
