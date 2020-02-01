@@ -28,8 +28,8 @@ const Upload = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealImage, setMealImage] = useState('');
 
-  const ampm = props.saved.timestamp == null ? '' : (Number(props.saved.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? ' AM' : ' PM')
-  const time = props.saved.timestamp == null ? '' : props.saved.timestamp.replace(/T/gi, ' ').slice(0, 19) + ampm
+  const time = props.saved.timestamp == null ? '' : (Number(props.saved.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? ' 오전' + Number(props.saved.timestamp.slice(11, 13)) +'시 '+props.saved.timestamp.slice(17, 19)+'분'  :  ' 오후 ' + Number(props.saved.timestamp.slice(11, 13)-12) +'시 '+props.saved.timestamp.slice(14, 16)+'분')
+  const date = props.saved.timestamp == null ? '' : props.saved.timestamp.slice(0, 4) +'년 ' +props.saved.timestamp.slice(5, 7)+'월 '+props.saved.timestamp.slice(8, 10) + '일' + time
 
   const updateMealImage = () => {
     AsyncStorage.getItem('@mealImage')
@@ -133,7 +133,7 @@ const Upload = props => {
       
         <View style={styles.bottomHalf}>
           <View style={dateTime.container}>
-            <Text style={dateTime.txt}> {time} </Text>
+            <Text style={dateTime.txt}> {date} </Text>
           </View>
           <View style={{flex:1, justifyContent: 'center'}}><DrinkTypeButton /></View>
           <View style={{flex:2, justifyContent: 'center'}}><MealTypeButton /></View>

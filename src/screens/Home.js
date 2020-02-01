@@ -456,7 +456,7 @@ const balloonText = EStyleSheet.create({
     color: gray.b
   },
   lastMealTime: {
-    fontSize: '11rem',
+    fontSize: '13rem',
     color: gray.c,
     textAlign: 'right',
     fontFamily: 'NotoSansCJKkr-Bold',
