@@ -433,48 +433,45 @@ const Summary = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}> 
       <View style={styles.container}>
-        
+      <View style={styles.topMargin}/>
         <View style={topBox.container}>
-          <Text style={styles.txtBigTitle}>기록</Text>
-          <ScrollView horizontal={true}>
-          {month_list.map(month => {
-            if(selectedMonth == month)
-            {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedMonth(month)
-                    loadMonthMeals(month)
-                  }}
-                  style={{margin: 10}}
-                  key={month}
-                >
-                  <Text style={{color: 'red'}}>
-                    {month}월
-                  </Text>
-                </TouchableOpacity>
-              )
-            }
-            else
-            {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedMonth(month)
-                    loadMonthMeals(month)
-                  }}
-                  style={{margin: 10}}
-                  key={month}
-                >
-                  <Text style={{color: 'blue'}}>
-                    {month}월
-                  </Text>
-                </TouchableOpacity>
-              )
-            }
-          })}
-          </ScrollView>
-          <ScrollView horizontal={true}>
+          <View style={topBox.topLine}>
+            <Text style={[styles.txtBigTitle, font.seven]}>기록</Text>
+            {/* 그 주의 평균 점수*/}
+            <Text style={[topBox.txtWeekScore, font.seven]}> 5.5 </Text>
+          </View>
+          <Image
+            style={topBox.kirini}
+            source={require('../img/kirini5.png')}
+          />
+          <View style={topBox.monthContainer}>
+            <TouchableOpacity
+              onPress={()=> {
+                if (selectedMonth < 2) {
+                  return null
+                } else {
+                  setSelectedMonth(selectedMonth - 1) 
+                  loadMonthMeals(selectedMonth - 1) 
+                }
+              }}
+            >
+              <Text style={[topBox.setMonth, font.six]}> 
+                {`< `}
+              </Text>
+            </TouchableOpacity>
+            <Text style={[topBox.txtMonth, font.eight]}> {selectedMonth}월 </Text>
+            <TouchableOpacity
+            onPress={()=> {
+              if (selectedMonth > 11) {
+                return null
+              } else {
+                setSelectedMonth(selectedMonth + 1) 
+                loadMonthMeals(selectedMonth + 1) 
+              }
+            }}
+            ><Text style={[topBox.setMonth, font.six]}>{` >`}</Text></TouchableOpacity>
+          </View>
+          <View style={topBox.weekContainer}>
             {week_list.map(week => {
               if(selectedWeek == week)
               {
@@ -483,10 +480,10 @@ const Summary = props => {
                     onPress={() => {
                       setSelectedWeek(week)
                     }}
-                    style={{margin: 10}}
+                    style={topBox.weekButton}
                     key={week}
                   >
-                    <Text style={{color: 'red'}}>
+                    <Text style={topBox.txtWeekSel}>
                       {week}주
                     </Text>
                   </TouchableOpacity>
@@ -499,17 +496,17 @@ const Summary = props => {
                     onPress={() => {
                       setSelectedWeek(week)
                     }}
-                    style={{margin: 10}}
+                    style={topBox.weekButton}
                     key={week}
                   >
-                    <Text style={{color: 'blue'}}>
-                      {week}주
+                    <Text style={topBox.txtWeekUnsel}>
+                      {week}
                     </Text>
                   </TouchableOpacity>
                 )
               }
             })}
-          </ScrollView>
+          </View>
         </View>
         <View style={styles.scrollview}>
           <ScrollView
@@ -557,14 +554,16 @@ const font = EStyleSheet.create ({
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F9F2'
+    // backgroundColor: '#F2F9F2'
   },
- 
+  topMargin:{
+    height: '20rem',
+    backgroundColor: kiriColor,
+    // backgroundColor: 'blue'
+  },
   txtBigTitle: {
-    marginTop: '20rem',
     fontSize: '23rem',
     color: gray.d,
-    fontFamily: 'NotoSansCJKkr-Bold',
     lineHeight: '30rem', 
   },
   scrollview: {
@@ -572,23 +571,89 @@ const styles = EStyleSheet.create({
   }
 });
 
-const topBox = StyleSheet.create({
+const topBox = EStyleSheet.create({
+
+  // container: {
+  //   zIndex: 10,
+  //   height: 100,
+  //   width: deviceWidth,
+  //   backgroundColor: '#F2F9F2',
+  //   borderBottomLeftRadius: 40,
+  //   borderBottomRightRadius: 40,
+  //   paddingRight: 17,
+  //   paddingLeft: 17,
+  //   shadowColor: '#000',
+  //   shadowOffset: { width: 0, height: 3 },
+  //   shadowOpacity: 0.15,
+  //   shadowRadius: 7,
+  //   elevation: 6
+  // }
+  // 아래가 수정 버전
   container: {
-    // position: 'absolute',
-    // left: 0,
     zIndex: 10,
-    height: 100,
+    height: '110rem',
     width: deviceWidth,
     backgroundColor: '#F2F9F2',
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
     paddingRight: 17,
     paddingLeft: 17,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 7,
-    elevation: 6
+    justifyContent: 'flex-start'
+  },
+  topLine:{
+    // backgroundColor: 'red',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    
+  },
+  kirini:{
+    top: '-32rem',
+    width: '80rem',
+    height: '70rem',
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    
+  },
+  txtWeekScore:{
+    fontFamily: 'Digitalt',
+    fontSize: '26rem',
+    color: yellow.a,
+    lineHeight: '30rem', 
+  },
+  monthContainer:{
+    flexDirection: 'row',
+    
+    justifyContent: 'center',
+    top: '-45rem'
+  },
+  weekContainer:{
+    flexDirection: 'row',
+    
+    justifyContent: 'space-around',
+    top: '-45rem'
+  },
+  txtMonth:{
+    fontSize: '16rem',
+    color: gray.d,
+    lineHeight: '40rem', 
+  },
+  setMonth: {
+    fontFamily: 'Digitalt',
+    fontSize: '35rem',
+    color: yellow.b,
+    lineHeight: '40rem', 
+  },
+  weekButton:{
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '30rem',
+    height: '30rem',
+    borderRadius: 100
+  },
+  txtWeekSel:{
+    color: gray.e
+  },
+  txtWeekUnsel:{
+    color: gray.m
   }
 });
 const barToggled = StyleSheet.create({

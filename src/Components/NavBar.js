@@ -161,13 +161,11 @@ const navBar = EStyleSheet.create({
   },
   txtSelected: {
     color: yellow.a,
-    fontFamily: 'NotoSansCJKkr-Black',
     fontSize: '9.5rem',
     lineHeight: '12rem'
   },
   txtUnselected: {
     color: gray.c,
-    fontFamily: 'NotoSansCJKkr-Medium',
     fontSize: '9rem',
     lineHeight: '12rem'
   }

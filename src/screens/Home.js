@@ -327,7 +327,7 @@ const HomeScreen = props => {
           <View style={balloonSt.container}>
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
-                <Text style= {[styles.txtBigTitle, font.eight]}>오늘 건강도</Text>
+                <Text style= {[styles.txtBigTitle, font.seven]}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>{!todayScore ? '-' : todayScore}</Text>
               </View>
               {/* todo: <View style={balloonSt.scoreCompareArea}>
