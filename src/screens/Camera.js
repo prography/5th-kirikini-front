@@ -73,7 +73,7 @@ const CameraScreen = props => {
           name: `${email}_${timestamp}.jpg`,
           type: 'image/jpg'
         };
-        dispatch(mealSaved(file, data.timestamp));
+        dispatch(mealSaved(file, timestamp));
   
         AsyncStorage.setItem('@mealImage', data.uri)
           .then(result => {

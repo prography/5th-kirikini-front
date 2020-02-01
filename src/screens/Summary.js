@@ -536,6 +536,24 @@ const Summary = props => {
   );
 };
 
+const font = EStyleSheet.create ({
+  eight: Platform.OS === 'ios' ? {
+    fontWeight: '800'
+  } : {
+   fontWeight: 'bold'
+  },
+  seven: Platform.OS === 'ios' ? {
+    fontWeight: '700'
+  } : {
+   fontWeight: 'bold'
+  },
+  six:Platform.OS === 'ios' ? {
+    fontWeight: '600'
+  } : {
+   fontWeight: 'normal'
+  },
+})
+
 const styles = EStyleSheet.create({
   container: {
     flex: 1,

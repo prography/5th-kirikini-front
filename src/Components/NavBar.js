@@ -89,7 +89,7 @@ const NavBar = props => {
                 }}
                 source={item.iconUnselected}
               />
-              <Text style={navBar.txtUnselected}>{item.text}</Text>
+              <Text style={[navBar.txtUnselected, font.six]}>{item.text}</Text>
             </>
           )}
 
@@ -104,7 +104,7 @@ const NavBar = props => {
                 }}
                 source={item.iconSelected}
               />
-              <Text style={navBar.txtSelected}>{item.text}</Text>
+              <Text style={[navBar.txtSelected, font.eight]}>{item.text}</Text>
             </>
           )}
         </TouchableOpacity>
@@ -118,6 +118,23 @@ const NavBar = props => {
     </View>
   );
 };
+const font = EStyleSheet.create ({
+  eight: Platform.OS === 'ios' ? {
+    fontWeight: '800'
+  } : {
+   fontWeight: 'bold'
+  },
+  seven: Platform.OS === 'ios' ? {
+    fontWeight: '700'
+  } : {
+   fontWeight: 'bold'
+  },
+  six:Platform.OS === 'ios' ? {
+    fontWeight: '600'
+  } : {
+   fontWeight: 'normal'
+  },
+})
 
 const navBar = EStyleSheet.create({
   roundContainer: {

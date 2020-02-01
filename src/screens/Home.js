@@ -17,7 +17,7 @@ import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { 
   LOAD_MEALS_URL, LOAD_YESTERDAY_RATING_URL, LOAD_SINCE_MEAL_INFO_URL,
-  deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS 
+  deviceHeight, deviceWidth, gray, mealColor, yellow, kiriColor, MENTS
 } from '../utils/consts'
 
 const HomeCircles = props => {
@@ -31,7 +31,7 @@ const HomeCircles = props => {
           left: 0,
           borderBottomColor: 'white',
           borderBottomWidth: 3,
-          width: (deviceWidth * 5) / 3 - 211
+          width: '100%'
         }}
       />
       {
@@ -71,10 +71,8 @@ const HomeCircles = props => {
                         width: 25,
                         height: 25,
                         resizeMode: 'contain',
-                        position: 'absolute',
-                        left:
-                          (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) +
-                          42.5
+                        position: 'relative',
+                        left: -item.average_rate * 3.5 -32
                       }}
                       source={require('../img/iconCupSmall.png')}
                     />
@@ -88,10 +86,8 @@ const HomeCircles = props => {
                         width: 25,
                         height: 25,
                         resizeMode: 'contain',
-                        position: 'absolute',
-                        left:
-                          (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) +
-                          42.5
+                        position: 'relative',
+                        left: -item.average_rate * 3.5 -32
                       }}
                       source={require('../img/iconBeerSmall.png')}
                     />
@@ -112,17 +108,12 @@ const HomeCircles = props => {
                   }}
                   style={{ width: deviceWidth, height: deviceHeight }}
                 >
-                  <Image
-                    source={{uri: item.picURL}}
-                    style={{
-                      top: deviceHeight / 2 - 150,
-                      alignSelf: 'center',
-                      backgroundColor: 'pink',
-                      width: 300,
-                      height: 300,
-                      borderRadius: 50
-                    }}
-                  />
+                  <View style={modal.view}>
+                    <Image
+                      source={{uri: item.picURL}}
+                      style={modal.img}
+                    />
+                  </View>
                 </TouchableOpacity>
               </Modal>
             </Fragment>
@@ -133,6 +124,26 @@ const HomeCircles = props => {
   );
 };
 
+const modal = EStyleSheet.create({
+  view:{
+    flex:0.416,
+    top: deviceHeight /17.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderTopLeftRadius: '70rem',
+    borderBottomRightRadius: '70rem',
+  },
+  img:{
+    backgroundColor: 'white',
+    height: deviceWidth -54,
+    width: deviceWidth * 75 /100 -20,
+    borderTopRightRadius: '60rem',
+    borderBottomLeftRadius: '60rem',
+    resizeMode: 'cover',
+    transform: [{ rotate: '90deg' }]
+  }
+})
 const HomeScreen = props => {
   const [meals, setMeals] = useState([]);
   const [todayScore, setTodayScore] = useState(null);
@@ -316,7 +327,7 @@ const HomeScreen = props => {
           <View style={balloonSt.container}>
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
-                <Text style={styles.txtBigTitle}>오늘 건강도</Text>
+                <Text style= {[styles.txtBigTitle, font.eight]}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>{!todayScore ? '-' : todayScore}</Text>
               </View>
               {/* todo: <View style={balloonSt.scoreCompareArea}>
@@ -324,28 +335,24 @@ const HomeScreen = props => {
               </View>*/}
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
-                  <Text style={balloonText.lastMealTime}>
-                    🍽 밥 먹은 지{'\n'}
-                    🍺 음주한 지{'\n'}
-                    ☕️ 커피 마신 지{'\n'}
-                  </Text>
+                  
+                
+                    <Text style={[balloonText.lastMealTime, font.eight]}>🍽 밥 먹은 지</Text>
+                    <Text style={[balloonText.lastMealTime, font.eight]}>🍺 음주한 지</Text>
+                    <Text style={[balloonText.lastMealTime, font.eight]}>☕️ 커피 마신 지 </Text>
+                 
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
-                  <Text style={balloonText.lastMealTime}>
-                    {mealSince} 
-                    {'\n'}
-                    {drinkSince}
-                    {'\n'}
-                    {coffeeSince} 
-                    {'\n'}
-                  </Text>
+                  
+                    <Text style={[balloonText.lastMealTime, font.eight]}>{mealSince} 11일</Text>
+                    <Text style={[balloonText.lastMealTime, font.eight]}>{drinkSince} 13초</Text>
+                    <Text style={[balloonText.lastMealTime, font.eight]}>{coffeeSince} 20시간 5분</Text>
+                  
                 </View>
               </View>
               <View style={balloonSt.feedbackArea}>
-                <Text style={balloonText.feedback}>
-                  {todayScore == null ? (`${name}님,`) : (`${name}님의 오늘 건강도는 ${todayScore}!`)}
-                  {`\n${ment}`}
-                </Text>
+                  <Text style={[balloonText.feedback, font.six]}>{todayScore == null ? (`${name}님,`) : (`${name}님의 오늘 건강도는 ${todayScore}!`)}</Text>
+                  <Text style={[balloonText.feedback, font.six]}>{`${ment}`}</Text>                  
               </View>
             </View>
             <View style={balloonSt.tailContainer}>
@@ -388,39 +395,57 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: kiriColor
+    
   },
   topMargin:{
     flex: 0.5,
-    backgroundColor: kiriColor
+    backgroundColor: kiriColor,
   },
   topHalf: {
     flex: 5,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   bottomHalf: {
-    flex: 2
+    flex: 2,
   },
   txtBigTitle: {
     fontSize: '23rem',
     color: gray.d,
-    fontFamily: 'NotoSansCJKkr-Bold',
     lineHeight: '30rem',
-   
   }
 });
 
+const font = EStyleSheet.create ({
+  eight: Platform.OS === 'ios' ? {
+    fontWeight: '800'
+  } : {
+   fontWeight: 'bold'
+  },
+  seven: Platform.OS === 'ios' ? {
+    fontWeight: '700'
+  } : {
+   fontWeight: 'bold'
+  },
+  six:Platform.OS === 'ios' ? {
+    fontWeight: '600'
+  } : {
+   fontWeight: 'normal'
+  },
+})
+
+
+
 // 하얀 말풍선 속 Text 스타일
 const balloonText = EStyleSheet.create({
-  title: {
-    fontSize: '10rem',
-    lineHeight: 35,
-    fontWeight: '700',
-    color: gray.d
-  },
+  // title: {
+  //   fontSize: '3rem',
+  //   lineHeight: '12rem',
+  //   fontWeight: 'normal',
+  //   color: gray.d
+  // },
   todayScore: {
     fontSize: '30rem',
-    lineHeight: '40rem',
+    lineHeight: '30rem',
     //  fontFamily:'FredokaOne-Regular',
     // fontFamily:'Quicksand-Bold',
     fontFamily:'Rubik-Bold',
@@ -434,13 +459,16 @@ const balloonText = EStyleSheet.create({
     fontSize: '11rem',
     color: gray.c,
     textAlign: 'right',
-    fontFamily: 'NotoSansCJKkr-Bold'
+    fontFamily: 'NotoSansCJKkr-Bold',
+    flexDirection: 'column',
+    justifyContent: 'space-around'
   },
   feedback: {
     fontSize: '14rem',
     color: gray.d,
     textAlign: 'right',
-    fontFamily: 'NotoSansCJKkr-Medium'
+    lineHeight: '25rem',
+    
   }
 });
 
@@ -476,19 +504,21 @@ const balloonSt = EStyleSheet.create({
   },
   lastMealIconWrapper: {
     flex: 3,
-    justifyContent: 'center'
+    justifyContent: 'space-around',
   },
   lastMealTimeWrapper: {
     // flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     paddingLeft: '10rem',
     
   },
   feedbackArea: {
     flex: 1.7,
-    justifyContent: 'center',
+    // boxSizing: 'border-box',
+    // paddingBottom: '5rem',
+    justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    
+    // backgroundColor: 'red',
   },
   tailContainer: {
     flex: 1,
@@ -528,14 +558,14 @@ const balloonSt = EStyleSheet.create({
 
 const circles = StyleSheet.create({
   container: {
-    width: (deviceWidth * 5) / 3,
+    width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
     marginBottom: 20
     // backgroundColor: 'pink'
   },
   circlesContainer: {
-    width: (deviceWidth * 5) / 3 - 228,
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -548,7 +578,6 @@ const circles = StyleSheet.create({
   moon: {
     width: 80,
     height: 80,
-
     marginLeft: 17,
     marginRight: 17
   }
