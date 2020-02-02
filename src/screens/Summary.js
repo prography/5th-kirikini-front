@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import {
   Text, View, TouchableOpacity,
   StyleSheet, ScrollView, Dimensions,
-  Modal, Image
+  Modal, Image, Platform
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { connect, useDispatch } from 'react-redux';
@@ -22,32 +22,42 @@ const WeeklyReportToggled = () => {
   const [mealCount, setMealCount] = useState(0)
   const [avgMealCount, setAvgMealCount] = useState(0)
   const [weekScore, setWeekScore] = useState(0)
+  const [previousWeekScore, setPreviousWeekScore] = useState()
   const [drinkCount, setDrinkCount] = useState(0)
   const [coffeeCount, setCoffeeCount] = useState(0)
   const [scoreByDay, setScoreByDay] = useState([])
   const [scoreByMealType, setScoreByMealType] = useState([])
   const [countsByMealType, setCountsByMealType] = useState([])
+  const [feedback, setFeedback] = useState("")
 
   const loadWeekReport = () => {
     let access_token = null, refresh_token = null;
-    AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
+    AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token', '@email']).then(
       response => {
+        const user_name = response[2][1].slice(0, response[2][1].indexOf('@'));
+    
         access_token = response[0][1];
         refresh_token = response[1][1];
 
         if (access_token !== null) {
           const headers = {
             Authorization: `Bearer ${access_token}`,
-            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
           };
           
           axios
-            .get(LOAD_WEEK_REPORT_URL, { headers })
+            .post(LOAD_WEEK_REPORT_URL, user_name, { headers })
             .then(response => {
               const { 
-                avg_meal_count, coffee_count, drink_count, counts_by_meal_type, score_by_day, score_by_meal_type, week_score 
+                meal_count, 
+                avg_meal_count, coffee_count, drink_count, 
+                counts_by_meal_type, score_by_day, score_by_meal_type, 
+                week_score, previous_week_score,
+                feedback
               } = response["data"]
 
+              console.log(`feedback${feedback}`)
+
+              setMealCount(meal_count)
               setAvgMealCount(avg_meal_count)
               setCoffeeCount(coffee_count)
               setDrinkCount(drink_count)
@@ -55,6 +65,8 @@ const WeeklyReportToggled = () => {
               setScoreByDay(score_by_day)
               setScoreByMealType(score_by_meal_type)
               setWeekScore(week_score)
+              setPreviousWeekScore(previous_week_score)
+              setFeedback(feedback)
             })
             .catch(err => {
               console.log(err)});
@@ -204,7 +216,18 @@ const WeeklyReportToggled = () => {
         <Text style={balloonText.todayScore}>{weekScore}</Text>
       </View>
       <View style={balloonSt.scoreCompareArea}>
-        <Text style={balloonText.scoreCompare}>▲ 1.2(수정?)</Text>
+        <Text style={balloonText.scoreCompare}>
+        {!(weekScore && previousWeekScore) 
+          ? 
+          '-' 
+          : 
+          ((weekScore-previousWeekScore) > 0 ? '▲' : '▼')}
+        {!(weekScore && previousWeekScore) 
+          ? 
+          null
+          : 
+          (Math.abs(weekScore-previousWeekScore))}
+        </Text>
       </View>
       <View style={balloonSt.lastMealTimeContainer}>
         <View style={balloonSt.lastMealIconWrapper}>
@@ -227,6 +250,17 @@ const WeeklyReportToggled = () => {
             {'\n'}
           </Text>
         </View>
+      </View>
+      <View>
+        <Text>
+          🍽 :{feedback && feedback[5][0]}
+        </Text>
+        <Text>
+          🍺 :{feedback && feedback[5][1]}
+        </Text>
+        <Text>
+          ☕️ :{feedback && feedback[5][2]}
+        </Text>
       </View>
       <View style={graph.chart}>
         <Text style={graph.text}>일별 건강도 추이(점)</Text>
@@ -257,15 +291,30 @@ const WeeklyReportToggled = () => {
         paddingLeft="15"
         absolute
         />
+        <Text>
+          {feedback[6]}
+        </Text>
       </View>
 
       <View style={graph.chart}>
-      <Text style={graph.text}>이주의 피드백</Text>
-        <Text >
-          Zwon 님은 커피왕에 선정되었습니다{'\n'}
-          나보다 잘 먹네... {'\n'}
-          대체 뭘 먹은거야?
-        </Text>
+        <Text style={graph.text}>이주의 피드백</Text>
+        <View>
+          <Text>
+            {feedback[0]}
+          </Text>
+          <Text>
+            {feedback[1]}
+          </Text>
+          <Text>
+            {feedback[2]}
+          </Text>
+          <Text>
+            {feedback[3]}
+          </Text>
+          <Text>
+            {feedback[4]}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -273,6 +322,7 @@ const WeeklyReportToggled = () => {
 
 const WeeklyListToggled = (props) => {
   const { week, meals } = props
+
 
   const renderList = (_day) => { // 0:월, 1:화, ... , 6:일
     return (
@@ -286,7 +336,8 @@ const WeeklyListToggled = (props) => {
             width: 250
           }}
         ></View>
-        {meals.length > 0 && meals[week].map(meal => {
+        {Object.keys(meals).length > 0 && meals[week].map(meal => {
+          console.log("meal:", meal)
           if(meal.day == _day) {
             return (
               <TouchableOpacity
@@ -418,7 +469,6 @@ const Summary = props => {
       console.log("Acess:", access_token)
       const headers = {
         'Authorization': `Bearer ${access_token}`,
-        'Content-Type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
       };
   
       axios.post(LOAD_MONTH_MEAL_URL, {month: _month}, {headers})
@@ -433,48 +483,47 @@ const Summary = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}> 
       <View style={styles.container}>
-        
         <View style={topBox.container}>
-          <Text style={styles.txtBigTitle}>기록</Text>
-          <ScrollView horizontal={true}>
-          {month_list.map(month => {
-            if(selectedMonth == month)
-            {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedMonth(month)
-                    loadMonthMeals(month)
-                  }}
-                  style={{margin: 10}}
-                  key={month}
-                >
-                  <Text style={{color: 'red'}}>
-                    {month}월
-                  </Text>
-                </TouchableOpacity>
-              )
-            }
-            else
-            {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedMonth(month)
-                    loadMonthMeals(month)
-                  }}
-                  style={{margin: 10}}
-                  key={month}
-                >
-                  <Text style={{color: 'blue'}}>
-                    {month}월
-                  </Text>
-                </TouchableOpacity>
-              )
-            }
-          })}
-          </ScrollView>
-          <ScrollView horizontal={true}>
+          { Platform.OS === 'ios'
+            ?
+            (<View style={styles.topMargin}/>)
+            :
+            null
+          }
+          <View style={topBox.topLine}>
+            <Text style={[styles.txtBigTitle, font.seven]}>기록</Text>
+            <Text style={[topBox.txtWeekScore, font.seven]}> 5.5 </Text>
+          </View>
+          <View style={topBox.monthContainer}>
+            <TouchableOpacity
+                onPress={()=> {
+                  if (selectedMonth < 2) {
+                    return null
+                  } else {
+                    setSelectedMonth(selectedMonth - 1) 
+                    loadMonthMeals(selectedMonth - 1) 
+                  }
+                }}
+              >
+                <Text style={[topBox.setMonth, font.six]}> 
+                  {`< `}
+                </Text>
+              </TouchableOpacity>
+              <Text style={[topBox.txtMonth, font.eight]}> {selectedMonth}월 </Text>
+              <TouchableOpacity
+                onPress={()=> {
+                  if (selectedMonth > 11) {
+                    return null
+                  } else {
+                    setSelectedMonth(selectedMonth + 1) 
+                    loadMonthMeals(selectedMonth + 1) 
+                  }
+                }}
+              >
+                <Text style={[topBox.setMonth, font.six]}>{` >`}</Text>
+              </TouchableOpacity>
+          </View>
+          <View style={topBox.weekContainer}>
             {week_list.map(week => {
               if(selectedWeek == week)
               {
@@ -483,10 +532,10 @@ const Summary = props => {
                     onPress={() => {
                       setSelectedWeek(week)
                     }}
-                    style={{margin: 10}}
+                    style={topBox.weekButton}
                     key={week}
                   >
-                    <Text style={{color: 'red'}}>
+                    <Text style={topBox.txtWeekSel}>
                       {week}주
                     </Text>
                   </TouchableOpacity>
@@ -499,17 +548,17 @@ const Summary = props => {
                     onPress={() => {
                       setSelectedWeek(week)
                     }}
-                    style={{margin: 10}}
+                    style={topBox.weekButton}
                     key={week}
                   >
-                    <Text style={{color: 'blue'}}>
-                      {week}주
+                    <Text style={topBox.txtWeekUnsel}>
+                      {week}
                     </Text>
                   </TouchableOpacity>
                 )
               }
             })}
-          </ScrollView>
+          </View>
         </View>
         <View style={styles.scrollview}>
           <ScrollView
@@ -539,14 +588,16 @@ const Summary = props => {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F9F2'
+    // backgroundColor: '#F2F9F2'
   },
- 
+  topMargin:{
+    height: '20rem',
+    backgroundColor: kiriColor,
+    // backgroundColor: 'blue'
+  },
   txtBigTitle: {
-    marginTop: '20rem',
     fontSize: '23rem',
     color: gray.d,
-    fontFamily: 'NotoSansCJKkr-Bold',
     lineHeight: '30rem', 
   },
   scrollview: {
@@ -554,23 +605,89 @@ const styles = EStyleSheet.create({
   }
 });
 
-const topBox = StyleSheet.create({
+const topBox = EStyleSheet.create({
+
+  // container: {
+  //   zIndex: 10,
+  //   height: 100,
+  //   width: deviceWidth,
+  //   backgroundColor: '#F2F9F2',
+  //   borderBottomLeftRadius: 40,
+  //   borderBottomRightRadius: 40,
+  //   paddingRight: 17,
+  //   paddingLeft: 17,
+  //   shadowColor: '#000',
+  //   shadowOffset: { width: 0, height: 3 },
+  //   shadowOpacity: 0.15,
+  //   shadowRadius: 7,
+  //   elevation: 6
+  // }
+  // 아래가 수정 버전
   container: {
-    // position: 'absolute',
-    // left: 0,
     zIndex: 10,
-    height: 100,
+    height: '110rem',
     width: deviceWidth,
     backgroundColor: '#F2F9F2',
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
     paddingRight: 17,
     paddingLeft: 17,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.15,
-    shadowRadius: 7,
-    elevation: 6
+    justifyContent: 'flex-start'
+  },
+  topLine:{
+    // backgroundColor: 'red',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    
+  },
+  kirini:{
+    top: '-32rem',
+    width: '80rem',
+    height: '70rem',
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    
+  },
+  txtWeekScore:{
+    fontFamily: 'Digitalt',
+    fontSize: '26rem',
+    color: yellow.a,
+    lineHeight: '30rem', 
+  },
+  monthContainer:{
+    flexDirection: 'row',
+    
+    justifyContent: 'center',
+    top: '-45rem'
+  },
+  weekContainer:{
+    flexDirection: 'row',
+    
+    justifyContent: 'space-around',
+    top: '-45rem'
+  },
+  txtMonth:{
+    fontSize: '16rem',
+    color: gray.d,
+    lineHeight: '40rem', 
+  },
+  setMonth: {
+    fontFamily: 'Digitalt',
+    fontSize: '35rem',
+    color: yellow.b,
+    lineHeight: '40rem', 
+  },
+  weekButton:{
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '30rem',
+    height: '30rem',
+    borderRadius: 100
+  },
+  txtWeekSel:{
+    color: gray.e
+  },
+  txtWeekUnsel:{
+    color: gray.m
   }
 });
 const barToggled = StyleSheet.create({
@@ -762,6 +879,24 @@ const balloonText = StyleSheet.create({
     textAlign: 'right'
   }
 });
+
+const font = EStyleSheet.create ({
+  eight: Platform.OS === 'ios' ? {
+    fontWeight: '800'
+  } : {
+   fontWeight: 'bold'
+  },
+  seven: Platform.OS === 'ios' ? {
+    fontWeight: '700'
+  } : {
+   fontWeight: 'bold'
+  },
+  six:Platform.OS === 'ios' ? {
+    fontWeight: '600'
+  } : {
+   fontWeight: 'normal'
+  },
+})
 
 // todo 
 Summary.navigationOptions = ({navigation}) => ({

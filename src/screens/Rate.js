@@ -44,7 +44,6 @@ const Rate = props => {
         {
           const headers = {
             'Authorization': `Bearer ${access_token}`,
-            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
           };
 
           axios.get(RATE_MEAL_URL, {headers})
@@ -69,7 +68,6 @@ const Rate = props => {
         {
           const headers = {
             'Authorization': `Bearer ${access_token}`,
-            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
           };
 
           const data = {
@@ -95,7 +93,12 @@ const Rate = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
-        <View style={styles.topMargin}/>
+        { Platform.OS === 'ios'
+          ?
+          (<View style={styles.topMargin}/>)
+          :
+          null
+        }
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>끼니 채점</Text>
         </View>
@@ -170,7 +173,7 @@ const styles = EStyleSheet.create({
     backgroundColor: '#F2F9F2'
   },
   topMargin:{
-    height: '20rem',
+    height: '30rem',
     backgroundColor: kiriColor
   },
   titleHeader: {

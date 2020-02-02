@@ -23,19 +23,21 @@ const Settings = props => {
       
       dispatch(logout())
       props.navigation.navigate('Login')
-      console.log("logout")
     }
     catch (e) {
       Alert.alert(e.toString());
     }
   }
 
-  console.log(modalVisible)
-
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1}}>
       <View style={styles.container}>
-      <View style={styles.topMargin}/>
+        { Platform.OS === 'ios'
+          ?
+          (<View style={styles.topMargin}/>)
+          :
+          null
+        }
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>설정</Text>
         </View>
@@ -96,7 +98,7 @@ const styles = EStyleSheet.create({
     backgroundColor: '#F2F9F2'
   },
   topMargin:{
-    height: '20rem',
+    height: '30rem',
     backgroundColor: kiriColor
   },
   titleHeader: {

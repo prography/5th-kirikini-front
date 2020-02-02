@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { RNCamera } from 'react-native-camera';
@@ -64,16 +65,13 @@ const CameraScreen = props => {
     };
     ImagePicker.launchImageLibrary(options, data => {
       if(data.uri) {
-        console.log("Data ", data.timestamp)
-        console.log("Data ", email)
-
         const timestamp = data.timestamp ? data.timestamp : new Date().toISOString()
         const file = {
           uri: data.uri,
           name: `${email}_${timestamp}.jpg`,
           type: 'image/jpg'
         };
-        dispatch(mealSaved(file, data.timestamp));
+        dispatch(mealSaved(file, timestamp));
   
         AsyncStorage.setItem('@mealImage', data.uri)
           .then(result => {
@@ -186,7 +184,9 @@ const cameraSt = EStyleSheet.create({
 });
 
 CameraScreen.navigationOptions = ({navigation}) => ({
-  headerShown: false,
+  title: "",
+  headerBackTitle: "",
+  headerShown: Platform.OS === 'ios' ? true : false,
 })
 
 export default connect(state => ({

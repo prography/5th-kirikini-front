@@ -24,8 +24,10 @@ const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바
   {
     initialRouteName: 'Login',
     defaultNavigationOptions: {
+      headerBackTitle: "",
       headerStyle: {
-        backgroundColor: '#F2F9F2',
+        elevation: 0,
+        backgroundColor: 'white',
         borderBottomWidth: 0,
         shadowColor: 'transparent'
       },

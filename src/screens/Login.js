@@ -77,15 +77,16 @@ const Login = props => {
       access_token = response[0][1];
       refresh_token = response[1][1];
       email = response[2][1];
-      console.log("autoLogin access_token: ", access_token)
       
       if(access_token !== null)
       {
-        axios.post(AUTO_URL, {"jwt_access_token": access_token, "jwt_refresh_token": refresh_token, "email": email},
-          {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            }})
+        const body = {
+          "jwt_access_token": access_token, 
+          "jwt_refresh_token": refresh_token, 
+          "email": email
+        }
+
+        axios.post(AUTO_URL, body)
         .then(response => {
           if(response.status == 200)
           {
@@ -121,13 +122,12 @@ const Login = props => {
 
             AsyncStorage.setItem('@email', res.email)
               .then(() => { 
-                axios.post(KAKAO_URL, 
-                  {"access_token": result.accessToken, "refresh_token": result.refreshToken},
-                  {
-                    headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                    }
-                  })
+                const body = {
+                  "jwt_access_token": access_token, 
+                  "jwt_refresh_token": refresh_token, 
+                }
+
+                axios.post(KAKAO_URL, body)
                   .then(response => response.data)
                   .then(jwt => {
                     AsyncStorage.multiSet([
@@ -147,11 +147,7 @@ const Login = props => {
           });
       })
       .catch(err => {
-        axios.get("http://248fc7d0.ngrok.io", {params: {data: err.toString()}}, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          }
-        })
+        console.log(err)
       })
   };
 
@@ -188,10 +184,7 @@ const Login = props => {
       new GraphRequestManager().addRequest(profileRequest).start();
             
       axios.post(FB_URL, 
-        {"access_token": data.accessToken.toString()},
-        {
-          headers: {'Content-type': 'application/x-www-form-urlencoded'}
-        })
+        {"access_token": data.accessToken.toString()})
         .then(response => response.data)
         .then(jwt => {
           AsyncStorage.multiSet([

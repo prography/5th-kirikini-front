@@ -1,13 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Image,
-  Modal
+  View, Text, ScrollView,
+  StyleSheet, Dimensions, TouchableOpacity,
+  Image, Modal, Platform
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
@@ -31,7 +26,7 @@ const HomeCircles = props => {
           left: 0,
           borderBottomColor: 'white',
           borderBottomWidth: 3,
-          width: (deviceWidth * 5) / 3 - 211
+          width: '100%'
         }}
       />
       {
@@ -72,9 +67,7 @@ const HomeCircles = props => {
                         height: 25,
                         resizeMode: 'contain',
                         position: 'absolute',
-                        left:
-                          (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) +
-                          42.5
+                        left: -item.average_rate * 3.5 -32
                       }}
                       source={require('../img/iconCupSmall.png')}
                     />
@@ -89,9 +82,7 @@ const HomeCircles = props => {
                         height: 25,
                         resizeMode: 'contain',
                         position: 'absolute',
-                        left:
-                          (((deviceWidth * 5) / 3 - 338) / 20) * (item.created_at.slice(11, 13) - 6) +
-                          42.5
+                        left: -item.average_rate * 3.5 -32
                       }}
                       source={require('../img/iconBeerSmall.png')}
                     />
@@ -112,17 +103,12 @@ const HomeCircles = props => {
                   }}
                   style={{ width: deviceWidth, height: deviceHeight }}
                 >
-                  <Image
-                    source={{uri: item.picURL}}
-                    style={{
-                      top: deviceHeight / 2 - 150,
-                      alignSelf: 'center',
-                      backgroundColor: 'pink',
-                      width: 300,
-                      height: 300,
-                      borderRadius: 50
-                    }}
-                  />
+                  <View style={modal.view}>
+                    <Image
+                      source={{uri: item.picURL}}
+                      style={modal.img}
+                    />
+                  </View>
                 </TouchableOpacity>
               </Modal>
             </Fragment>
@@ -154,10 +140,8 @@ const HomeScreen = props => {
   }, [])
   
   const calculateTodayScore = () => {
-    console.log("meals:",meals)
     if(meals.length > 0)
     {
-      console.log("meals.length: ", meals.length)
       let sum = 0;
       meals.map(meal => {
         sum += meal.average_rate
@@ -210,13 +194,12 @@ const HomeScreen = props => {
         if (access_token !== null) {
           const headers = {
             Authorization: `Bearer ${access_token}`,
-            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
           };
 
           axios
             .get(LOAD_YESTERDAY_RATING_URL, { headers })
             .then(response => {
-              setScoreCompare((response['data']['sum'] / response['data']['count']).toFixed(1))
+              setScoreCompare(response["data"])
             })
             .catch(err => console.log(err));
         }
@@ -234,7 +217,6 @@ const HomeScreen = props => {
         if (access_token !== null) {
           const headers = {
             Authorization: `Bearer ${access_token}`,
-            'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
           };
 
           axios
@@ -275,7 +257,6 @@ const HomeScreen = props => {
       {
         const headers = {
           'Authorization': `Bearer ${access_token}`,
-          'Content-type': 'application/x-www-form-urlencoded' // json으로 못 넘겨주겠음..
         };
 
         axios.get(LOAD_SINCE_MEAL_INFO_URL, {headers})
@@ -304,48 +285,51 @@ const HomeScreen = props => {
   }
 
   const today = (
-    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
+    <View style={{ backgroundColor: kiriColor, flex: 1 }}>
       <NavigationEvents onWillFocus={() => {
+        console.log("onWillFocus")
         loadTodayMeals()
         loadSinceMealInfo()
         calculateTodayScore()
       }} />
       <View style={styles.container}>
-      <View style={styles.topMargin}/>
+        <View style={styles.topMargin}/>
         <View style={styles.topHalf}>
           <View style={balloonSt.container}>
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
-                <Text style={styles.txtBigTitle}>오늘 건강도</Text>
+                <Text style={[styles.txtBigTitle, font.eight]}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>{!todayScore ? '-' : todayScore}</Text>
               </View>
-              {/* todo: <View style={balloonSt.scoreCompareArea}>
-                <Text style={balloonText.scoreCompare}>{!todayScore ? '-' : ((todayScore-scoreCompare) > 0 ? '▲' : '▼' (todayScore - scoreCompare))}</Text>
-              </View>*/}
+              <View style={balloonSt.scoreCompareArea}>
+                <Text style={balloonText.scoreCompare}>
+                  {!(todayScore && scoreCompare) 
+                    ? 
+                    '-' 
+                    : 
+                    ((todayScore-scoreCompare) > 0 ? '▲' : '▼')}
+                  {!(todayScore && scoreCompare) 
+                    ? 
+                    null
+                    : 
+                    (Math.abs(todayScore-scoreCompare))}
+                </Text>
+              </View>
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
-                  <Text style={balloonText.lastMealTime}>
-                    🍽 밥 먹은 지{'\n'}
-                    🍺 음주한 지{'\n'}
-                    ☕️ 커피 마신 지{'\n'}
-                  </Text>
+                  <Text style={[balloonText.lastMealTime, font.eight]}>🍽 밥 먹은 지</Text>
+                  <Text style={[balloonText.lastMealTime, font.eight]}>🍺 음주한 지</Text>
+                  <Text style={[balloonText.lastMealTime, font.eight]}>☕️ 커피 마신 지 </Text>
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
-                  <Text style={balloonText.lastMealTime}>
-                    {mealSince} 
-                    {'\n'}
-                    {drinkSince}
-                    {'\n'}
-                    {coffeeSince} 
-                    {'\n'}
-                  </Text>
+                  <Text style={[balloonText.lastMealTime, font.eight]}>{mealSince}</Text>
+                  <Text style={[balloonText.lastMealTime, font.eight]}>{drinkSince}</Text>
+                  <Text style={[balloonText.lastMealTime, font.eight]}>{coffeeSince}</Text>
                 </View>
               </View>
               <View style={balloonSt.feedbackArea}>
-                <Text style={balloonText.feedback}>
-                  {todayScore == null ? (`${name}님,`) : (`${name}님의 오늘 건강도는 ${todayScore}!`)}
-                  {`\n${ment}`}
-                </Text>
+                <Text style={[balloonText.feedback, font.six]}>{todayScore == null ? (`${name}님,`) : (`${name}님의 오늘 건강도는 ${todayScore}!`)}</Text>
+                <Text style={[balloonText.feedback, font.six]}>{`${ment}`}</Text>
               </View>
             </View>
             <View style={balloonSt.tailContainer}>
@@ -388,39 +372,76 @@ const styles = EStyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: kiriColor
+    
   },
   topMargin:{
     flex: 0.5,
-    backgroundColor: kiriColor
+    backgroundColor: kiriColor,
   },
   topHalf: {
     flex: 5,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   bottomHalf: {
-    flex: 2
+    flex: 2,
   },
   txtBigTitle: {
     fontSize: '23rem',
     color: gray.d,
-    fontFamily: 'NotoSansCJKkr-Bold',
     lineHeight: '30rem',
-   
   }
 });
 
+const modal = EStyleSheet.create({
+  view:{
+    flex:0.416,
+    top: deviceHeight /17.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderTopLeftRadius: '70rem',
+    borderBottomRightRadius: '70rem',
+  },
+  img:{
+    backgroundColor: 'white',
+    height: deviceWidth -54,
+    width: deviceWidth * 75 /100 -20,
+    borderTopRightRadius: '60rem',
+    borderBottomLeftRadius: '60rem',
+    resizeMode: 'cover',
+    transform: [{ rotate: '90deg' }]
+  }
+})
+
+const font = EStyleSheet.create ({
+  eight: Platform.OS === 'ios' ? {
+    fontWeight: '800'
+  } : {
+   fontWeight: 'bold'
+  },
+  seven: Platform.OS === 'ios' ? {
+    fontWeight: '700'
+  } : {
+   fontWeight: 'bold'
+  },
+  six:Platform.OS === 'ios' ? {
+    fontWeight: '600'
+  } : {
+   fontWeight: 'normal'
+  },
+})
+
 // 하얀 말풍선 속 Text 스타일
 const balloonText = EStyleSheet.create({
-  title: {
-    fontSize: '10rem',
-    lineHeight: 35,
-    fontWeight: '700',
-    color: gray.d
-  },
+  // title: {
+  //   fontSize: '3rem',
+  //   lineHeight: '12rem',
+  //   fontWeight: 'normal',
+  //   color: gray.d
+  // },
   todayScore: {
     fontSize: '30rem',
-    lineHeight: '40rem',
+    lineHeight: '30rem',
     //  fontFamily:'FredokaOne-Regular',
     // fontFamily:'Quicksand-Bold',
     fontFamily:'Rubik-Bold',
@@ -431,16 +452,19 @@ const balloonText = EStyleSheet.create({
     color: gray.b
   },
   lastMealTime: {
-    fontSize: '11rem',
+    fontSize: '13rem',
     color: gray.c,
     textAlign: 'right',
-    fontFamily: 'NotoSansCJKkr-Bold'
+    fontFamily: 'NotoSansCJKkr-Bold',
+    flexDirection: 'column',
+    justifyContent: 'space-around'
   },
   feedback: {
     fontSize: '14rem',
     color: gray.d,
     textAlign: 'right',
-    fontFamily: 'NotoSansCJKkr-Medium'
+    lineHeight: '25rem',
+    
   }
 });
 
@@ -476,19 +500,21 @@ const balloonSt = EStyleSheet.create({
   },
   lastMealIconWrapper: {
     flex: 3,
-    justifyContent: 'center'
+    justifyContent: 'space-around',
   },
   lastMealTimeWrapper: {
     // flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     paddingLeft: '10rem',
     
   },
   feedbackArea: {
     flex: 1.7,
-    justifyContent: 'center',
+    // boxSizing: 'border-box',
+    // paddingBottom: '5rem',
+    justifyContent: 'flex-end',
     alignItems: 'flex-end',
-    
+    // backgroundColor: 'red',
   },
   tailContainer: {
     flex: 1,
@@ -528,14 +554,14 @@ const balloonSt = EStyleSheet.create({
 
 const circles = StyleSheet.create({
   container: {
-    width: (deviceWidth * 5) / 3,
+    width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
     marginBottom: 20
     // backgroundColor: 'pink'
   },
   circlesContainer: {
-    width: (deviceWidth * 5) / 3 - 228,
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -548,7 +574,6 @@ const circles = StyleSheet.create({
   moon: {
     width: 80,
     height: 80,
-
     marginLeft: 17,
     marginRight: 17
   }
@@ -556,7 +581,7 @@ const circles = StyleSheet.create({
 
 // todo: tab navigation
 HomeScreen.navigationOptions = ({navigation}) => ({
-  headerShown: false,
+  headerShown: false
 })
 
 export default connect(state => ({
