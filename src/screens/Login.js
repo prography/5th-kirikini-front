@@ -113,7 +113,7 @@ const Login = props => {
   const kakaoLogin = () => {
     KakaoLogins.login()
       .then(result => {
-        console.log("result", result)
+        console.log(result)
         setToken(result.accessToken);
       
         KakaoLogins.getProfile()
@@ -123,8 +123,8 @@ const Login = props => {
             AsyncStorage.setItem('@email', res.email)
               .then(() => { 
                 const body = {
-                  "jwt_access_token": access_token, 
-                  "jwt_refresh_token": refresh_token, 
+                  "access_token": result.accessToken, 
+                  "refresh_token": result.refreshToken, 
                 }
 
                 axios.post(KAKAO_URL, body)
