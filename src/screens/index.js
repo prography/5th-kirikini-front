@@ -1,22 +1,42 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { AppRegistry } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import Home from './Home';
+import Login from './Login';
+import Rate from './Rate';
+import Summary from './Summary';
+import Settings from './Settings';
+import Upload from './Upload';
+import Camera from './Camera';
 
-import LoginScreen from './LoginScreen';
-import HomeScreen from './HomeScreen';
-
-
-
-const AppNavigator = createStackNavigator(
-    {
-      Home: HomeScreen,
-      Login: LoginScreen,
+const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바꾸기(불필요한 back버튼 생성되니)
+  {
+    Home: Home,
+    Login: Login,
+    Rate: Rate,
+    Summary: Summary,
+    Settings: Settings,
+    Upload: Upload,
+    Camera: Camera,
+  },
+  {
+    initialRouteName: 'Login',
+    defaultNavigationOptions: {
+      headerBackTitle: "",
+      headerStyle: {
+        elevation: 0,
+        backgroundColor: 'white',
+        borderBottomWidth: 0,
+        shadowColor: 'transparent'
+      },
+      headerTintColor: '#F9CD15',
+      headerTitleStyle: {
+        fontWeight: '700'
+      }
     },
-    {
-      initialRouteName: 'Login',
-    }
-  );
-
+  }
+);
 
 export default createAppContainer(AppNavigator);
