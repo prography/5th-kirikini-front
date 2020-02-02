@@ -106,18 +106,19 @@ const Rate = props => {
             {
               mealToRate.length == 0 
               ?
-              (<>
-              <Image
-                style={mainImg.noMealKirini}
-                source={require('../img/kirini5.png')}
-              />
-                <Text
-                  style={mainImg.noMealAlert}
-                >
-                  채점할 끼니가 없습니다. {'\n'}
-                  다른 유저의 끼니 등록을 기다려주세요!
-                </Text>
-              </>  
+              (
+                <Fragment>
+                  <Image
+                    style={mainImg.noMealKirini}
+                    source={require('../img/kirini5.png')}
+                  />
+                  <Text
+                    style={mainImg.noMealAlert}
+                  >
+                    채점할 끼니가 없습니다. {'\n'}
+                    다른 유저의 끼니 등록을 기다려주세요!
+                  </Text>
+                </Fragment>  
               )
               :
               (

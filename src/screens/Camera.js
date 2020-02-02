@@ -65,7 +65,10 @@ const CameraScreen = props => {
     };
     ImagePicker.launchImageLibrary(options, data => {
       if(data.uri) {
-        const timestamp = data.timestamp ? data.timestamp : new Date().toISOString()
+        const timezoneOffset = new Date().getTimezoneOffset() * 60000;
+        let timestamp = new Date(Date.now() - timezoneOffset).toISOString();
+
+        timestamp = data.timestamp ? data.timestamp : timestamp
         const file = {
           uri: data.uri,
           name: `${email}_${timestamp}.jpg`,
