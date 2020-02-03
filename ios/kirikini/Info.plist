@@ -77,7 +77,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>camera</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -97,6 +97,14 @@
 		<string>Rubik-Black.ttf</string>
 		<string>Rubik-Bold.ttf</string>
 		<string>Rubik-Medium.ttf</string>
+		<string>JosefinSans-Bold.ttf</string>
+		<string>JosefinSans-Regular.ttf</string>
+		<string>JosefinSans-SemiBold.ttf</string>
+		<string>Kanit-Black.ttf</string>
+		<string>Kanit-Bold.ttf</string>
+		<string>Kanit-ExtraBold.ttf</string>
+		<string>NotoSansMonoCJKkr-Bold.otf</string>
+		<string>NotoSansMonoCJKkr-Regular.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

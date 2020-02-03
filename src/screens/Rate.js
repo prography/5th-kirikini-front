@@ -19,10 +19,11 @@ const Rate = props => {
   console.log("mealsToRate:", mealToRate[0])
 
   const dispatch = useDispatch()
-
+  // const time = props.saved.timestamp == null ? '' : (Number(props.saved.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? ' 오전' + Number(props.saved.timestamp.slice(11, 13)) +'시 '+props.saved.timestamp.slice(17, 19)+'분'  :  ' 오후 ' + Number(props.saved.timestamp.slice(11, 13)-12) +'시 '+props.saved.timestamp.slice(14, 16)+'분')
   if(mealToRate.length > 0) {
     user_name = mealToRate[0]['picURL'].slice(mealToRate[0]['picURL'].indexOf('uploads/')+8, mealToRate[0]['picURL'].indexOf('@'))
     user_meal_date = mealToRate[0]['created_at'].slice(0, 10)
+    user_meal_time = (Number(mealToRate[0]['created_at'].slice(11, 16))<12?'오전 '+mealToRate[0]['created_at'].slice(11, 13)+'시':'오후 '+Number(mealToRate[0]['created_at'].slice(11, 13) -12)+'시')
   }
 
   useEffect(() => {
@@ -95,12 +96,13 @@ const Rate = props => {
       <View style={styles.container}>
         { Platform.OS === 'ios'
           ?
-          (<View style={styles.topMargin}/>)
+          (<View style={styles.topMarginIos}/>)
           :
-          null
+          (<View style={styles.topMarginAndroid}/>)
         }
         <View style={styles.titleHeader}>
-          <Text style={styles.txtBigTitle}>끼니 채점</Text>
+          <Text style={[styles.txtBigTitle, font.eight]}>건강도 채점</Text>
+          <TouchableOpacity style={{width: 15, height: 15, backgroundColor: 'red'}}></TouchableOpacity>
         </View>
           <View style={mainImg.screen}>
             {
@@ -127,36 +129,56 @@ const Rate = props => {
                     style={mainImg.img} // todo: 이미지 사이즈 조절
                     source={{uri: mealToRate[0]['picURL']}}
                   />
-                  <Text style={mainImg.whoseKini}>
-                    {user_name}님이 {user_meal_date}에 먹은 끼니입니다
-                  </Text>
+                  
                 </Fragment>
               )
             }
+            
         </View>
-        <View style={slider.container}>
-          <Text style={slider.txtScore}>{mealScore}</Text>
-          <Slider
-            step={1}
-            value={5}
-            thumbTintColor={yellow.a}
-            minimumValue={0}
-            maximumValue={10}
-            minimumTrackTintColor={yellow.a}
-            maximumTrackTintColor={gray.b}
-            onValueChange={onValueChange}
-          />
-          <TouchableOpacity
-            onPress={rateMeal}
-            style={slider.button}
-          >
-            <Text
-              style={slider.txtSubmit}
-            >
-              다음 끼니 채점하기 👉
-            </Text>
-          </TouchableOpacity>
-        </View>
+          {/* {
+            mealToRate.length == 0 
+            ?
+            null
+            :
+            (<Text style={mainImg.whoseKini}>
+              {user_name}님이 {user_meal_date}에 먹은 끼니입니다
+            </Text>)
+          } */}
+          {
+            mealToRate.length == 0 
+            ?
+            null
+            :
+            (<View style={slider.container}>
+              <View style={slider.scoreInfoContainer}>
+            <Text style={[slider.txtScoreWhose, font.seven]}> zwon.han님이 {user_meal_time}에 먹은 끼니 </Text>
+                {/* <Text style={[slider.txtScoreJum, font.eight]}>건강도는</Text> */}
+            <Text style={[slider.txtScoreJum, font.eight]}>점!</Text>
+              </View>
+              <Text style={slider.txtScore}>{mealScore}</Text>
+              <Slider
+                step={1}
+                value={5}
+                thumbTintColor={yellow.a}
+                minimumValue={0}
+                maximumValue={10}
+                minimumTrackTintColor={yellow.a}
+                maximumTrackTintColor={gray.b}
+                onValueChange={onValueChange}
+              />
+              <TouchableOpacity
+                onPress={rateMeal}
+                style={slider.button}
+              >
+                <Text
+                  style={slider.txtSubmit}
+                >
+                  다음 끼니 채점하기 👉
+                </Text>
+              </TouchableOpacity>
+            </View>)
+          }
+        
 
         
       </View>
@@ -173,22 +195,43 @@ const styles = EStyleSheet.create({
     paddingRight: '16rem',
     backgroundColor: '#F2F9F2'
   },
-  topMargin:{
+  topMarginIos:{
+    height: deviceHeight/9,
+    backgroundColor: kiriColor
+  },
+  topMarginAndroid:{
     height: '30rem',
     backgroundColor: kiriColor
   },
   titleHeader: {
     marginBottom: '15rem',
-    
+    flexDirection: 'row'
   },
   txtBigTitle: {
-    fontSize: '23rem',
+    fontSize: '26rem',
     color: gray.d,
-    fontFamily: 'NotoSansCJKkr-Bold',
-    lineHeight: '30rem',
+    lineHeight: '32rem',
     
   }
 });
+
+const font = EStyleSheet.create ({
+  eight: Platform.OS === 'ios' ? {
+    fontWeight: '800'
+  } : {
+   fontWeight: 'bold'
+  },
+  seven: Platform.OS === 'ios' ? {
+    fontWeight: '700'
+  } : {
+   fontWeight: 'bold'
+  },
+  six:Platform.OS === 'ios' ? {
+    fontWeight: '600'
+  } : {
+   fontWeight: 'normal'
+  },
+})
 
 const slider = EStyleSheet.create({
   container: {
@@ -197,6 +240,32 @@ const slider = EStyleSheet.create({
     // marginTop: 120
     // backgroundColor: gray.a,
     paddingBottom: '20rem',
+    position: 'relative',
+    zIndex: 100
+  },
+  scoreInfoContainer:{
+    flexDirection: 'column',
+    // backgroundColor: gray.b,
+    // justifyContent: 'center',
+    top: '35rem',
+    alignItems: 'center'
+  },
+  txtScoreWhose:{
+    fontSize: '14rem',
+    lineHeight: '18rem',
+    color: gray.c,
+    bottom: '2rem',
+    zIndex: 20,
+    position: 'relative',
+    textAlign: 'center'
+    // backgroundColor: 'red'
+  },
+  txtScoreJum:{
+    fontSize: '20rem',
+    color: yellow.b,
+    left: '36rem',
+    lineHeight: '40rem',
+    bottom: '-2rem'
   },
   txtScore: {
     marginBottom: '10rem',
@@ -205,7 +274,9 @@ const slider = EStyleSheet.create({
     // fontFamily:'Quicksand-Bold',
     fontFamily:'Rubik-Bold',
     color: yellow.b,
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: '40rem'
+    
   },
   button:{
     marginTop: '20rem',
@@ -245,29 +316,32 @@ const mainImg = EStyleSheet.create({
   screen: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: deviceWidth * 75 /100,
+    height: deviceWidth * 70 /100,
+    
     borderTopLeftRadius: '70rem',
     borderBottomRightRadius: '70rem',
     borderColor: 'white',
-    borderWidth: 10,
     backgroundColor: 'white',
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 7 },
-    // shadowOpacity: 0.05,
-    // shadowRadius: 10,
-    // elevation: 10
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 10,
+    position: 'relative',
+    zIndex: 1
   },
   whoseKini:{
-    top: -10,
+    top: 10,
     fontSize: '11rem',
     color: gray.c,
     textAlign: 'center',
     fontFamily: 'NotoSansCJKkr-Bold'
   },
   img:{
-    top: 17,
+    top: 0,
     height: deviceWidth -54,
-    width: deviceWidth * 75 /100 -20,
+    // width: deviceHeight /2.7,
+    width: deviceWidth * 70 /100 -20,
     borderTopRightRadius: '60rem',
     borderBottomLeftRadius: '60rem',
     resizeMode: 'cover',

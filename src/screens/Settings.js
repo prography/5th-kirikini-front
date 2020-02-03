@@ -32,11 +32,11 @@ const Settings = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1}}>
       <View style={styles.container}>
-        { Platform.OS === 'ios'
+      { Platform.OS === 'ios'
           ?
-          (<View style={styles.topMargin}/>)
+          (<View style={styles.topMarginIos}/>)
           :
-          null
+          (<View style={styles.topMarginAndroid}/>)
         }
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>설정</Text>
@@ -97,7 +97,11 @@ const styles = EStyleSheet.create({
     paddingRight: '16rem',
     backgroundColor: '#F2F9F2'
   },
-  topMargin:{
+  topMarginIos:{
+    height: '50rem',
+    backgroundColor: kiriColor
+  },
+  topMarginAndroid:{
     height: '30rem',
     backgroundColor: kiriColor
   },

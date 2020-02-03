@@ -125,9 +125,9 @@ const HomeScreen = props => {
   const [ment, setMent] = useState('오늘 먹은 끼니를 등록해줘!');
   const [scoreCompare, setScoreCompare] = useState(null);
   const [name, setName] = useState('')
-  const [mealSince, setMealSince] = useState()
-  const [coffeeSince, setCoffeeSince] = useState()
-  const [drinkSince, setDrinkSince] = useState()
+  const [mealSince, setMealSince] = useState('-')
+  const [coffeeSince, setCoffeeSince] = useState('-')
+  const [drinkSince, setDrinkSince] = useState('-')
 
   useEffect(() => {
     AsyncStorage.getItem('@email')
@@ -307,24 +307,30 @@ const HomeScreen = props => {
                     ? 
                     '-' 
                     : 
-                    ((todayScore-scoreCompare) > 0 ? '▲' : '▼')}
+                    ((todayScore-scoreCompare) > 0 ? '▲ ' : '▼ ')}
                   {!(todayScore && scoreCompare) 
                     ? 
                     null
                     : 
-                    (Math.abs(todayScore-scoreCompare))}
+                    Math.round(Math.abs(todayScore-scoreCompare)*10)/10}
                 </Text>
               </View>
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
-                  <Text style={[balloonText.lastMealTime, font.eight]}>🍽 밥 먹은 지</Text>
-                  <Text style={[balloonText.lastMealTime, font.eight]}>🍺 음주한 지</Text>
-                  <Text style={[balloonText.lastMealTime, font.eight]}>☕️ 커피 마신 지 </Text>
+                  <Text style={[balloonText.lastMealTime, font.seven]}>
+                    {mealSince === '-' ? '아직 입력된 끼니가 없어요' : '🍽 밥 먹은 지'}
+                  </Text>
+                  <Text style={[balloonText.lastMealTime, font.seven]}>
+                    {drinkSince === '-' ? '아직 입력된 음주가 없어요' : '🍺 음주한 지'}
+                    </Text>
+                  <Text style={[balloonText.lastMealTime, font.seven]}>
+                    {coffeeSince === '-' ? '아직 입력된 커피가 없어요' : '☕️ 커피 마신 지'}
+                    </Text>
                 </View>
-                <View style={balloonSt.lastMealTimeWrapper}>
-                  <Text style={[balloonText.lastMealTime, font.eight]}>{mealSince}</Text>
-                  <Text style={[balloonText.lastMealTime, font.eight]}>{drinkSince}</Text>
-                  <Text style={[balloonText.lastMealTime, font.eight]}>{coffeeSince}</Text>
+                <View style={balloonSt.lastMealTimeWrapper}>          
+                  <Text style={[(mealSince === '-' ? balloonText.noMeal : balloonText.lastMealTime), font.seven]}>{mealSince}</Text>
+                  <Text style={[(drinkSince === '-' ? balloonText.noMeal : balloonText.lastMealTime), font.seven]}>{drinkSince}</Text>
+                  <Text style={[(coffeeSince === '-' ? balloonText.noMeal : balloonText.lastMealTime), font.seven]}>{coffeeSince}</Text>
                 </View>
               </View>
               <View style={balloonSt.feedbackArea}>
@@ -440,11 +446,10 @@ const balloonText = EStyleSheet.create({
   //   color: gray.d
   // },
   todayScore: {
-    fontSize: '30rem',
+    fontSize: '25rem',
     lineHeight: '30rem',
-    //  fontFamily:'FredokaOne-Regular',
-    // fontFamily:'Quicksand-Bold',
-    fontFamily:'Rubik-Bold',
+    // fontFamily:'Kanit-ExtraBold',
+    fontFamily:'JosefinSans-Bold',
     color: yellow.b
   },
   scoreCompare: {
@@ -452,12 +457,19 @@ const balloonText = EStyleSheet.create({
     color: gray.b
   },
   lastMealTime: {
-    fontSize: '13rem',
+    fontSize: '12.5rem',
     color: gray.c,
     textAlign: 'right',
     fontFamily: 'NotoSansCJKkr-Bold',
     flexDirection: 'column',
     justifyContent: 'space-around'
+  },
+  noMeal: {
+    fontSize: '12.5rem',
+    color: 'white',
+    textAlign: 'right',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
   },
   feedback: {
     fontSize: '14rem',
@@ -493,7 +505,7 @@ const balloonSt = EStyleSheet.create({
     alignItems: 'flex-end'
   },
   lastMealTimeContainer: {
-    flex: 1.2,
+    flex: 1.25,
     flexDirection: 'row',
     paddingTop: '12rem',
     

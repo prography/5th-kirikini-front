@@ -112,7 +112,7 @@ const NavBar = props => {
     });
 
   return (
-    <View style={navBar.roundContainer}>
+    <View style={navBar.roundContainer} >
       <CreateNavBar navBarButtons={navBarButtons} />
       <TouchableOpacity />
     </View>
@@ -134,7 +134,8 @@ const navBar = EStyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
     shadowRadius: 7,
-    elevation: 40
+    elevation: 40,
+    // overflow: 'hidden'
   },
   oneButton: {
     flex: 1,
@@ -144,12 +145,12 @@ const navBar = EStyleSheet.create({
   },
   txtSelected: {
     color: yellow.a,
-    fontSize: '9.5rem',
+    fontSize: '10.5rem',
     lineHeight: '12rem'
   },
   txtUnselected: {
     color: gray.c,
-    fontSize: '9rem',
+    fontSize: '10.5rem',
     lineHeight: '12rem'
   }
 });

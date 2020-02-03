@@ -484,12 +484,12 @@ const Summary = props => {
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}> 
       <View style={styles.container}>
         <View style={topBox.container}>
-          { Platform.OS === 'ios'
-            ?
-            (<View style={styles.topMargin}/>)
-            :
-            null
-          }
+        { Platform.OS === 'ios'
+          ?
+          (<View style={styles.topMarginIos}/>)
+          :
+          (<View style={styles.topMarginAndroid}/>)
+        }
           <View style={topBox.topLine}>
             <Text style={[styles.txtBigTitle, font.seven]}>기록</Text>
             <Text style={[topBox.txtWeekScore, font.seven]}> 5.5 </Text>
@@ -590,10 +590,13 @@ const styles = EStyleSheet.create({
     flex: 1,
     // backgroundColor: '#F2F9F2'
   },
-  topMargin:{
-    height: '20rem',
-    backgroundColor: kiriColor,
-    // backgroundColor: 'blue'
+  topMarginIos:{
+    height: '50rem',
+    backgroundColor: kiriColor
+  },
+  topMarginAndroid:{
+    height: '30rem',
+    backgroundColor: kiriColor
   },
   txtBigTitle: {
     fontSize: '23rem',
