@@ -30,7 +30,7 @@ import {
 } from '../utils/consts';
 
 const HomeCircles = props => {
-  const [selectedMeal, setSelectedMeal] = useState({})
+  const [selectedMeal, setSelectedMeal] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -64,7 +64,7 @@ const HomeCircles = props => {
             <Fragment key={item.id}>
               <TouchableOpacity
                 onPress={() => {
-                  setSelectedMeal(item)
+                  setSelectedMeal(item);
                   setModalVisible(!modalVisible);
                 }}
                 style={{
@@ -101,11 +101,7 @@ const HomeCircles = props => {
                 />
               )}
 
-              <Modal
-                animation="fade"
-                transparent={true}
-                visible={modalVisible}
-              >
+              <Modal animation="fade" transparent={true} visible={modalVisible}>
                 <TouchableOpacity
                   onPress={() => {
                     setModalVisible(!modalVisible);
@@ -114,7 +110,7 @@ const HomeCircles = props => {
                 >
                   <View style={modal.view}>
                     <Image
-                      source={{uri: selectedMeal.picURL}}
+                      source={{ uri: selectedMeal.picURL }}
                       style={modal.img}
                     />
                   </View>
@@ -138,19 +134,18 @@ const Home = props => {
   const [drinkSince, setDrinkSince] = useState('-');
 
   useEffect(() => {
-    AsyncStorage.getItem('@email')
-      .then(result => {
-        const id = result.slice(0, result.indexOf('@'));
-        setName(id)
-        loadTodayMeals()
-      })
-  }, [])
+    AsyncStorage.getItem('@email').then(result => {
+      const id = result.slice(0, result.indexOf('@'));
+      setName(id);
+      loadTodayMeals();
+    });
+  }, []);
 
   useEffect(() => {
-    calculateTodayScore()
-    loadSinceMealInfo()
-  }, [meals])
-  
+    calculateTodayScore();
+    loadSinceMealInfo();
+  }, [meals]);
+
   const calculateTodayScore = () => {
     if (meals.length > 0) {
       let sum = 0;
@@ -225,7 +220,7 @@ const Home = props => {
           axios
             .get(LOAD_MEALS_URL, { headers })
             .then(response => {
-              setMeals(response['data'])
+              setMeals(response['data']);
             })
             .catch(err => console.log(err));
         }
@@ -251,37 +246,39 @@ const Home = props => {
       }
     };
 
-    let access_token = null, refresh_token = null;
-    AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
-      access_token = response[0][1];
-      refresh_token = response[1][1];
+    let access_token = null,
+      refresh_token = null;
+    AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
+      response => {
+        access_token = response[0][1];
+        refresh_token = response[1][1];
 
-      if(access_token !== null)
-      {
-        const headers = {
-          'Authorization': `Bearer ${access_token}`,
-        };
+        if (access_token !== null) {
+          const headers = {
+            Authorization: `Bearer ${access_token}`
+          };
 
-        axios.get(LOAD_SINCE_MEAL_INFO_URL, {headers})
-          .then(response => {
-            if(response.status == 200)
-            {
-              const since_data = response.data
-              console.log("sinceinfo:", since_data)
+          axios
+            .get(LOAD_SINCE_MEAL_INFO_URL, { headers })
+            .then(response => {
+              if (response.status == 200) {
+                const since_data = response.data;
+                console.log('sinceinfo:', since_data);
 
-              if (since_data['meal'] > 0) {
-                const since_text = _calculateSinceTime(since_data['meal'])
-                setMealSince(since_text)
+                if (since_data['meal'] > 0) {
+                  const since_text = _calculateSinceTime(since_data['meal']);
+                  setMealSince(since_text);
+                }
+                if (since_data['drink'] > 0) {
+                  const since_text = _calculateSinceTime(since_data['drink']);
+                  setDrinkSince(since_text);
+                }
+                if (since_data['coffee'] > 0) {
+                  const since_text = _calculateSinceTime(since_data['coffee']);
+                  setCoffeeSince(since_text);
+                }
               }
-              if (since_data['drink'] > 0) {
-                const since_text = _calculateSinceTime(since_data['drink'])
-                setDrinkSince(since_text)
-              }
-              if (since_data['coffee'] > 0) {
-                const since_text = _calculateSinceTime(since_data['coffee'])
-                setCoffeeSince(since_text)
-              }
-            }})
+            })
             .catch(err => console.log(err));
         }
       }
@@ -290,9 +287,11 @@ const Home = props => {
 
   const today = (
     <View style={{ backgroundColor: kiriColor, flex: 1 }}>
-      <NavigationEvents onWillFocus={() => {
-        loadTodayMeals()
-      }} />
+      <NavigationEvents
+        onWillFocus={() => {
+          loadTodayMeals();
+        }}
+      />
       <View style={styles.container}>
         <View style={styles.topMargin} />
         <View style={styles.topHalf}>
@@ -497,23 +496,23 @@ const balloonText = EStyleSheet.create({
     fontSize: '25rem',
     lineHeight: '30rem',
     // fontFamily:'Kanit-ExtraBold',
-    // fontFamily: 'JosefinSans-Bold',
+    fontFamily: 'JosefinSans-Bold',
     // fontFamily: 'Digitalt',
     color: yellow.b
   },
   scoreCompareTri: {
     fontSize: '10rem',
     color: gray.b,
-    // fontFamily: 'JosefinSans-Bold'
+    fontFamily: 'JosefinSans-Bold'
   },
   scoreCompare: {
     fontSize: '15rem',
     color: gray.b,
-    // fontFamily: 'JosefinSans-Bold'
+    fontFamily: 'JosefinSans-Bold'
   },
   lastMealTime: {
     fontSize: '13.5rem',
-    color: gray.c,
+    color: gray.b,
     textAlign: 'right',
     fontFamily: 'NotoSansCJKkr-Bold',
     flexDirection: 'column',
@@ -579,7 +578,7 @@ const balloonSt = EStyleSheet.create({
     flex: 1.7,
     // boxSizing: 'border-box',
     // paddingBottom: '5rem',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'flex-end'
     // backgroundColor: 'red',
   },
@@ -647,7 +646,7 @@ const circles = StyleSheet.create({
 });
 
 // todo: tab navigation
-Home.navigationOptions = ({navigation}) => ({
+Home.navigationOptions = ({ navigation }) => ({
   headerShown: false
 });
 

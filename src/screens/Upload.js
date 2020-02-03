@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Dimensions, ScrollView, Image, Alert, Platform } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Image,
+  Alert,
+  Platform
+} from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { NavigationEvents } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -11,8 +20,15 @@ import axios from 'axios';
 import MealTypeButton from '../Components/MealTypeButton';
 import DrinkTypeButton from '../Components/DrinkButton';
 import Time from '../Components/Time';
-import secretKey from '../../secrets_front.json'
-import { SAVE_MEAL_URL, deviceWidth, deviceHeight, gray, yellow, kiriColor } from '../utils/consts'
+import secretKey from '../../secrets_front.json';
+import {
+  SAVE_MEAL_URL,
+  deviceWidth,
+  deviceHeight,
+  gray,
+  yellow,
+  kiriColor
+} from '../utils/consts';
 import { gihoType } from '../store/meal/action';
 
 // AWS S3
@@ -33,10 +49,7 @@ const Upload = props => {
   const time =
     props.saved.timestamp == null
       ? ''
-      : Number(
-          props.saved.timestamp.slice(13, 15) +
-            props.saved.timestamp.slice(16, 18)
-        ) < 1200
+      : Number(props.saved.timestamp.slice(11, 13)) < 12
       ? ' 오전' +
         Number(props.saved.timestamp.slice(11, 13)) +
         '시 ' +
@@ -91,32 +104,35 @@ const Upload = props => {
         created_at: props.saved.timestamp
       };
 
-      let access_token = null, refresh_token = null;
-      AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
-        access_token = response[0][1];
-        refresh_token = response[1][1];
+      let access_token = null,
+        refresh_token = null;
+      AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
+        response => {
+          access_token = response[0][1];
+          refresh_token = response[1][1];
 
           if (access_token !== null) {
             const headers = {
               Authorization: `Bearer ${access_token}`
             };
 
-          axios.post(SAVE_MEAL_URL, data, {headers})
-            .then(response => {
-              if(response.status == 201)
-              {
-                console.log("saved meal")
-                dispatch(gihoType(null));
-                setMealImage('');
-                AsyncStorage.removeItem('@mealImage')
-                  .then(() => props.navigation.goBack())
-                  .catch(err => console.log(err))
-              }
-              // todo: 201아니면 에러창 띄워주기
-            })
-            .catch(err => console.log(err))
+            axios
+              .post(SAVE_MEAL_URL, data, { headers })
+              .then(response => {
+                if (response.status == 201) {
+                  console.log('saved meal');
+                  dispatch(gihoType(null));
+                  setMealImage('');
+                  AsyncStorage.removeItem('@mealImage')
+                    .then(() => props.navigation.goBack())
+                    .catch(err => console.log(err));
+                }
+                // todo: 201아니면 에러창 띄워주기
+              })
+              .catch(err => console.log(err));
+          }
         }
-      });
+      );
     });
   };
 
@@ -163,8 +179,12 @@ const Upload = props => {
           <View style={dateTime.container}>
             <Text style={dateTime.txt}> {date} </Text>
           </View>
-          <View style={{flex:1, justifyContent: 'center'}}><DrinkTypeButton /></View>
-          <View style={{flex:2, justifyContent: 'center'}}><MealTypeButton /></View>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <DrinkTypeButton />
+          </View>
+          <View style={{ flex: 2, justifyContent: 'center' }}>
+            <MealTypeButton />
+          </View>
           <View style={slider.container}>
             <Text style={slider.txtScore}>{String(mealScore)}</Text>
             <Slider

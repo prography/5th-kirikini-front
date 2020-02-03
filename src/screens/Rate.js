@@ -27,12 +27,15 @@ const Rate = props => {
   const dispatch = useDispatch();
   if (mealToRate.length > 0) {
     user_meal_time =
-      Number(mealToRate[0]['created_at'].slice(11, 16)) < 12
+      Number(mealToRate[0]['created_at'].slice(11, 13)) < 12
         ? '오전 ' + mealToRate[0]['created_at'].slice(11, 13) + '시'
         : '오후 ' +
           Number(mealToRate[0]['created_at'].slice(11, 13) - 12) +
           '시';
-    user_name = mealToRate[0]['picURL'].slice(mealToRate[0]['picURL'].indexOf('%2F')+3, mealToRate[0]['picURL'].indexOf('%40'))
+    user_name = mealToRate[0]['picURL'].slice(
+      mealToRate[0]['picURL'].indexOf('%2F') + 3,
+      mealToRate[0]['picURL'].indexOf('%40')
+    );
   }
 
   useEffect(() => {
@@ -293,7 +296,7 @@ const slider = EStyleSheet.create({
     // fontFamily:'FredokaOne-Regular',
     // fontFamily:'Quicksand-Bold',
     // fontFamily:'Rubik-Bold',
-    // fontFamily: 'JosefinSans-Bold',
+    fontFamily: 'JosefinSans-Bold',
     // fontFamily:'Kanit-Bold',
     // fontFamily:'Digitalt',
     color: yellow.b,
