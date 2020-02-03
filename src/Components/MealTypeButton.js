@@ -112,8 +112,7 @@ const btColor = color =>
       borderRadius: 100,
       borderWidth: '3.5rem',
       borderColor: yellow.a,
-      backgroundColor: color,
-      
+      backgroundColor: color
     }
   });
 
@@ -121,7 +120,7 @@ const mealbtSt = EStyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center'
     // backgroundColor: 'pink'
   },
 
@@ -137,18 +136,16 @@ const mealbtSt = EStyleSheet.create({
   // },
   txtUnselected: {
     position: 'absolute',
-    left: '10.3rem',
+    left: '10.5rem',
     fontSize: '15rem',
     lineHeight: '21rem',
-    fontFamily: 'NotoSansCJKkr-Medium',
     color: gray.d
   },
   txtSelected: {
     position: 'absolute',
-    left: '10.2rem',
+    left: '10.15rem',
     color: 'white',
-    fontSize: '15rem',
-    fontFamily: 'NotoSansCJKkr-Black'
+    fontSize: '15rem'
   }
 });
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Text, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { gihoType } from '../store/meal/action';
-import { meal, gray, yellow } from '../utils/consts'
+import { meal, gray, yellow } from '../utils/consts';
 import EStyleSheet from 'react-native-extended-stylesheet';
 const drinkTypes = [
   {
@@ -24,12 +24,12 @@ const DrinkTypeButton = props => {
   const MakeDrinkTypeButton = () =>
     drinkTypes.map(item => {
       return (
-        <View  key={item.key}>
+        <View key={item.key}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.circle}
               onPress={() => {
-                setSelected(item.key)
+                setSelected(item.key);
                 dispatch(gihoType(item.key));
               }}
             >
@@ -54,10 +54,7 @@ const styles = EStyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: "50%",
-    
-    
-    
+    width: '50%'
   },
   buttonContainer: {
     flexDirection: 'row',

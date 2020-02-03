@@ -1,80 +1,79 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, Alert } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import { WebView } from 'react-native-webview';
 import AsyncStorage from '@react-native-community/async-storage';
-import Modal from "react-native-modal";
+import Modal from 'react-native-modal';
 import NavBar from '../Components/NavBar';
 import { logout } from '../store/auth/action';
-import { PRIVACY_URL } from '../utils/consts'
+import { PRIVACY_URL } from '../utils/consts';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import KakaoLogins from '@react-native-seoul/kakao-login';
-import { RATE_MEAL_URL, deviceWidth, gray, yellow, meal, kiriColor, deviceHeight } from '../utils/consts'
+import {
+  RATE_MEAL_URL,
+  deviceWidth,
+  gray,
+  yellow,
+  meal,
+  kiriColor,
+  deviceHeight
+} from '../utils/consts';
 
 // todo: 자동로그인 on/off
 const Settings = props => {
   const [modalVisible, setModalVisible] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const handleLogout = async () =>  {
+  const handleLogout = async () => {
     try {
-      await AsyncStorage.multiRemove(["@jwt_access_token", "@jwt_refresh_token", "@email"])
-      await KakaoLogins.logout()
-      
-      dispatch(logout())
-      props.navigation.navigate('Login')
-    }
-    catch (e) {
+      await AsyncStorage.multiRemove([
+        '@jwt_access_token',
+        '@jwt_refresh_token',
+        '@email'
+      ]);
+      await KakaoLogins.logout();
+
+      dispatch(logout());
+      props.navigation.navigate('Login');
+    } catch (e) {
       Alert.alert(e.toString());
     }
-  }
+  };
 
   return (
-    <View style={{ backgroundColor: '#F2F9F2', flex: 1}}>
+    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
-      { Platform.OS === 'ios'
-          ?
-          (<View style={styles.topMarginIos}/>)
-          :
-          (<View style={styles.topMarginAndroid}/>)
-        }
+        {Platform.OS === 'ios' ? (
+          <View style={styles.topMarginIos} />
+        ) : (
+          <View style={styles.topMarginAndroid} />
+        )}
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>설정</Text>
         </View>
         <View style={content.container}>
           <Modal
-            style={{margin: 80}}
+            style={{ margin: 80 }}
             animationType="fade"
             transparent={true}
             visible={modalVisible}
             // onRequestClose={() => setModalVisible(false)}
             onBackButtonPress={() => setModalVisible(false)}
           >
-            <WebView
-              source={{uri: `${PRIVACY_URL}`}}
-              style={{flex:1}}
-            />
+            <WebView source={{ uri: `${PRIVACY_URL}` }} style={{ flex: 1 }} />
           </Modal>
 
           <TouchableOpacity
             onPress={() => handleLogout()}
-            style={content.button}          
+            style={content.button}
           >
-            <Text
-              style={content.txt}
-            >
-              로그아웃
-            </Text>
+            <Text style={content.txt}>로그아웃</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setModalVisible(!modalVisible)}
-            style={content.button}          
+            style={content.button}
           >
-            <Text
-              style={content.txt}
-            >
-              개인정보처리방침
-            </Text>
+            <Text style={content.txt}>개인정보처리방침</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -85,9 +84,9 @@ const Settings = props => {
 };
 
 // todo: tab navigation
-Settings.navigationOptions = ({navigation}) => ({
-  headerShown: false,
-})
+Settings.navigationOptions = ({ navigation }) => ({
+  headerShown: false
+});
 
 const styles = EStyleSheet.create({
   container: {
@@ -97,33 +96,31 @@ const styles = EStyleSheet.create({
     paddingRight: '16rem',
     backgroundColor: '#F2F9F2'
   },
-  topMarginIos:{
+  topMarginIos: {
     height: '50rem',
     backgroundColor: kiriColor
   },
-  topMarginAndroid:{
+  topMarginAndroid: {
     height: '30rem',
     backgroundColor: kiriColor
   },
   titleHeader: {
-    marginBottom: '15rem',
-    
+    marginBottom: '15rem'
   },
   txtBigTitle: {
     fontSize: '23rem',
     color: gray.d,
     fontFamily: 'NotoSansCJKkr-Bold',
-    lineHeight: '30rem',
-    
+    lineHeight: '30rem'
   }
-})
+});
 
 const content = EStyleSheet.create({
-  container:{
-    flex:1,
+  container: {
+    flex: 1,
     justifyContent: 'space-around'
   },
-  button:{
+  button: {
     marginTop: '20rem',
     width: '50%',
     height: deviceHeight / 13,
@@ -131,15 +128,15 @@ const content = EStyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     backgroundColor: 'white',
-    borderRadius: '30rem',
+    borderRadius: '30rem'
   },
-  txt:{
+  txt: {
     textAlign: 'center',
-    fontSize: '16rem', 
-    fontFamily:'NotoSansCJKkr-Bold',
+    fontSize: '16rem',
+    fontFamily: 'NotoSansCJKkr-Bold',
     color: gray.d
   }
-})
+});
 
 export default connect(state => ({
   auth: state.auth

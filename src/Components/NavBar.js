@@ -89,7 +89,7 @@ const NavBar = props => {
                 }}
                 source={item.iconUnselected}
               />
-              <Text style={[navBar.txtUnselected, font.six]}>{item.text}</Text>    
+              <Text style={[navBar.txtUnselected, font.six]}>{item.text}</Text>
             </Fragment>
           )}
 
@@ -112,7 +112,7 @@ const NavBar = props => {
     });
 
   return (
-    <View style={navBar.roundContainer} >
+    <View style={navBar.roundContainer}>
       <CreateNavBar navBarButtons={navBarButtons} />
       <TouchableOpacity />
     </View>
@@ -128,13 +128,13 @@ const navBar = EStyleSheet.create({
     paddingLeft: '7rem',
     paddingRight: '7rem',
     borderTopLeftRadius: '37rem',
-    borderTopRightRadius:'37rem',
+    borderTopRightRadius: '37rem',
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
     shadowRadius: 7,
-    elevation: 40,
+    elevation: 40
     // overflow: 'hidden'
   },
   oneButton: {
@@ -155,23 +155,32 @@ const navBar = EStyleSheet.create({
   }
 });
 
-const font = EStyleSheet.create ({
-  eight: Platform.OS === 'ios' ? {
-    fontWeight: '800'
-  } : {
-   fontWeight: 'bold'
-  },
-  seven: Platform.OS === 'ios' ? {
-    fontWeight: '700'
-  } : {
-   fontWeight: 'bold'
-  },
-  six:Platform.OS === 'ios' ? {
-    fontWeight: '600'
-  } : {
-   fontWeight: 'normal'
-  },
-})
+const font = EStyleSheet.create({
+  eight:
+    Platform.OS === 'ios'
+      ? {
+          fontWeight: '800'
+        }
+      : {
+          fontWeight: 'bold'
+        },
+  seven:
+    Platform.OS === 'ios'
+      ? {
+          fontWeight: '700'
+        }
+      : {
+          fontWeight: 'bold'
+        },
+  six:
+    Platform.OS === 'ios'
+      ? {
+          fontWeight: '600'
+        }
+      : {
+          fontWeight: 'normal'
+        }
+});
 
 export default NavBar;
 

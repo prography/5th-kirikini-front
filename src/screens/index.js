@@ -11,7 +11,8 @@ import Settings from './Settings';
 import Upload from './Upload';
 import Camera from './Camera';
 
-const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바꾸기(불필요한 back버튼 생성되니)
+const AppNavigator = createStackNavigator(
+  // todo: stack말고 다른걸로 바꾸기(불필요한 back버튼 생성되니)
   {
     Home: Home,
     Login: Login,
@@ -19,12 +20,12 @@ const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바
     Summary: Summary,
     Settings: Settings,
     Upload: Upload,
-    Camera: Camera,
+    Camera: Camera
   },
   {
     initialRouteName: 'Login',
     defaultNavigationOptions: {
-      headerBackTitle: "",
+      headerBackTitle: '',
       headerStyle: {
         elevation: 0,
         backgroundColor: 'white',
@@ -35,7 +36,7 @@ const AppNavigator = createStackNavigator( // todo: stack말고 다른걸로 바
       headerTitleStyle: {
         fontWeight: '700'
       }
-    },
+    }
   }
 );
 
