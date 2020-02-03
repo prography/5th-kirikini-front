@@ -52,49 +52,37 @@ const WeeklyReportToggled = () => {
     ]).then(response => {
       const user_name = response[2][1].slice(0, response[2][1].indexOf('@'));
 
-      access_token = response[0][1];
-      refresh_token = response[1][1];
+        if (access_token !== null) {
+          const headers = {
+            Authorization: `Bearer ${access_token}`,
+          };
+          
+          axios
+            .post(LOAD_WEEK_REPORT_URL, user_name, { headers })
+            .then(response => {
+              const { 
+                meal_count, 
+                avg_meal_count, coffee_count, drink_count, 
+                counts_by_meal_type, score_by_day, score_by_meal_type, 
+                week_score, previous_week_score,
+                feedback
+              } = response["data"]
 
-      if (access_token !== null) {
-        const headers = {
-          Authorization: `Bearer ${access_token}`
-        };
-
-        axios
-          .post(LOAD_WEEK_REPORT_URL, user_name, { headers })
-          .then(response => {
-            const {
-              meal_count,
-              avg_meal_count,
-              coffee_count,
-              drink_count,
-              counts_by_meal_type,
-              score_by_day,
-              score_by_meal_type,
-              week_score,
-              previous_week_score,
-              feedback
-            } = response['data'];
-
-            console.log(`feedback${feedback}`);
-
-            setMealCount(meal_count);
-            setAvgMealCount(avg_meal_count);
-            setCoffeeCount(coffee_count);
-            setDrinkCount(drink_count);
-            setCountsByMealType(counts_by_meal_type);
-            setScoreByDay(score_by_day);
-            setScoreByMealType(score_by_meal_type);
-            setWeekScore(week_score);
-            setPreviousWeekScore(previous_week_score);
-            setFeedback(feedback);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    });
-  };
+              setMealCount(meal_count)
+              setAvgMealCount(avg_meal_count)
+              setCoffeeCount(coffee_count)
+              setDrinkCount(drink_count)
+              setCountsByMealType(counts_by_meal_type)
+              setScoreByDay(score_by_day)
+              setScoreByMealType(score_by_meal_type)
+              setWeekScore(week_score)
+              setPreviousWeekScore(previous_week_score)
+              setFeedback(feedback)
+            })
+            .catch(err => {
+              console.log(err)});
+        }
+      })};
 
   const data1 = {
     labels: ['월', '화', '수', '목', '금', '토', '일'],
@@ -248,14 +236,16 @@ const WeeklyReportToggled = () => {
       </View>
       <View style={balloonSt.scoreCompareArea}>
         <Text style={balloonText.scoreCompare}>
-          {!(weekScore && previousWeekScore)
-            ? '-'
-            : weekScore - previousWeekScore > 0
-            ? '▲'
-            : '▼'}
-          {!(weekScore && previousWeekScore)
-            ? null
-            : Math.abs(weekScore - previousWeekScore)}
+        {!(weekScore && previousWeekScore) 
+          ? 
+          '-' 
+          : 
+          ((weekScore-previousWeekScore) > 0 ? '▲' : '▼')}
+        {!(weekScore && previousWeekScore) 
+          ? 
+          null
+          : 
+          (Math.abs(weekScore-previousWeekScore)).toFixed(2)}
         </Text>
       </View>
       <View style={balloonSt.lastMealTimeContainer}>
@@ -327,13 +317,12 @@ const WeeklyReportToggled = () => {
       </View>
     </View>
   );
-};
+}
 
 const WeeklyListToggled = props => {
   const { week, meals } = props;
 
-  const renderList = _day => {
-    // 0:월, 1:화, ... , 6:일
+  const renderList = (_day) => { // 0:월, 1:화, ... , 6:일
     return (
       <Fragment>
         <View
@@ -345,50 +334,37 @@ const WeeklyListToggled = props => {
             width: 250
           }}
         ></View>
-        {Object.keys(meals).length > 0 &&
-          meals[week].map(meal => {
-            console.log('meal:', meal);
-            if (meal.day == _day) {
-              return (
-                <TouchableOpacity
-                  key={meal.id}
-                  activeOpacity={0.8}
+        {Object.keys(meals).length > 0 && meals[week].map(meal => {
+          if(meal.day == _day) {
+            return (
+              <TouchableOpacity
+                key={meal.id}
+                activeOpacity={0.8}
+                style={{
+                  zIndex: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: meal.average_rate + 35,
+                  height: meal.average_rate + 35,
+                  left: (((deviceWidth * 5) / 3 - 338) / 30) * (meal.created_at.slice(11, 13) - 6) - (meal.average_rate + 40) / 2 + 100,
+                  borderRadius: 100,
+                  backgroundColor: meal.mealType == 0 ? mealColor.a : (meal.mealType == 1 ? mealColor.b : (meal.mealType == 2 ? mealColor.c : mealColor.d))
+                }}
+              >
+                <Image
                   style={{
-                    zIndex: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: meal.average_rate + 35,
-                    height: meal.average_rate + 35,
-                    left:
-                      (((deviceWidth * 5) / 3 - 338) / 30) *
-                        (meal.created_at.slice(11, 13) - 6) -
-                      (meal.average_rate + 40) / 2 +
-                      100,
-                    borderRadius: 100,
-                    backgroundColor:
-                      meal.mealType == 0
-                        ? mealColor.a
-                        : meal.mealType == 1
-                        ? mealColor.b
-                        : meal.mealType == 2
-                        ? mealColor.c
-                        : mealColor.d
+                    zIndex: 20,
+                    width: 20,
+                    height: 20,
+                    resizeMode: 'contain'
                   }}
-                >
-                  <Image
-                    style={{
-                      zIndex: 20,
-                      width: 20,
-                      height: 20,
-                      resizeMode: 'contain'
-                    }}
-                    source={
-                      meal.gihoType == 0
-                        ? require('../img/iconCupSmall.png')
-                        : require('../img/iconBeerSmall.png')
-                    }
-                  />
-                </TouchableOpacity>
+                  source={
+                    meal.gihoType == 0
+                      ? require('../img/iconCupSmall.png')
+                      : require('../img/iconBeerSmall.png')
+                  }
+                />
+              </TouchableOpacity>
               );
             }
           })}
@@ -445,7 +421,8 @@ const WeeklyListToggled = props => {
         </View>
       );
     });
-
+  
+      
   return (
     <View style={barToggled.contentContainer}>
       <View style={wLToggled.sunMoonContainer}>
@@ -461,7 +438,7 @@ const WeeklyListToggled = props => {
       <MakeADay weeklyListArray={weeklyListArray} />
     </View>
   );
-};
+}
 
 const Summary = props => {
   const dispatch = useDispatch();
@@ -478,8 +455,10 @@ const Summary = props => {
   const week_list = [1, 2, 3, 4, 5];
 
   useEffect(() => {
-    if (props.meals.length == 0) loadMonthMeals(month);
-  });
+    if(props.meals.length == 0) {
+      loadMonthMeals(month)
+    }
+  }, [])
 
   // Date 형태의 날짜를 가져온다.
   // 각 월별로 해당 주의 마지막 날짜보다 작거나 같은지 체크해서 작거나 같으면 해당 주, 식으로 계산
@@ -492,24 +471,21 @@ const Summary = props => {
         access_token = response[0][1];
         refresh_token = response[1][1];
 
-        console.log('Acess:', access_token);
-        const headers = {
-          Authorization: `Bearer ${access_token}`
-        };
+      const headers = {
+        'Authorization': `Bearer ${access_token}`,
+      };
 
-        axios
-          .post(LOAD_MONTH_MEAL_URL, { month: _month }, { headers })
-          .then(result => {
-            console.log('result.data', result.data);
-            dispatch(mealMonth(result.data));
-          })
-          .catch(err => console.log(err));
-      }
-    );
-  };
+  
+      axios.post(LOAD_MONTH_MEAL_URL, {month: _month}, {headers})
+        .then(result => {
+          dispatch(mealMonth(result.data));
+        })
+        .catch(err => console.log(err))
+    })
+  }
 
   return (
-    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
+    <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}> 
       <View style={styles.container}>
         <View style={topBox.container}>
           {Platform.OS === 'ios' ? (
@@ -599,8 +575,8 @@ const Summary = props => {
 
 const styles = EStyleSheet.create({
   container: {
-    flex: 1
-    // backgroundColor: '#F2F9F2'
+    flex: 1,
+    // backgroundColor: 'white'
   },
   topMarginIos: {
     height: '50rem',

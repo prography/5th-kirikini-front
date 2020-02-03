@@ -30,6 +30,7 @@ import {
 } from '../utils/consts';
 
 const HomeCircles = props => {
+  const [selectedMeal, setSelectedMeal] = useState({})
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -63,6 +64,7 @@ const HomeCircles = props => {
             <Fragment key={item.id}>
               <TouchableOpacity
                 onPress={() => {
+                  setSelectedMeal(item)
                   setModalVisible(!modalVisible);
                 }}
                 style={{
@@ -103,9 +105,6 @@ const HomeCircles = props => {
                 animation="fade"
                 transparent={true}
                 visible={modalVisible}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                }}
               >
                 <TouchableOpacity
                   onPress={() => {
@@ -114,7 +113,10 @@ const HomeCircles = props => {
                   style={{ width: deviceWidth, height: deviceHeight }}
                 >
                   <View style={modal.view}>
-                    <Image source={{ uri: item.picURL }} style={modal.img} />
+                    <Image
+                      source={{uri: selectedMeal.picURL}}
+                      style={modal.img}
+                    />
                   </View>
                 </TouchableOpacity>
               </Modal>
@@ -125,7 +127,7 @@ const HomeCircles = props => {
   );
 };
 
-const HomeScreen = props => {
+const Home = props => {
   const [meals, setMeals] = useState([]);
   const [todayScore, setTodayScore] = useState(null);
   const [ment, setMent] = useState('오늘 먹은 끼니를 등록해줘!');
@@ -136,14 +138,19 @@ const HomeScreen = props => {
   const [drinkSince, setDrinkSince] = useState('-');
 
   useEffect(() => {
-    AsyncStorage.getItem('@email').then(result => {
-      const id = result.slice(0, result.indexOf('@'));
-      setName(id);
-      loadTodayMeals();
-      loadSinceMealInfo();
-    });
-  }, []);
+    AsyncStorage.getItem('@email')
+      .then(result => {
+        const id = result.slice(0, result.indexOf('@'));
+        setName(id)
+        loadTodayMeals()
+      })
+  }, [])
 
+  useEffect(() => {
+    calculateTodayScore()
+    loadSinceMealInfo()
+  }, [meals])
+  
   const calculateTodayScore = () => {
     if (meals.length > 0) {
       let sum = 0;
@@ -218,8 +225,7 @@ const HomeScreen = props => {
           axios
             .get(LOAD_MEALS_URL, { headers })
             .then(response => {
-              setMeals(response['data']);
-              calculateTodayScore();
+              setMeals(response['data'])
             })
             .catch(err => console.log(err));
         }
@@ -245,38 +251,37 @@ const HomeScreen = props => {
       }
     };
 
-    let access_token = null,
-      refresh_token = null;
-    AsyncStorage.multiGet(['@jwt_access_token', '@jwt_refresh_token']).then(
-      response => {
-        access_token = response[0][1];
-        refresh_token = response[1][1];
+    let access_token = null, refresh_token = null;
+    AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token"]).then(response => {
+      access_token = response[0][1];
+      refresh_token = response[1][1];
 
-        if (access_token !== null) {
-          const headers = {
-            Authorization: `Bearer ${access_token}`
-          };
+      if(access_token !== null)
+      {
+        const headers = {
+          'Authorization': `Bearer ${access_token}`,
+        };
 
-          axios
-            .get(LOAD_SINCE_MEAL_INFO_URL, { headers })
-            .then(response => {
-              if (response.status == 200) {
-                const since_data = response.data;
+        axios.get(LOAD_SINCE_MEAL_INFO_URL, {headers})
+          .then(response => {
+            if(response.status == 200)
+            {
+              const since_data = response.data
+              console.log("sinceinfo:", since_data)
 
-                if (since_data['meal'] > 0) {
-                  const since_text = _calculateSinceTime(since_data['meal']);
-                  setMealSince(since_text);
-                }
-                if (since_data['drink'] > 0) {
-                  const since_text = _calculateSinceTime(since_data['drink']);
-                  setDrinkSince(since_text);
-                }
-                if (since_data['coffee'] > 0) {
-                  const since_text = _calculateSinceTime(since_data['coffee']);
-                  setCoffeeSince(since_text);
-                }
+              if (since_data['meal'] > 0) {
+                const since_text = _calculateSinceTime(since_data['meal'])
+                setMealSince(since_text)
               }
-            })
+              if (since_data['drink'] > 0) {
+                const since_text = _calculateSinceTime(since_data['drink'])
+                setDrinkSince(since_text)
+              }
+              if (since_data['coffee'] > 0) {
+                const since_text = _calculateSinceTime(since_data['coffee'])
+                setCoffeeSince(since_text)
+              }
+            }})
             .catch(err => console.log(err));
         }
       }
@@ -285,14 +290,9 @@ const HomeScreen = props => {
 
   const today = (
     <View style={{ backgroundColor: kiriColor, flex: 1 }}>
-      <NavigationEvents
-        onWillFocus={() => {
-          console.log('onWillFocus');
-          loadTodayMeals();
-          loadSinceMealInfo();
-          calculateTodayScore();
-        }}
-      />
+      <NavigationEvents onWillFocus={() => {
+        loadTodayMeals()
+      }} />
       <View style={styles.container}>
         <View style={styles.topMargin} />
         <View style={styles.topHalf}>
@@ -497,19 +497,19 @@ const balloonText = EStyleSheet.create({
     fontSize: '25rem',
     lineHeight: '30rem',
     // fontFamily:'Kanit-ExtraBold',
-    fontFamily: 'JosefinSans-Bold',
+    // fontFamily: 'JosefinSans-Bold',
     // fontFamily: 'Digitalt',
     color: yellow.b
   },
   scoreCompareTri: {
     fontSize: '10rem',
     color: gray.b,
-    fontFamily: 'JosefinSans-Bold'
+    // fontFamily: 'JosefinSans-Bold'
   },
   scoreCompare: {
     fontSize: '15rem',
     color: gray.b,
-    fontFamily: 'JosefinSans-Bold'
+    // fontFamily: 'JosefinSans-Bold'
   },
   lastMealTime: {
     fontSize: '13.5rem',
@@ -647,10 +647,10 @@ const circles = StyleSheet.create({
 });
 
 // todo: tab navigation
-HomeScreen.navigationOptions = ({ navigation }) => ({
+Home.navigationOptions = ({navigation}) => ({
   headerShown: false
 });
 
 export default connect(state => ({
   today: state.meal.meals.today
-}))(HomeScreen);
+}))(Home);

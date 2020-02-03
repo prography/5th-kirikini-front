@@ -56,7 +56,7 @@ const navBarButtons = [
 
 const NavBar = props => {
   const [selected, setSelected] = useState(null);
-  console.log('rendered:', selected);
+  // console.log('rendered:', selected);
 
   const selectedMenu = props.navigation.getParam('selectedMenu');
   useEffect(() => {

@@ -21,24 +21,18 @@ import {
 const Rate = props => {
   const [mealScore, setMealScore] = useState(5);
   const [mealToRate, setMealToRate] = useState([]);
-  // const { meals } = props
-  let user_name, user_meal_date;
+  let user_name, user_meal_time;
   console.log('mealsToRate:', mealToRate[0]);
 
   const dispatch = useDispatch();
-  // const time = props.saved.timestamp == null ? '' : (Number(props.saved.timestamp.slice(13, 15)+props.saved.timestamp.slice(16, 18)) < 1200 ? ' 오전' + Number(props.saved.timestamp.slice(11, 13)) +'시 '+props.saved.timestamp.slice(17, 19)+'분'  :  ' 오후 ' + Number(props.saved.timestamp.slice(11, 13)-12) +'시 '+props.saved.timestamp.slice(14, 16)+'분')
   if (mealToRate.length > 0) {
-    user_name = mealToRate[0]['picURL'].slice(
-      mealToRate[0]['picURL'].indexOf('uploads/') + 8,
-      mealToRate[0]['picURL'].indexOf('@')
-    );
-    user_meal_date = mealToRate[0]['created_at'].slice(0, 10);
     user_meal_time =
       Number(mealToRate[0]['created_at'].slice(11, 16)) < 12
         ? '오전 ' + mealToRate[0]['created_at'].slice(11, 13) + '시'
         : '오후 ' +
           Number(mealToRate[0]['created_at'].slice(11, 13) - 12) +
           '시';
+    user_name = mealToRate[0]['picURL'].slice(mealToRate[0]['picURL'].indexOf('%2F')+3, mealToRate[0]['picURL'].indexOf('%40'))
   }
 
   useEffect(() => {
@@ -299,7 +293,7 @@ const slider = EStyleSheet.create({
     // fontFamily:'FredokaOne-Regular',
     // fontFamily:'Quicksand-Bold',
     // fontFamily:'Rubik-Bold',
-    fontFamily: 'JosefinSans-Bold',
+    // fontFamily: 'JosefinSans-Bold',
     // fontFamily:'Kanit-Bold',
     // fontFamily:'Digitalt',
     color: yellow.b,
