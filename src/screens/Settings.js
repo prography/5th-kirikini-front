@@ -16,7 +16,8 @@ import {
   yellow,
   meal,
   kiriColor,
-  deviceHeight
+  deviceHeight,
+  weight
 } from '../utils/consts';
 
 // todo: 자동로그인 on/off
@@ -110,7 +111,9 @@ const styles = EStyleSheet.create({
   txtBigTitle: {
     fontSize: '23rem',
     color: gray.d,
-    lineHeight: '30rem'
+    lineHeight: '30rem',
+    fontWeight: weight.eight,
+    alignSelf: 'center'
   }
 });
 
@@ -132,7 +135,8 @@ const content = EStyleSheet.create({
   txt: {
     textAlign: 'center',
     fontSize: '16rem',
-    color: gray.d
+    color: gray.d,
+    fontWeight: weight.seven
   }
 });
 

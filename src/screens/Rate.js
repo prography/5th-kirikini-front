@@ -208,7 +208,7 @@ const styles = EStyleSheet.create({
   infoCircle: {
     width: '20rem',
     height: '20rem',
-    marginLeft: '2rem',
+    marginLeft: '5rem',
     backgroundColor: yellow.a,
     borderRadius: 200,
     justifyContent: 'center',
@@ -247,7 +247,8 @@ const slider = EStyleSheet.create({
     bottom: '2rem',
     zIndex: 20,
     position: 'relative',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: weight.seven
     // backgroundColor: 'red'
   },
   txtScoreJum: {
@@ -255,7 +256,8 @@ const slider = EStyleSheet.create({
     color: yellow.b,
     left: '36rem',
     lineHeight: '40rem',
-    bottom: '-2rem'
+    bottom: '-2rem',
+    fontWeight: weight.eight
   },
   txtScore: {
     marginBottom: '10rem',

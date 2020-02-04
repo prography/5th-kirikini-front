@@ -135,13 +135,13 @@ const HomeCircles = props => {
 const Home = props => {
   const [meals, setMeals] = useState([]);
   const [todayScore, setTodayScore] = useState(null);
+  // const [todayKirini, setTodayKirini] = useState('../img/kirini1.png');
   const [ment, setMent] = useState('오늘 먹은 끼니를 등록해줘!');
   const [scoreCompare, setScoreCompare] = useState(null);
   const [name, setName] = useState('');
   const [mealSince, setMealSince] = useState('-');
   const [coffeeSince, setCoffeeSince] = useState('-');
   const [drinkSince, setDrinkSince] = useState('-');
-  const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem('@email').then(result => {
@@ -186,6 +186,32 @@ const Home = props => {
       onChangeMent();
     }
   };
+  let todayKirini = require('../img/kirini2.png');
+  // const loadTodayKirini = () => {
+  //   if (todayScore < 2) setTodayKirini('../img/kirini1.png');
+  //   else if (todayScore < 4) setTodayKirini('../img/kirini2.png');
+  //   else if (todayScore < 6) setTodayKirini('../img/kirini3.png');
+  //   else if (todayScore < 8) setTodayKirini('../img/kirini4.png');
+  //   else setTodayKirini('../img/kirini5.png');
+  //
+  // };
+
+  // const loadTodayKirini = () => {
+  //   const todayKirinis = [
+  //     require('../img/kirini1.png'),
+  //     require('../img/kirini2.png'),
+  //     require('../img/kirini3.png'),
+  //     require('../img/kirini4.png'),
+  //     require('../img/kirini5.png')
+  //   ];
+
+  // todayKirini = todayKirinis[2];
+  // if (todayScore < 2) todayKirini = require('../img/kirini1.png');
+  // else if (todayScore < 4) todayKirini = require('../img/kirini2.png');
+  // else if (todayScore < 6) todayKirini = require('../img/kirini3.png');
+  // else if (todayScore < 8) todayKirini = require('../img/kirini4.png');
+  // else todayKirini = require('../img/kirini5.png');
+  // };
 
   const onChangeMent = () => {
     const _get_rand = end => Math.floor(Math.random() * end);
@@ -411,10 +437,7 @@ const Home = props => {
                 style={balloonSt.kiriniContainer}
                 onPress={() => props.navigation.navigate('Upload')}
               >
-                <Image
-                  style={balloonSt.kirini}
-                  source={require('../img/kirini2.png')}
-                />
+                <Image style={balloonSt.kirini} source={todayKirini} />
               </TouchableOpacity>
             </View>
           </View>
@@ -438,7 +461,8 @@ const Home = props => {
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    zIndex: 2
   },
   topMargin: {
     height: home.margin,
