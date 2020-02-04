@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Image,
   Modal,
-  Platform
+  Platform,
+  Animated
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { connect } from 'react-redux';
@@ -139,6 +140,7 @@ const Home = props => {
   const [mealSince, setMealSince] = useState('-');
   const [coffeeSince, setCoffeeSince] = useState('-');
   const [drinkSince, setDrinkSince] = useState('-');
+  const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem('@email').then(result => {
@@ -152,6 +154,23 @@ const Home = props => {
     calculateTodayScore();
     loadSinceMealInfo();
   }, [meals]);
+
+  const TouchGuideFade = () => {
+    const [fadeAnim] = useState(new Animated.Value(1));
+
+    React.useEffect(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 4000
+      }).start();
+    }, []);
+
+    return (
+      <Animated.View style={{ opacity: fadeAnim, alignSelf: 'center' }}>
+        <Text style={balloonText.touchKirini}>끼리니 눌러서 끼니 추가 👉</Text>
+      </Animated.View>
+    );
+  };
 
   const calculateTodayScore = () => {
     if (meals.length > 0) {
@@ -306,6 +325,7 @@ const Home = props => {
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
                 <Text style={styles.txtBigTitle}>오늘 건강도</Text>
+
                 <Text style={balloonText.todayScore}>
                   {!todayScore ? '-' : todayScore}
                 </Text>
@@ -326,20 +346,20 @@ const Home = props => {
               </View>
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
-                  <Text style={balloonText.lastMealTime}>
+                  <Text style={balloonText.lastMealTime1}>
                     {mealSince === '-'
                       ? '아직 입력된 끼니가 없어요'
-                      : '🍽 밥 먹은 지'}
+                      : '🍽 마지막 끼니'}
                   </Text>
                   <Text style={balloonText.lastMealTime}>
                     {drinkSince === '-'
                       ? '아직 입력된 음주가 없어요'
-                      : '🍺 음주한 지'}
+                      : '🍺 마지막 음주'}
                   </Text>
                   <Text style={balloonText.lastMealTime}>
                     {coffeeSince === '-'
                       ? '아직 입력된 커피가 없어요'
-                      : '☕️ 커피 마신 지'}
+                      : '☕️ 마지막 커피'}
                   </Text>
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
@@ -347,10 +367,10 @@ const Home = props => {
                     style={[
                       mealSince === '-'
                         ? balloonText.noMeal
-                        : balloonText.lastMealTime
+                        : balloonText.lastMealTime1
                     ]}
                   >
-                    {mealSince}
+                    {mealSince} 전
                   </Text>
                   <Text
                     style={[
@@ -359,7 +379,7 @@ const Home = props => {
                         : balloonText.lastMealTime
                     ]}
                   >
-                    {drinkSince}
+                    {drinkSince} 전
                   </Text>
                   <Text
                     style={[
@@ -368,10 +388,11 @@ const Home = props => {
                         : balloonText.lastMealTime
                     ]}
                   >
-                    {coffeeSince}
+                    {coffeeSince} 전
                   </Text>
                 </View>
               </View>
+
               <View style={balloonSt.feedbackArea}>
                 <Text style={balloonText.feedback}>
                   {todayScore == null
@@ -384,7 +405,7 @@ const Home = props => {
             <View style={balloonSt.tailContainer}>
               <View style={balloonSt.tailWhiteArea} />
               <View style={balloonSt.tailKiriColorArea} />
-
+              <TouchGuideFade />
               <TouchableOpacity
                 style={balloonSt.kiriniContainer}
                 onPress={() => props.navigation.navigate('Upload')}
@@ -423,7 +444,7 @@ const styles = EStyleSheet.create({
     backgroundColor: kiriColor
   },
   topHalf: {
-    flex: 5,
+    flex: 6,
     flexDirection: 'row'
   },
   bottomHalf: {
@@ -479,6 +500,14 @@ const balloonText = EStyleSheet.create({
     fontFamily: 'JosefinSans-Bold',
     lineHeight: '15rem'
   },
+  lastMealTime1: {
+    fontSize: '13.5rem',
+    color: gray.c,
+    textAlign: 'right',
+    fontWeight: weight.eight,
+    flexDirection: 'column',
+    justifyContent: 'space-around'
+  },
   lastMealTime: {
     fontSize: '13.5rem',
     color: gray.b,
@@ -496,10 +525,18 @@ const balloonText = EStyleSheet.create({
     fontWeight: weight.eight
   },
   feedback: {
-    fontSize: '15rem',
+    fontSize: '16rem',
     color: gray.d,
     textAlign: 'right',
-    lineHeight: '25rem',
+    lineHeight: '27rem',
+    fontWeight: weight.six
+  },
+  touchKirini: {
+    fontSize: '15rem',
+    color: gray.c,
+    alignSelf: 'center',
+    right: deviceWidth / 3,
+    top: '7rem',
     fontWeight: weight.six
   }
 });
@@ -511,7 +548,7 @@ const balloonSt = EStyleSheet.create({
     flexDirection: 'column'
   },
   balloon: {
-    flex: 2,
+    flex: 1.8,
     flexDirection: 'column',
     width: deviceWidth,
     padding: deviceWidth / 10,
@@ -546,18 +583,20 @@ const balloonSt = EStyleSheet.create({
     alignItems: 'flex-start'
   },
   feedbackArea: {
+    top: '5rem',
     flex: 1.7,
     // boxSizing: 'border-box',
     // paddingBottom: '5rem',
     justifyContent: 'center',
     alignItems: 'flex-end'
-    // backgroundColor: 'red',
+    // backgroundColor: 'red'
   },
   tailContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingRight: deviceWidth / 10
+    // backgroundColor: 'blue'
   },
   tailWhiteArea: {
     width: deviceWidth / 3,
@@ -574,10 +613,12 @@ const balloonSt = EStyleSheet.create({
   kiriniContainer: {
     position: 'absolute',
     right: deviceWidth / 10,
-    top: '-9rem',
+    // top: '-9rem',
     width: (deviceWidth * 3) / 10,
-    height: deviceWidth / 3,
-    alignSelf: 'center'
+    // height: deviceWidth / 3,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: gray.a
   },
   kirini: {
     position: 'absolute',
@@ -589,12 +630,12 @@ const balloonSt = EStyleSheet.create({
   }
 });
 
-const circles = StyleSheet.create({
+const circles = EStyleSheet.create({
   container: {
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 20
+    marginBottom: '5rem'
     // backgroundColor: 'pink'
   },
   circlesContainer: {
