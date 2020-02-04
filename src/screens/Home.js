@@ -28,7 +28,8 @@ import {
   yellow,
   kiriColor,
   MENTS,
-  weight
+  weight,
+  home
 } from '../utils/consts';
 
 const HomeCircles = props => {
@@ -440,7 +441,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'column'
   },
   topMargin: {
-    flex: 0.5,
+    height: home.margin,
     backgroundColor: kiriColor
   },
   topHalf: {
@@ -460,8 +461,8 @@ const styles = EStyleSheet.create({
 
 const modal = EStyleSheet.create({
   view: {
-    flex: 0.416,
-    top: deviceHeight / 17.5,
+    flex: 0.414,
+    top: home.margin,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -555,6 +556,7 @@ const balloonSt = EStyleSheet.create({
     borderTopLeftRadius: '70rem',
     borderBottomRightRadius: '70rem',
     backgroundColor: 'white'
+    // backgroundColor: 'blue'
   },
   topBar: {
     flex: 0.65,
@@ -635,7 +637,7 @@ const circles = EStyleSheet.create({
     width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: '5rem'
+    marginBottom: '15rem'
     // backgroundColor: 'pink'
   },
   circlesContainer: {

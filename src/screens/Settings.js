@@ -110,7 +110,6 @@ const styles = EStyleSheet.create({
   txtBigTitle: {
     fontSize: '23rem',
     color: gray.d,
-    fontFamily: 'NotoSansCJKkr-Bold',
     lineHeight: '30rem'
   }
 });
@@ -133,7 +132,6 @@ const content = EStyleSheet.create({
   txt: {
     textAlign: 'center',
     fontSize: '16rem',
-    fontFamily: 'NotoSansCJKkr-Bold',
     color: gray.d
   }
 });

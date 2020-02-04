@@ -69,6 +69,10 @@ export const weight = {
   eight: Platform.OS === 'ios' ? '800' : 'bold',
   nine: Platform.OS === 'ios' ? '900' : 'bold'
 };
+
+export const home = {
+  margin: Platform.OS === 'ios' ? deviceHeight / 10 : '20rem'
+};
 export const kiriColor = '#F2F9F2';
 export const gray = {
   m: '#F2F9F2',

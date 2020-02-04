@@ -1,17 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Platform, StyleSheet, Text, 
-  View, Image, YellowBox, 
-  TextInput, Button, Alert
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  YellowBox,
+  TextInput,
+  Button,
+  Alert
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import KakaoLogins from '@react-native-seoul/kakao-login';
-import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import {
+  LoginButton,
+  AccessToken,
+  LoginManager,
+  GraphRequest,
+  GraphRequestManager
+} from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
-import {loginSuccess} from '../store/auth/action';
-import { deviceHeight, EMAIL_URL, gray,KAKAO_URL, FB_URL, AUTO_URL, deviceWidth, kiriColor, yellow } from '../utils/consts'
+import { loginSuccess } from '../store/auth/action';
+import {
+  deviceHeight,
+  EMAIL_URL,
+  gray,
+  KAKAO_URL,
+  FB_URL,
+  AUTO_URL,
+  deviceWidth,
+  kiriColor,
+  yellow
+} from '../utils/consts';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 if (!KakaoLogins) {
@@ -29,215 +51,211 @@ const Login = props => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    autoLogin()
-  }, [])
+    autoLogin();
+  }, []);
 
-  const onChangeEmail = (_email) => {
-    setEmail(_email)
-  }
+  const onChangeEmail = _email => {
+    setEmail(_email);
+  };
 
-  const onChangePassword = (_password) => {
-    setPassword(_password)
-  }
+  const onChangePassword = _password => {
+    setPassword(_password);
+  };
 
   const emailLogin = () => {
-    console.log(email, password)
+    console.log(email, password);
     const data = {
       email,
       password
-    }
-    axios.post(EMAIL_URL, data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      }
-    })
-    .then(response => {
-      console.log("test: ", response['data'])
-      if(response.status == 200)
-        props.navigation.navigate('Home')
-      else if(response.status == 201)
-      {
-        AsyncStorage.setItem("@jwt_access_token", response['data'])
-        props.navigation.navigate('Home')
-      }
-      else
-      {
-        console.log(response.data)
-      }
-    })
-    .catch(err => console.log(err))
-  }
+    };
+    axios
+      .post(EMAIL_URL, data, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+      .then(response => {
+        console.log('test: ', response['data']);
+        if (response.status == 200) props.navigation.navigate('Home');
+        else if (response.status == 201) {
+          AsyncStorage.setItem('@jwt_access_token', response['data']);
+          props.navigation.navigate('Home');
+        } else {
+          console.log(response.data);
+        }
+      })
+      .catch(err => console.log(err));
+  };
 
   const autoLogin = () => {
-    let access_token = null, refresh_token = null, email = null;
-    AsyncStorage.multiGet(["@jwt_access_token", "@jwt_refresh_token", "@email"]).then(response => {
+    let access_token = null,
+      refresh_token = null,
+      email = null;
+    AsyncStorage.multiGet([
+      '@jwt_access_token',
+      '@jwt_refresh_token',
+      '@email'
+    ]).then(response => {
       access_token = response[0][1];
       refresh_token = response[1][1];
       email = response[2][1];
-      
-      if(access_token !== null)
-      {
-        const body = {
-          "jwt_access_token": access_token, 
-          "jwt_refresh_token": refresh_token, 
-          "email": email
-        }
 
-        axios.post(AUTO_URL, body)
-        .then(response => {
-          if(response.status == 200)
-          {
-            dispatch(loginSuccess())
-            props.navigation.navigate('Home')
-          }
-          else if(response.status == 201)
-          {
-            AsyncStorage.setItem("@jwt_access_token", response['data'])
-            dispatch(loginSuccess())
-            props.navigation.navigate('Home')
-          }
-          else if(response.status == 401)
-          {
-            Alert.alert("소셜로그인을 다시 진행해주세요!")
-          }
-          else console.log(response.data)
-        })
-        .catch(err => console.log(err))
+      if (access_token !== null) {
+        const body = {
+          jwt_access_token: access_token,
+          jwt_refresh_token: refresh_token,
+          email: email
+        };
+
+        axios
+          .post(AUTO_URL, body)
+          .then(response => {
+            if (response.status == 200) {
+              dispatch(loginSuccess());
+              props.navigation.navigate('Home');
+            } else if (response.status == 201) {
+              AsyncStorage.setItem('@jwt_access_token', response['data']);
+              dispatch(loginSuccess());
+              props.navigation.navigate('Home');
+            } else if (response.status == 401) {
+              Alert.alert('소셜로그인을 다시 진행해주세요!');
+            } else console.log(response.data);
+          })
+          .catch(err => console.log(err));
       }
-    })
-  }
+    });
+  };
 
   const kakaoLogin = () => {
     KakaoLogins.login()
       .then(result => {
-        console.log(result)
+        console.log(result);
         setToken(result.accessToken);
-      
+
         KakaoLogins.getProfile()
           .then(res => {
-            setEmail(res.email)
+            setEmail(res.email);
 
-            AsyncStorage.setItem('@email', res.email)
-              .then(() => { 
-                const body = {
-                  "access_token": result.accessToken, 
-                  "refresh_token": result.refreshToken, 
-                }
+            AsyncStorage.setItem('@email', res.email).then(() => {
+              const body = {
+                access_token: result.accessToken,
+                refresh_token: result.refreshToken
+              };
 
-                axios.post(KAKAO_URL, body)
-                  .then(response => response.data)
-                  .then(jwt => {
-                    AsyncStorage.multiSet([
-                      ['@jwt_access_token', jwt['jwt_access_token']], 
-                      ['@jwt_refresh_token', jwt['jwt_refresh_token']],
-                    ], () => autoLogin())
-                  })
-                  .catch(err => {
-                    console.log('failed', err)
-                  })
-              })
+              axios
+                .post(KAKAO_URL, body)
+                .then(response => response.data)
+                .then(jwt => {
+                  AsyncStorage.multiSet(
+                    [
+                      ['@jwt_access_token', jwt['jwt_access_token']],
+                      ['@jwt_refresh_token', jwt['jwt_refresh_token']]
+                    ],
+                    () => autoLogin()
+                  );
+                })
+                .catch(err => {
+                  console.log('failed', err);
+                });
+            });
           })
           .catch(err => {
-            logCallback(
-              `Get Profile Failed:${err.code} ${err.message}`,
-            );
+            logCallback(`Get Profile Failed:${err.code} ${err.message}`);
           });
       })
       .catch(err => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   };
 
-  const fbLogin = (result) => {
+  const fbLogin = result => {
     AccessToken.getCurrentAccessToken().then(data => {
-      console.log(data.accessToken.toString())
-      console.log("fb data: ", data)
-      
+      console.log(data.accessToken.toString());
+      console.log('fb data: ', data);
+
       const profileRequestParams = {
         fields: {
-            string: 'email'
+          string: 'email'
         }
-      }
+      };
 
       const profileRequestConfig = {
         httpMethod: 'GET',
         version: 'v2.5',
         parameters: profileRequestParams,
         accessToken: token.toString()
-      }
+      };
 
       const profileRequest = new GraphRequest(
         '/me',
         profileRequestConfig,
         (error, result) => {
           if (error) {
-            console.log(error)
+            console.log(error);
           } else {
-            console.log("email: ", result)
+            console.log('email: ', result);
           }
-        },
-      )
+        }
+      );
 
       new GraphRequestManager().addRequest(profileRequest).start();
-            
-      axios.post(FB_URL, 
-        {"access_token": data.accessToken.toString()})
+
+      axios
+        .post(FB_URL, { access_token: data.accessToken.toString() })
         .then(response => response.data)
         .then(jwt => {
-          AsyncStorage.multiSet([
-            ['@jwt_access_token', jwt['jwt_access_token']], 
-            ['@jwt_refresh_token', jwt['jwt_refresh_token']]
-          ], () => autoLogin())
+          AsyncStorage.multiSet(
+            [
+              ['@jwt_access_token', jwt['jwt_access_token']],
+              ['@jwt_refresh_token', jwt['jwt_refresh_token']]
+            ],
+            () => autoLogin()
+          );
         })
-        .catch(error => console.log('failed', error))
-    })
+        .catch(error => console.log('failed', error));
+    });
 
-    LoginManager.logInWithPermissions(["public_profile"]).then(
+    LoginManager.logInWithPermissions(['public_profile']).then(
       function(result) {
         if (result.isCancelled) {
-          console.log("Login cancelled");
+          console.log('Login cancelled');
         } else {
           console.log(
-            "Login success with permissions: " +
+            'Login success with permissions: ' +
               result.grantedPermissions.toString()
           );
         }
       },
       function(error) {
-        console.log("Login fail with error: " + error);
+        console.log('Login fail with error: ' + error);
       }
     );
-  }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-      
-        <View style={{flexDirection: 'row', width: deviceWidth, justifyContent: 'space-between'}}>
-        <Image
-            style={styles.leaf}
-            source={require('../img/leaf_left.png')}
-          />
+        <View
+          style={{
+            flexDirection: 'row',
+            width: deviceWidth,
+            justifyContent: 'space-between'
+          }}
+        >
+          <Image style={styles.leaf} source={require('../img/leaf_left.png')} />
           <Image
             style={styles.leaf}
             source={require('../img/leaf_right.png')}
           />
-          
         </View>
         <Text style={styles.txtKiri}>KIRIKINI</Text>
-      
-          <Image
-            style={styles.kirini}
-            source={require('../img/kirini1.png')}
-          />
-           
-          
-         
+
+        <Image style={styles.kirini} source={require('../img/kirini1.png')} />
       </View>
-        {/*<Text> // todo: 추후 추가
+      {/*<Text> // todo: 추후 추가
           이메일
         </Text>
         <TextInput
@@ -261,21 +279,17 @@ const Login = props => {
           onPress={emailLogin}
         />
         </TouchableOpacity>*/}
-        <Text style={styles.textKini}>
-          {error}
-        </Text>
-  
-          <TouchableOpacity
-              onPress={kakaoLogin}
-              style={styles.kakaoButton}
-            >
-              <Image style={styles.kakaoLogo} source={require('../img/kakao_logo.png')}/>
-              <Text style={styles.txtKakao}>카카오 로그인</Text>           
-            </TouchableOpacity>
-   
-      
+      <Text style={styles.textKini}>{error}</Text>
 
-        {/*<LoginButton
+      <TouchableOpacity onPress={kakaoLogin} style={styles.kakaoButton}>
+        <Image
+          style={styles.kakaoLogo}
+          source={require('../img/kakao_logo.png')}
+        />
+        <Text style={styles.txtKakao}>카카오 로그인</Text>
+      </TouchableOpacity>
+
+      {/*<LoginButton
           publishPermissions={["email"]}
           onLoginFinished={
             (error, result) => {
@@ -289,7 +303,7 @@ const Login = props => {
             }
           }
         onLogoutFinished={() => console.log("logout.")}/>*/}
-        {/*<TouchableOpacity // 추후 추가
+      {/*<TouchableOpacity // 추후 추가
           onPress={fbLogin}
           title="페이스북 로그인"
           style={styles.btnFbLogin} >
@@ -301,7 +315,7 @@ const Login = props => {
         </TouchableOpacity>*/}
     </View>
   );
-}
+};
 
 const styles = EStyleSheet.create({
   container: {
@@ -310,30 +324,26 @@ const styles = EStyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: '40rem',
     alignItems: 'center',
-    backgroundColor: kiriColor,
+    backgroundColor: kiriColor
   },
   content: {
-    
-    
-    alignItems: 'center',
-    
+    alignItems: 'center'
   },
   txtKiri: {
-    fontSize:'60rem',
+    fontSize: '60rem',
     fontFamily: 'Digitalt',
     color: yellow.a,
     top: '-40rem'
   },
-  textKini:{
+  textKini: {
     fontSize: '15rem',
     color: gray.d,
-    textAlign: 'center',
-    fontFamily: 'NotoSansCJKkr-Black'
+    textAlign: 'center'
   },
   button: {
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop:30
+    marginTop: 30
   },
   btnKakaoLogin: {
     height: 48,
@@ -341,10 +351,10 @@ const styles = EStyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#F8E71C',
     borderRadius: 0,
-    borderWidth: 0,
+    borderWidth: 0
   },
   kakaoButton: {
-    marginTop:'20rem',
+    marginTop: '20rem',
     flexDirection: 'row',
     width: '250rem',
     backgroundColor: yellow.a,
@@ -353,53 +363,52 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  kakaoLogo:{
-    width:'20rem',
+  kakaoLogo: {
+    width: '20rem',
     height: '20rem',
     marginRight: '20rem',
     resizeMode: 'contain'
   },
-  txtKakao:{
+  txtKakao: {
     fontSize: '14rem',
     color: gray.d,
-    textAlign: 'center',
-    fontFamily: 'NotoSansCJKkr-Bold'
+    textAlign: 'center'
   },
   txtKakaoLogin: {
     fontSize: 16,
-    color: '#3d3d3d',
+    color: '#3d3d3d'
   },
   btnFbLogin: {
     height: 49,
     width: 300,
     backgroundColor: '#3A589E',
     borderRadius: 5,
-    justifyContent:'flex-start',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    flexDirection:'row',
-    marginTop:7,
+    flexDirection: 'row',
+    marginTop: 7
   },
   txtFbLogin: {
     fontSize: 16,
     color: 'white',
-    paddingLeft:50
+    paddingLeft: 50
   },
   kirini: {
     width: (deviceWidth * 1) / 2,
     height: deviceWidth / 4,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
- leaf: {
+  leaf: {
     width: (deviceWidth * 1) / 3,
     height: deviceWidth / 5,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   }
 });
 
 // todo: tab navigation
-Login.navigationOptions = ({navigation}) => ({
-  headerShown: false,
-})
+Login.navigationOptions = ({ navigation }) => ({
+  headerShown: false
+});
 
 YellowBox.ignoreWarnings(['source.uri']);
 export default connect(state => ({
