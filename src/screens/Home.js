@@ -26,7 +26,8 @@ import {
   mealColor,
   yellow,
   kiriColor,
-  MENTS
+  MENTS,
+  weight
 } from '../utils/consts';
 
 const HomeCircles = props => {
@@ -69,37 +70,43 @@ const HomeCircles = props => {
                 }}
                 style={{
                   backgroundColor: circleColor,
-                  borderRadius: 110,
-                  width: item.average_rate * 7 + 40,
-                  height: item.average_rate * 7 + 40
+                  borderRadius: 300,
+                  width:
+                    item.average_rate * (deviceHeight / 90) + deviceHeight / 30,
+                  height:
+                    item.average_rate * (deviceHeight / 90) + deviceHeight / 30,
+                  marginRight: deviceHeight / 40,
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}
-              />
-              {item.gihoType === 0 && (
-                <Image
-                  style={{
-                    zIndex: 20,
-                    width: 25,
-                    height: 25,
-                    resizeMode: 'contain',
-                    position: 'absolute',
-                    left: -item.average_rate * 3.5 - 32
-                  }}
-                  source={require('../img/iconCupSmall.png')}
-                />
-              )}
-              {item.gihoType === 1 && (
-                <Image
-                  style={{
-                    zIndex: 20,
-                    width: 25,
-                    height: 25,
-                    resizeMode: 'contain',
-                    position: 'absolute',
-                    left: -item.average_rate * 3.5 - 32
-                  }}
-                  source={require('../img/iconBeerSmall.png')}
-                />
-              )}
+              >
+                {item.gihoType === 0 && (
+                  <Image
+                    style={{
+                      zIndex: 20,
+                      width: deviceHeight / 37,
+                      height: deviceHeight / 37,
+                      resizeMode: 'contain'
+                      // position: 'absolute',
+                      // left: -item.average_rate * 7 - 35
+                    }}
+                    source={require('../img/iconCupSmall.png')}
+                  />
+                )}
+                {item.gihoType === 1 && (
+                  <Image
+                    style={{
+                      zIndex: 20,
+                      width: deviceHeight / 37,
+                      height: deviceHeight / 37,
+                      resizeMode: 'contain'
+                      // position: 'absolute',
+                      // left: -item.average_rate * 7 - 35
+                    }}
+                    source={require('../img/iconBeerSmall.png')}
+                  />
+                )}
+              </TouchableOpacity>
 
               <Modal animation="fade" transparent={true} visible={modalVisible}>
                 <TouchableOpacity
@@ -298,9 +305,7 @@ const Home = props => {
           <View style={balloonSt.container}>
             <View style={balloonSt.balloon}>
               <View style={balloonSt.topBar}>
-                <Text style={[styles.txtBigTitle, font.eight]}>
-                  오늘 건강도
-                </Text>
+                <Text style={styles.txtBigTitle}>오늘 건강도</Text>
                 <Text style={balloonText.todayScore}>
                   {!todayScore ? '-' : todayScore}
                 </Text>
@@ -321,17 +326,17 @@ const Home = props => {
               </View>
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
-                  <Text style={[balloonText.lastMealTime, font.seven]}>
+                  <Text style={balloonText.lastMealTime}>
                     {mealSince === '-'
                       ? '아직 입력된 끼니가 없어요'
                       : '🍽 밥 먹은 지'}
                   </Text>
-                  <Text style={[balloonText.lastMealTime, font.seven]}>
+                  <Text style={balloonText.lastMealTime}>
                     {drinkSince === '-'
                       ? '아직 입력된 음주가 없어요'
                       : '🍺 음주한 지'}
                   </Text>
-                  <Text style={[balloonText.lastMealTime, font.seven]}>
+                  <Text style={balloonText.lastMealTime}>
                     {coffeeSince === '-'
                       ? '아직 입력된 커피가 없어요'
                       : '☕️ 커피 마신 지'}
@@ -342,8 +347,7 @@ const Home = props => {
                     style={[
                       mealSince === '-'
                         ? balloonText.noMeal
-                        : balloonText.lastMealTime,
-                      font.seven
+                        : balloonText.lastMealTime
                     ]}
                   >
                     {mealSince}
@@ -352,8 +356,7 @@ const Home = props => {
                     style={[
                       drinkSince === '-'
                         ? balloonText.noMeal
-                        : balloonText.lastMealTime,
-                      font.seven
+                        : balloonText.lastMealTime
                     ]}
                   >
                     {drinkSince}
@@ -362,8 +365,7 @@ const Home = props => {
                     style={[
                       coffeeSince === '-'
                         ? balloonText.noMeal
-                        : balloonText.lastMealTime,
-                      font.seven
+                        : balloonText.lastMealTime
                     ]}
                   >
                     {coffeeSince}
@@ -371,14 +373,12 @@ const Home = props => {
                 </View>
               </View>
               <View style={balloonSt.feedbackArea}>
-                <Text style={[balloonText.feedback, font.six]}>
+                <Text style={balloonText.feedback}>
                   {todayScore == null
                     ? `${name}님,`
                     : `${name}님의 오늘 건강도는 ${todayScore}!`}
                 </Text>
-                <Text
-                  style={[balloonText.feedback, font.six]}
-                >{`${ment}`}</Text>
+                <Text style={balloonText.feedback}>{`${ment}`}</Text>
               </View>
             </View>
             <View style={balloonSt.tailContainer}>
@@ -430,9 +430,10 @@ const styles = EStyleSheet.create({
     flex: 2
   },
   txtBigTitle: {
-    fontSize: '23rem',
+    fontSize: '27rem',
     color: gray.d,
-    lineHeight: '30rem'
+    lineHeight: '32rem',
+    fontWeight: weight.eight
   }
 });
 
@@ -447,54 +448,20 @@ const modal = EStyleSheet.create({
     borderBottomRightRadius: '70rem'
   },
   img: {
-    backgroundColor: 'white',
-    height: deviceWidth - 54,
-    width: (deviceWidth * 75) / 100 - 20,
-    borderTopRightRadius: '60rem',
-    borderBottomLeftRadius: '60rem',
-    resizeMode: 'cover',
-    transform: [{ rotate: '90deg' }]
+    width: deviceWidth - 54,
+    // height: (deviceWidth * 70) / 100 - 20,
+    height: (deviceHeight / 100) * 38 - 20,
+    borderTopLeftRadius: '60rem',
+    borderBottomRightRadius: '60rem',
+    resizeMode: 'cover'
   }
-});
-
-const font = EStyleSheet.create({
-  eight:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '800'
-        }
-      : {
-          fontWeight: 'bold'
-        },
-  seven:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '700'
-        }
-      : {
-          fontWeight: 'bold'
-        },
-  six:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '600'
-        }
-      : {
-          fontWeight: 'normal'
-        }
 });
 
 // 하얀 말풍선 속 Text 스타일
 const balloonText = EStyleSheet.create({
-  // title: {
-  //   fontSize: '3rem',
-  //   lineHeight: '12rem',
-  //   fontWeight: 'normal',
-  //   color: gray.d
-  // },
   todayScore: {
-    fontSize: '25rem',
-    lineHeight: '30rem',
+    fontSize: '30rem',
+    lineHeight: '32rem',
     // fontFamily:'Kanit-ExtraBold',
     fontFamily: 'JosefinSans-Bold',
     // fontFamily: 'Digitalt',
@@ -503,18 +470,20 @@ const balloonText = EStyleSheet.create({
   scoreCompareTri: {
     fontSize: '10rem',
     color: gray.b,
-    fontFamily: 'JosefinSans-Bold'
+    fontFamily: 'JosefinSans-Bold',
+    lineHeight: '15rem'
   },
   scoreCompare: {
     fontSize: '15rem',
     color: gray.b,
-    fontFamily: 'JosefinSans-Bold'
+    fontFamily: 'JosefinSans-Bold',
+    lineHeight: '15rem'
   },
   lastMealTime: {
     fontSize: '13.5rem',
     color: gray.b,
     textAlign: 'right',
-    fontFamily: 'NotoSansCJKkr-Bold',
+    fontWeight: weight.eight,
     flexDirection: 'column',
     justifyContent: 'space-around'
   },
@@ -523,13 +492,15 @@ const balloonText = EStyleSheet.create({
     color: 'white',
     textAlign: 'right',
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    fontWeight: weight.eight
   },
   feedback: {
     fontSize: '15rem',
     color: gray.d,
     textAlign: 'right',
-    lineHeight: '27rem'
+    lineHeight: '25rem',
+    fontWeight: weight.six
   }
 });
 

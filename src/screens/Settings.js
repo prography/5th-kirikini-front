@@ -123,7 +123,7 @@ const content = EStyleSheet.create({
   button: {
     marginTop: '20rem',
     width: '50%',
-    height: deviceHeight / 13,
+    height: deviceWidth / 6.1,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',

@@ -60,10 +60,15 @@ export const deviceHeight = Dimensions.get('window').height;
 // EStyleSheet.build({ $rem: deviceHeight / 780 });
 EStyleSheet.build({ $rem: deviceWidth / 380 });
 
-// EstyleSheet.build({
-//   '@media ios'
-// });
-// Colors
+export const weight = {
+  three: Platform.OS === 'ios' ? '300' : 'normal',
+  four: Platform.OS === 'ios' ? '400' : 'normal',
+  five: Platform.OS === 'ios' ? '500' : 'normal',
+  six: Platform.OS === 'ios' ? '600' : 'normal',
+  seven: Platform.OS === 'ios' ? '700' : 'bold',
+  eight: Platform.OS === 'ios' ? '800' : 'bold',
+  nine: Platform.OS === 'ios' ? '900' : 'bold'
+};
 export const kiriColor = '#F2F9F2';
 export const gray = {
   m: '#F2F9F2',

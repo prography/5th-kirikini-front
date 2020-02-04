@@ -68,7 +68,7 @@ const Upload = props => {
         props.saved.timestamp.slice(5, 7) +
         '월 ' +
         props.saved.timestamp.slice(8, 10) +
-        '일' +
+        '일 ' +
         time;
 
   const updateMealImage = () => {
@@ -177,7 +177,7 @@ const Upload = props => {
 
         <View style={styles.bottomHalf}>
           <View style={dateTime.container}>
-            <Text style={dateTime.txt}> {date} </Text>
+            <Text style={[dateTime.txt, font.eight]}> {date} </Text>
           </View>
           <View style={{ flex: 1, justifyContent: 'center' }}>
             <DrinkTypeButton />
@@ -206,7 +206,7 @@ const Upload = props => {
           style={styles.submitTouchable}
           onPress={() => upload()}
         >
-          <Text style={styles.txtSubmit}>확인</Text>
+          <Text style={[styles.txtSubmit, font.seven]}>확인</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -238,6 +238,7 @@ const font = EStyleSheet.create({
           fontWeight: 'normal'
         }
 });
+
 const styles = EStyleSheet.create({
   container: {
     flex: 1,
@@ -304,11 +305,12 @@ const styles = EStyleSheet.create({
     borderTopRightRadius: 35
   },
   txtSubmit: {
-    fontSize: '16rem',
-    color: gray.d,
-    fontFamily: 'NotoSansCJKkr-Medium'
+    fontSize: '18rem',
+    color: gray.c,
+    marginTop: '20rem'
   }
 });
+
 const dateTime = EStyleSheet.create({
   container: {
     flex: 0.7,
@@ -316,7 +318,6 @@ const dateTime = EStyleSheet.create({
     alignItems: 'center'
   },
   txt: {
-    fontFamily: 'NotoSansCJKkr-Black',
     fontSize: '12rem',
     color: gray.b
   }
@@ -349,31 +350,28 @@ const mainImg = EStyleSheet.create({
   screen: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: (deviceWidth * 70) / 100,
+    // height: (deviceWidth * 70) / 100,
+    height: (deviceHeight / 100) * 38,
     borderTopLeftRadius: '70rem',
     borderBottomRightRadius: '70rem',
     borderColor: gray.m,
     borderWidth: 10,
     backgroundColor: 'white'
-    //  shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 7 },
-    // shadowOpacity: 0.05,
-    // shadowRadius: 10,
-    // elevation: 10
   },
   img: {
-    height: deviceWidth - 54,
-    width: (deviceWidth * 70) / 100 - 20,
-    borderTopRightRadius: '60rem',
-    borderBottomLeftRadius: '60rem',
-    resizeMode: 'cover',
-    transform: [{ rotate: '90deg' }]
-    // 이미지가 안 돌아가기 시작한다면 아래 코드 사용...
-    // width: '100%',
-    // height: deviceWidth * 70 /100 -20,
-    // borderTopLeftRadius: '60rem',
-    // borderBottomRightRadius: '60rem',
+    // height: deviceWidth - 54,
+    // width: (deviceWidth * 70) / 100 - 20,
+    // borderTopRightRadius: '60rem',
+    // borderBottomLeftRadius: '60rem',
     // resizeMode: 'cover',
+    // transform: [{ rotate: '90deg' }]
+    // 이미지가 안 돌아가기 시작한다면 아래 코드 사용...
+    width: '100%',
+    // height: (deviceWidth * 70) / 100 - 20,
+    height: (deviceHeight / 100) * 38 - 20,
+    borderTopLeftRadius: '60rem',
+    borderBottomRightRadius: '60rem',
+    resizeMode: 'cover'
   },
   txt: {
     color: gray.b,

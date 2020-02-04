@@ -15,7 +15,8 @@ import {
   yellow,
   meal,
   kiriColor,
-  deviceHeight
+  deviceHeight,
+  weight
 } from '../utils/consts';
 
 const Rate = props => {
@@ -129,7 +130,7 @@ const Rate = props => {
                 style={mainImg.noMealKirini}
                 source={require('../img/kirini5.png')}
               />
-              <Text style={mainImg.noMealAlert}>
+              <Text style={[mainImg.noMealAlert, font.eight]}>
                 채점할 끼니가 없습니다. {'\n'}
                 다른 유저의 끼니 등록을 기다려주세요!
               </Text>
@@ -143,22 +144,14 @@ const Rate = props => {
             </Fragment>
           )}
         </View>
-        {/* {
-            mealToRate.length == 0 
-            ?
-            null
-            :
-            (<Text style={mainImg.whoseKini}>
-              {user_name}님이 {user_meal_date}에 먹은 끼니입니다
-            </Text>)
-          } */}
+        {mealToRate.length == 0 ? null : (
+          <Text style={[slider.txtScoreWhose, font.seven]}>
+            zwon.han님이 {user_meal_time}에 먹은 끼니
+          </Text>
+        )}
         {mealToRate.length == 0 ? null : (
           <View style={slider.container}>
             <View style={slider.scoreInfoContainer}>
-              <Text style={[slider.txtScoreWhose, font.seven]}>
-                {' '}
-                zwon.han님이 {user_meal_time}에 먹은 끼니{' '}
-              </Text>
               {/* <Text style={[slider.txtScoreJum, font.eight]}>건강도는</Text> */}
               <Text style={[slider.txtScoreJum, font.eight]}>점!</Text>
             </View>
@@ -174,7 +167,9 @@ const Rate = props => {
               onValueChange={onValueChange}
             />
             <TouchableOpacity onPress={rateMeal} style={slider.button}>
-              <Text style={slider.txtSubmit}>다음 끼니 채점하기 👉</Text>
+              <Text style={[slider.txtSubmit, font.seven]}>
+                다음 끼니 채점하기 👉
+              </Text>
             </TouchableOpacity>
           </View>
         )}
@@ -276,6 +271,7 @@ const slider = EStyleSheet.create({
   txtScoreWhose: {
     fontSize: '14rem',
     lineHeight: '18rem',
+    marginTop: '18rem',
     color: gray.c,
     bottom: '2rem',
     zIndex: 20,
@@ -306,7 +302,7 @@ const slider = EStyleSheet.create({
   button: {
     marginTop: '20rem',
     width: '50%',
-    height: deviceHeight / 13,
+    height: deviceWidth / 6.1,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
@@ -320,8 +316,7 @@ const slider = EStyleSheet.create({
   },
   txtSubmit: {
     textAlign: 'center',
-    fontSize: '13rem',
-    fontFamily: 'NotoSansCJKkr-Bold',
+    fontSize: '14rem',
     color: gray.c
   }
 });
@@ -335,17 +330,25 @@ const mainImg = EStyleSheet.create({
   noMealAlert: {
     fontSize: '11rem',
     color: gray.c,
-    textAlign: 'center',
-    fontFamily: 'NotoSansCJKkr-Bold'
+    textAlign: 'center'
   },
   screen: {
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // height: (deviceWidth * 70) / 100,
+
+    // borderTopLeftRadius: '70rem',
+    // borderBottomRightRadius: '70rem',
+    // borderColor: 'white',
+    // backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    height: (deviceWidth * 70) / 100,
-
+    // height: (deviceWidth * 70) / 100,
+    height: (deviceHeight / 100) * 38,
     borderTopLeftRadius: '70rem',
     borderBottomRightRadius: '70rem',
     borderColor: 'white',
+    borderWidth: 10,
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 7 },
@@ -359,23 +362,24 @@ const mainImg = EStyleSheet.create({
     top: 10,
     fontSize: '11rem',
     color: gray.c,
-    textAlign: 'center',
-    fontFamily: 'NotoSansCJKkr-Bold'
+    textAlign: 'center'
   },
   img: {
     top: 0,
-    height: deviceWidth - 54,
+    // height: deviceWidth - 54,
     // width: deviceHeight /2.7,
-    width: (deviceWidth * 70) / 100 - 20,
-    borderTopRightRadius: '60rem',
-    borderBottomLeftRadius: '60rem',
-    resizeMode: 'cover',
-    transform: [{ rotate: '90deg' }]
-    // 이미지가 안 돌아가기 시작한다면 아래 코드 사용...
-    // width: '100%',
-    // height: deviceWidth * 75 /100 -20,
-
+    // width: (deviceWidth * 70) / 100 - 20,
+    // borderTopRightRadius: '60rem',
+    // borderBottomLeftRadius: '60rem',
     // resizeMode: 'cover',
+    // transform: [{ rotate: '90deg' }]
+    // 이미지가 안 돌아가기 시작한다면 아래 코드 사용...
+    width: '100%',
+    // height: deviceWidth * 75 /100 -20,
+    height: (deviceHeight / 100) * 38 - 20,
+    borderTopLeftRadius: '60rem',
+    borderBottomRightRadius: '60rem',
+    resizeMode: 'cover'
   }
 });
 

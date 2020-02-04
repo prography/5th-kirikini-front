@@ -13,9 +13,15 @@ import { RNCamera } from 'react-native-camera';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import { mealSaved } from '../store/meal/action';
-import { deviceWidth, deviceHeight, gray, yellow, kiriColor } from '../utils/consts';
+import {
+  deviceWidth,
+  deviceHeight,
+  gray,
+  yellow,
+  kiriColor,
+  weight
+} from '../utils/consts';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
 
 let email = null;
 AsyncStorage.getItem('@email')
@@ -61,18 +67,18 @@ const CameraScreen = props => {
       }
     };
     ImagePicker.launchImageLibrary(options, data => {
-      if(data.uri) {
+      if (data.uri) {
         const timezoneOffset = new Date().getTimezoneOffset() * 60000;
         let timestamp = new Date(Date.now() - timezoneOffset).toISOString();
 
-        timestamp = data.timestamp ? data.timestamp : timestamp
+        timestamp = data.timestamp ? data.timestamp : timestamp;
         const file = {
           uri: data.uri,
           name: `${email}_${timestamp}.jpg`,
           type: 'image/jpg'
         };
         dispatch(mealSaved(file, timestamp));
-  
+
         AsyncStorage.setItem('@mealImage', data.uri)
           .then(result => {
             console.log('image saved to async storage');
@@ -109,13 +115,15 @@ const CameraScreen = props => {
       </TouchableOpacity> */}
       <CameraView />
       <View style={cameraSt.buttonContainer}>
-      <TouchableOpacity onPress={() => openAlbum()} style={cameraSt.button1}>
+        <TouchableOpacity onPress={() => openAlbum()} style={cameraSt.button1}>
           <Text style={cameraSt.text1}>앨범에서 불러오기</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => takePicture()} style={cameraSt.button2}>
+        <TouchableOpacity
+          onPress={() => takePicture()}
+          style={cameraSt.button2}
+        >
           <Text style={cameraSt.text2}>촬영</Text>
         </TouchableOpacity>
-        
       </View>
     </View>
   );
@@ -129,7 +137,7 @@ const cameraSt = EStyleSheet.create({
   },
   cameraView: {
     width: deviceWidth,
-    height:deviceWidth
+    height: deviceWidth
   },
   buttonContainer: {
     position: 'absolute',
@@ -137,8 +145,7 @@ const cameraSt = EStyleSheet.create({
     padding: 17,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    
+    justifyContent: 'center'
   },
   button1: {
     bottom: 10,
@@ -162,7 +169,7 @@ const cameraSt = EStyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: yellow.a,
-    borderRadius: '30rem',
+    borderRadius: '30rem'
     // shadowColor: '#000',
     // shadowOffset: { width: 0, height: 5 },
     // shadowOpacity: 0.2,
@@ -171,23 +178,23 @@ const cameraSt = EStyleSheet.create({
   },
   text1: {
     textAlign: 'center',
-    fontSize: '15rem', 
-    fontFamily:'NotoSansCJKkr-Bold',
-    color:gray.c
+    fontSize: '15rem',
+    color: gray.c,
+    fontWeight: weight.eight
   },
   text2: {
     textAlign: 'center',
-    fontSize: '15rem', 
-    fontFamily:'NotoSansCJKkr-Bold',
-    color: 'white'
+    fontSize: '15rem',
+    color: 'white',
+    fontWeight: weight.eight
   }
 });
 
-CameraScreen.navigationOptions = ({navigation}) => ({
-  title: "",
-  headerBackTitle: "",
-  headerShown: Platform.OS === 'ios' ? true : false,
-})
+CameraScreen.navigationOptions = ({ navigation }) => ({
+  title: '',
+  headerBackTitle: '',
+  headerShown: Platform.OS === 'ios' ? true : false
+});
 
 export default connect(state => ({
   file: state.meal.saved.file

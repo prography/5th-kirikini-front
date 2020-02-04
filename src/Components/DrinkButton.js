@@ -36,7 +36,7 @@ const DrinkTypeButton = props => {
               {selected === item.key && <View style={styles.checkedCircle} />}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setSelected(item.key)}>
-              <Text style={styles.txt}>{item.text}</Text>
+              <Text style={[styles.txt, font.seven]}>{item.text}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -77,11 +77,35 @@ const styles = EStyleSheet.create({
     backgroundColor: yellow.a
   },
   txt: {
-    fontSize: '13.5rem',
+    fontSize: '14.5rem',
     lineHeight: '21rem',
-    fontFamily: 'NotoSansCJKkr-Medium',
-    color: gray.d
+    color: gray.c
   }
 });
-
+const font = EStyleSheet.create({
+  eight:
+    Platform.OS === 'ios'
+      ? {
+          fontWeight: '800'
+        }
+      : {
+          fontWeight: 'bold'
+        },
+  seven:
+    Platform.OS === 'ios'
+      ? {
+          fontWeight: '700'
+        }
+      : {
+          fontWeight: 'bold'
+        },
+  six:
+    Platform.OS === 'ios'
+      ? {
+          fontWeight: '600'
+        }
+      : {
+          fontWeight: 'normal'
+        }
+});
 export default DrinkTypeButton;
