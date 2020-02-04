@@ -118,7 +118,7 @@ const Rate = props => {
           <View style={styles.topMarginAndroid} />
         )}
         <View style={styles.titleHeader}>
-          <Text style={[styles.txtBigTitle, font.eight]}>건강도 채점</Text>
+          <Text style={styles.txtBigTitle}>건강도 채점</Text>
           <TouchableOpacity style={styles.infoCircle}>
             <Text style={styles.txtInfo}>?</Text>
           </TouchableOpacity>
@@ -130,7 +130,7 @@ const Rate = props => {
                 style={mainImg.noMealKirini}
                 source={require('../img/kirini5.png')}
               />
-              <Text style={[mainImg.noMealAlert, font.eight]}>
+              <Text style={mainImg.noMealAlert}>
                 채점할 끼니가 없습니다. {'\n'}
                 다른 유저의 끼니 등록을 기다려주세요!
               </Text>
@@ -145,15 +145,14 @@ const Rate = props => {
           )}
         </View>
         {mealToRate.length == 0 ? null : (
-          <Text style={[slider.txtScoreWhose, font.seven]}>
+          <Text style={slider.txtScoreWhose}>
             zwon.han님이 {user_meal_time}에 먹은 끼니
           </Text>
         )}
         {mealToRate.length == 0 ? null : (
           <View style={slider.container}>
             <View style={slider.scoreInfoContainer}>
-              {/* <Text style={[slider.txtScoreJum, font.eight]}>건강도는</Text> */}
-              <Text style={[slider.txtScoreJum, font.eight]}>점!</Text>
+              <Text style={slider.txtScoreJum}>점!</Text>
             </View>
             <Text style={slider.txtScore}>{mealScore}</Text>
             <Slider
@@ -167,9 +166,7 @@ const Rate = props => {
               onValueChange={onValueChange}
             />
             <TouchableOpacity onPress={rateMeal} style={slider.button}>
-              <Text style={[slider.txtSubmit, font.seven]}>
-                다음 끼니 채점하기 👉
-              </Text>
+              <Text style={slider.txtSubmit}>다음 끼니 채점하기 👉</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -205,7 +202,8 @@ const styles = EStyleSheet.create({
     color: gray.d,
     lineHeight: '32rem',
     alignSelf: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    fontWeight: weight.eight
   },
   infoCircle: {
     width: '20rem',
@@ -222,33 +220,6 @@ const styles = EStyleSheet.create({
     fontSize: '18rem',
     lineHeight: '18rem'
   }
-});
-
-const font = EStyleSheet.create({
-  eight:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '800'
-        }
-      : {
-          fontWeight: 'bold'
-        },
-  seven:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '700'
-        }
-      : {
-          fontWeight: 'bold'
-        },
-  six:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '600'
-        }
-      : {
-          fontWeight: 'normal'
-        }
 });
 
 const slider = EStyleSheet.create({
@@ -317,7 +288,8 @@ const slider = EStyleSheet.create({
   txtSubmit: {
     textAlign: 'center',
     fontSize: '14rem',
-    color: gray.c
+    color: gray.c,
+    fontWeight: weight.seven
   }
 });
 
@@ -328,7 +300,9 @@ const mainImg = EStyleSheet.create({
     resizeMode: 'contain'
   },
   noMealAlert: {
-    fontSize: '11rem',
+    fontSize: '13rem',
+    lineHeight: '18rem',
+    fontWeight: weight.eight,
     color: gray.c,
     textAlign: 'center'
   },
@@ -362,7 +336,8 @@ const mainImg = EStyleSheet.create({
     top: 10,
     fontSize: '11rem',
     color: gray.c,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: weight.seven
   },
   img: {
     top: 0,
