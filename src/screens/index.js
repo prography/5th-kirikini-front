@@ -25,6 +25,7 @@ const AppNavigator = createStackNavigator(
   {
     initialRouteName: 'Login',
     defaultNavigationOptions: {
+      "enableGestures": false,
       headerBackTitle: '',
       headerStyle: {
         elevation: 0,

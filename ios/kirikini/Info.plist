@@ -47,13 +47,10 @@
 	<string>20a0812666f6e47b7b531d7c57bfda84</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>kakaoc20a0812666f6e47b7b531d7c57bfda84</string>
+		<string>kakao20a0812666f6e47b7b531d7c57bfda84</string>
 		<string>kakaokompassauth</string>
-		<string>storykompassauth</string>
 		<string>kakaolink</string>
 		<string>kakaotalk-4.5.0</string>
-		<string>kakaostory-2.9.0</string>
-		<string>storylink</string>
 		<string>fbapi</string>
 		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
