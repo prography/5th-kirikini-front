@@ -132,8 +132,8 @@ android {
         applicationId "com.kirikini"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "1.1.5"
+        versionCode 17
+        versionName "1.1.6"
 
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
