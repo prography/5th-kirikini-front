@@ -146,13 +146,13 @@ const Rate = props => {
         </View>
         {mealToRate.length == 0 ? null : (
           <Text style={slider.txtScoreWhose}>
-            zwon.han님이 {user_meal_time}에 먹은 끼니
+            {user_name}님이 {user_meal_time}에 먹은 끼니
           </Text>
         )}
         {mealToRate.length == 0 ? null : (
           <View style={slider.container}>
             <View style={slider.scoreInfoContainer}>
-              <Text style={slider.txtScoreJum}>점!</Text>
+              <Text style={slider.txtScoreJum}>점</Text>
             </View>
             <Text style={slider.txtScore}>{mealScore}</Text>
             <Slider
@@ -262,12 +262,7 @@ const slider = EStyleSheet.create({
   txtScore: {
     marginBottom: '10rem',
     fontSize: '40rem',
-    // fontFamily:'FredokaOne-Regular',
-    // fontFamily:'Quicksand-Bold',
-    // fontFamily:'Rubik-Bold',
     fontFamily: 'JosefinSans-Bold',
-    // fontFamily:'Kanit-Bold',
-    // fontFamily:'Digitalt',
     color: yellow.b,
     textAlign: 'center',
     lineHeight: '40rem'

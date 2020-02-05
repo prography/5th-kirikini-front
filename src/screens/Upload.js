@@ -50,10 +50,10 @@ const Upload = props => {
     props.saved.timestamp == null
       ? ''
       : Number(props.saved.timestamp.slice(11, 13)) < 12
-      ? ' 오전' +
+      ? ' 오전 ' +
         Number(props.saved.timestamp.slice(11, 13)) +
         '시 ' +
-        props.saved.timestamp.slice(17, 19) +
+        props.saved.timestamp.slice(14, 16) +
         '분'
       : ' 오후 ' +
         Number(props.saved.timestamp.slice(11, 13) - 12) +
@@ -338,11 +338,12 @@ const slider = EStyleSheet.create({
     // elevation: 6
   },
   txtScore: {
-    marginBottom: '2rem',
-    fontSize: '28rem',
-    fontFamily: 'Rubik-Medium',
+    marginBottom: '10rem',
+    fontSize: '40rem',
+    fontFamily: 'JosefinSans-Bold',
     color: yellow.b,
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: '40rem'
   }
 });
 

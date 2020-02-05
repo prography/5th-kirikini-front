@@ -74,23 +74,35 @@ const HomeCircles = props => {
                   backgroundColor: circleColor,
                   borderRadius: 300,
                   width:
-                    item.average_rate * (deviceHeight / 90) + deviceHeight / 30,
+                    item.average_rate * (deviceHeight / 110) +
+                    deviceHeight / 15,
                   height:
-                    item.average_rate * (deviceHeight / 90) + deviceHeight / 30,
+                    item.average_rate * (deviceHeight / 110) +
+                    deviceHeight / 15,
                   marginRight: deviceHeight / 40,
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}
               >
+                <Image
+                  style={{
+                    zIndex: 20,
+                    width: deviceHeight / 15,
+                    height: deviceHeight / 15,
+                    borderRadius: 200,
+                    resizeMode: 'cover'
+                  }}
+                  source={{ uri: item.picURL }}
+                />
+
                 {item.gihoType === 0 && (
                   <Image
                     style={{
                       zIndex: 20,
                       width: deviceHeight / 37,
                       height: deviceHeight / 37,
-                      resizeMode: 'contain'
-                      // position: 'absolute',
-                      // left: -item.average_rate * 7 - 35
+                      resizeMode: 'contain',
+                      position: 'absolute'
                     }}
                     source={require('../img/iconCupSmall.png')}
                   />
@@ -101,9 +113,8 @@ const HomeCircles = props => {
                       zIndex: 20,
                       width: deviceHeight / 37,
                       height: deviceHeight / 37,
-                      resizeMode: 'contain'
-                      // position: 'absolute',
-                      // left: -item.average_rate * 7 - 35
+                      resizeMode: 'contain',
+                      position: 'absolute'
                     }}
                     source={require('../img/iconBeerSmall.png')}
                   />
@@ -122,6 +133,25 @@ const HomeCircles = props => {
                       source={{ uri: selectedMeal.picURL }}
                       style={modal.img}
                     />
+                  </View>
+                  <View style={modal.info}>
+                    <Text style={modal.score}>
+                      {Math.round(selectedMeal.average_rate * 10) / 10}
+                    </Text>
+                    <Text style={modal.jum}>점</Text>
+                    <Text>
+                      {selectedMeal.created_at.slice(11, 13) < 12
+                        ? '오전 ' +
+                          selectedMeal.created_at.slice(11, 13) +
+                          '시 ' +
+                          selectedMeal.created_at.slice(14, 16) +
+                          '분'
+                        : '오후 ' +
+                          Number(selectedMeal.created_at.slice(11, 13) - 12) +
+                          '시 ' +
+                          selectedMeal.created_at.slice(14, 16) +
+                          '분'}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </Modal>
@@ -186,7 +216,7 @@ const Home = props => {
       onChangeMent();
     }
   };
-  let todayKirini = require('../img/kirini2.png');
+  // let todayKirini = require('../img/kirini2.png');
   // const loadTodayKirini = () => {
   //   if (todayScore < 2) setTodayKirini('../img/kirini1.png');
   //   else if (todayScore < 4) setTodayKirini('../img/kirini2.png');
@@ -374,49 +404,39 @@ const Home = props => {
               <View style={balloonSt.lastMealTimeContainer}>
                 <View style={balloonSt.lastMealIconWrapper}>
                   <Text style={balloonText.lastMealTime1}>
-                    {mealSince === '-'
-                      ? '아직 입력된 끼니가 없어요'
-                      : '🍽 마지막 끼니'}
+                    {mealSince === '-' ? '🍽 입력된 끼니' : '🍽 마지막 끼니'}
                   </Text>
                   <Text style={balloonText.lastMealTime}>
-                    {drinkSince === '-'
-                      ? '아직 입력된 음주가 없어요'
-                      : '🍺 마지막 음주'}
+                    {drinkSince === '-' ? '🍺 입력된 음주' : '🍺 마지막 음주'}
                   </Text>
                   <Text style={balloonText.lastMealTime}>
                     {coffeeSince === '-'
-                      ? '아직 입력된 커피가 없어요'
+                      ? '☕️ 입력된 커피'
                       : '☕️ 마지막 커피'}
                   </Text>
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
-                  <Text
-                    style={[
-                      mealSince === '-'
-                        ? balloonText.noMeal
-                        : balloonText.lastMealTime1
-                    ]}
-                  >
-                    {mealSince} 전
-                  </Text>
-                  <Text
-                    style={[
-                      drinkSince === '-'
-                        ? balloonText.noMeal
-                        : balloonText.lastMealTime
-                    ]}
-                  >
-                    {drinkSince} 전
-                  </Text>
-                  <Text
-                    style={[
-                      coffeeSince === '-'
-                        ? balloonText.noMeal
-                        : balloonText.lastMealTime
-                    ]}
-                  >
-                    {coffeeSince} 전
-                  </Text>
+                  {mealSince === '-' ? (
+                    <Text style={balloonText.lastMealTime1}>아직 없어요</Text>
+                  ) : (
+                    <Text style={balloonText.lastMealTime1}>
+                      {mealSince} 전
+                    </Text>
+                  )}
+                  {drinkSince === '-' ? (
+                    <Text style={balloonText.lastMealTime}>아직 없어요</Text>
+                  ) : (
+                    <Text style={balloonText.lastMealTime}>
+                      {drinkSince} 전
+                    </Text>
+                  )}
+                  {coffeeSince === '-' ? (
+                    <Text style={balloonText.lastMealTime}>아직 없어요</Text>
+                  ) : (
+                    <Text style={balloonText.lastMealTime}>
+                      {coffeeSince} 전
+                    </Text>
+                  )}
                 </View>
               </View>
 
@@ -437,7 +457,10 @@ const Home = props => {
                 style={balloonSt.kiriniContainer}
                 onPress={() => props.navigation.navigate('Upload')}
               >
-                <Image style={balloonSt.kirini} source={todayKirini} />
+                <Image
+                  style={balloonSt.kirini}
+                  source={require('../img/kirini2.png')}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -500,6 +523,31 @@ const modal = EStyleSheet.create({
     borderTopLeftRadius: '60rem',
     borderBottomRightRadius: '60rem',
     resizeMode: 'cover'
+  },
+  info: {
+    flexDirection: 'row',
+    width: '180rem',
+    height: (deviceHeight / 100) * 14,
+    // backgroundColor: 'pink',
+    position: 'absolute',
+    top: (deviceHeight / 100) * 52,
+    left: 27,
+    alignItems: 'center'
+  },
+  score: {
+    fontSize: '32rem',
+    lineHeight: '32rem',
+    fontFamily: 'JosefinSans-Bold',
+    color: yellow.b,
+    textAlign: 'center'
+  },
+  jum: {
+    fontSize: '25rem',
+    lineHeight: '32rem',
+    fontWeight: weight.eight,
+    color: yellow.b,
+    textAlign: 'center',
+    top: '-2rem'
   }
 });
 
@@ -641,10 +689,10 @@ const balloonSt = EStyleSheet.create({
     right: deviceWidth / 10,
     // top: '-9rem',
     width: (deviceWidth * 3) / 10,
-    // height: deviceWidth / 3,
+    height: deviceWidth / 3.5,
     alignSelf: 'center',
-    justifyContent: 'center',
-    backgroundColor: gray.a
+    justifyContent: 'center'
+    // backgroundColor: gray.a
   },
   kirini: {
     position: 'absolute',

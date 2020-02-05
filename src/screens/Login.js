@@ -32,7 +32,8 @@ import {
   AUTO_URL,
   deviceWidth,
   kiriColor,
-  yellow
+  yellow,
+  weight
 } from '../utils/consts';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -370,9 +371,10 @@ const styles = EStyleSheet.create({
     resizeMode: 'contain'
   },
   txtKakao: {
-    fontSize: '14rem',
+    fontSize: '16rem',
     color: gray.d,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: weight.seven
   },
   txtKakaoLogin: {
     fontSize: 16,
