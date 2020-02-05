@@ -140,7 +140,7 @@ const HomeCircles = props => {
                     </Text>
                     <Text style={modal.jum}>점</Text>
                     <Text>
-                      {selectedMeal === {} 
+                      {Object.keys(selectedMeal).length > 0
                         ?
                         (
                           selectedMeal.created_at.slice(11, 13) < 12
