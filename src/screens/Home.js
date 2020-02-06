@@ -47,6 +47,7 @@ const HomeCircles = props => {
           width: '100%'
         }}
       />
+      <View style={{ width: deviceHeight / 40 }} />
       {props.meals &&
         props.meals.map(item => {
           var circleColor = mealColor.a;
@@ -80,6 +81,7 @@ const HomeCircles = props => {
                     item.average_rate * (deviceHeight / 110) +
                     deviceHeight / 15,
                   marginRight: deviceHeight / 40,
+
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}
@@ -135,11 +137,13 @@ const HomeCircles = props => {
                     />
                   </View>
                   <View style={modal.info}>
-                    <Text style={modal.score}>
-                      {Math.round(selectedMeal.average_rate * 10) / 10}
-                    </Text>
-                    <Text style={modal.jum}>점</Text>
-                    <Text>
+                    <View style={modal.scoreContainer}>
+                      <Text style={modal.score}>
+                        {Math.round(selectedMeal.average_rate * 10) / 10}
+                      </Text>
+                      <Text style={modal.jum}>점</Text>
+                    </View>
+                    <Text style={modal.time}>
                       {Object.keys(selectedMeal).length > 0
                         ? selectedMeal.created_at.slice(11, 13) < 12
                           ? '오전 ' +
@@ -470,7 +474,15 @@ const Home = props => {
         <View style={styles.bottomHalf}>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View style={circles.container}>
+              <Image
+                style={circles.sun}
+                source={require('../img/iconSunBigYellow.png')}
+              />
               {meals && <HomeCircles meals={meals} />}
+              <Image
+                style={circles.moon}
+                source={require('../img/iconMoonBigYellow.png')}
+              />
             </View>
           </ScrollView>
         </View>
@@ -527,13 +539,19 @@ const modal = EStyleSheet.create({
     resizeMode: 'cover'
   },
   info: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     width: '180rem',
     height: (deviceHeight / 100) * 14,
     // backgroundColor: 'pink',
     position: 'absolute',
     top: (deviceHeight / 100) * 52,
     left: 27,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  scoreContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   score: {
@@ -549,7 +567,12 @@ const modal = EStyleSheet.create({
     fontWeight: weight.eight,
     color: yellow.b,
     textAlign: 'center',
-    top: '-2rem'
+    bottom: '2rem'
+  },
+  time: {
+    fontSize: '15rem',
+    color: gray.c,
+    fontWeight: weight.seven
   }
 });
 
@@ -708,28 +731,28 @@ const balloonSt = EStyleSheet.create({
 
 const circles = EStyleSheet.create({
   container: {
-    width: '100%',
+    // width: '100%',
     alignItems: 'center',
     flexDirection: 'row',
     marginBottom: '15rem'
     // backgroundColor: 'pink'
   },
   circlesContainer: {
-    width: '100%',
+    // width: '100%',
     flexDirection: 'row',
     alignItems: 'center'
   },
   sun: {
-    width: 80,
-    height: 80,
-    marginLeft: 17,
-    marginRight: 17
+    width: '35rem',
+    height: '35rem',
+    marginRight: '10rem',
+    resizeMode: 'cover'
   },
   moon: {
-    width: 80,
-    height: 80,
-    marginLeft: 17,
-    marginRight: 17
+    width: '40rem',
+    height: '40rem',
+
+    resizeMode: 'cover'
   }
 });
 

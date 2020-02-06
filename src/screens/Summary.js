@@ -268,16 +268,16 @@ const WeeklyReportToggled = () => {
           <Text style={balloonText.lastMealTime}>
             이주의 총 끼니 횟수는 🍽 :{'\n'}
             이주의 하루 평균 끼니 횟수는 🍽 :{'\n'}
-            이주의 총 음주 횟수는 🍺 :{'\n'}
             이주의 총 커피 횟수는 ☕️ :{'\n'}
+            이주의 총 음주 횟수는 🍺 :{'\n'}
           </Text>
         </View>
         <View style={balloonSt.lastMealTimeWrapper}>
           <Text style={balloonText.lastMealTime}>
             {mealCount}회{'\n'}
             {avgMealCount}회{'\n'}
-            {drinkCount}회{'\n'}
             {coffeeCount}회{'\n'}
+            {drinkCount}회{'\n'}
           </Text>
         </View>
       </View>
@@ -561,7 +561,7 @@ const Summary = props => {
         >
           <View style={topBox.container}>
             <View style={styles.topMargin} />
-            <Text style={styles.txtBigTitle}>끼니 성적</Text>
+            <Text style={styles.txtBigTitle}>끼니 성적표</Text>
 
             <View style={topBox.topLine}>
               <View style={topBox.monthContainer}>
