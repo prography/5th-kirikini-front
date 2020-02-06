@@ -36,6 +36,7 @@ import {
 
 // 주간 레포트 시작 ------------------------------------------------------------------
 const WeeklyReportToggled = () => {
+  console.log("weeklyReportToggled")
   const [mealCount, setMealCount] = useState(0);
   const [avgMealCount, setAvgMealCount] = useState(0);
   const [weekScore, setWeekScore] = useState(0);
@@ -52,6 +53,7 @@ const WeeklyReportToggled = () => {
   };
 
   const loadWeekReport = () => {
+    console.log("loadWeekReport")
     let access_token = null,
       refresh_token = null;
     AsyncStorage.multiGet([
@@ -70,6 +72,7 @@ const WeeklyReportToggled = () => {
         axios
           .post(LOAD_WEEK_REPORT_URL, user_name, { headers })
           .then(response => {
+            console.log("response", response["data"])
             const {
               meal_count,
               avg_meal_count,
@@ -242,11 +245,7 @@ const WeeklyReportToggled = () => {
 
   const toggleContent = (
     <View>
-      <NavigationEvents
-        onWillFocus={() => {
-          loadWeekReport();
-        }}
-      />
+    
       <View style={balloonSt.topBar}>
         <Text style={styles.txtBigTitle}>이주의 건강도</Text>
         <Text style={balloonText.todayScore}>{weekScore}</Text>
@@ -346,6 +345,12 @@ const WeeklyReportToggled = () => {
       activeOpacity={0.7}
       onPress={pressWrToggle}
     >
+      <NavigationEvents
+        onWillFocus={() => {
+          console.log("onWillFocus")
+          loadWeekReport();
+        }}
+      />
       {wrToggle.on && toggleContent}
       {!wrToggle.on && untoggledContent}
     </TouchableOpacity>
@@ -554,6 +559,7 @@ const Summary = props => {
 
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
+
       <View style={styles.container}>
         <ScrollView
           showsVerticalScrollIndicator={false}
