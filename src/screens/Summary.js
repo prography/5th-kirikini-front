@@ -513,82 +513,87 @@ const Summary = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
-        <View style={topBox.container}>
-          <View style={styles.topMargin} />
-          <Text style={styles.txtBigTitle}>끼니 성적표</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={topBox.container}>
+            <View style={styles.topMargin} />
+            <Text style={styles.txtBigTitle}>끼니 성적표</Text>
 
-          <View style={topBox.topLine}>
-            <View style={topBox.monthContainer}>
-              <TouchableOpacity
-                style={topBox.setMonthContainerL}
-                onPress={() => {
-                  if (selectedMonth < 2) {
-                    return null;
+            <View style={topBox.topLine}>
+              <View style={topBox.monthContainer}>
+                <TouchableOpacity
+                  style={topBox.setMonthContainerL}
+                  onPress={() => {
+                    if (selectedMonth < 2) {
+                      return null;
+                    } else {
+                      setSelectedMonth(selectedMonth - 1);
+                      loadMonthMeals(selectedMonth - 1);
+                    }
+                  }}
+                >
+                  <Text style={topBox.setMonth}>{`◀︎`}</Text>
+                </TouchableOpacity>
+                <Text style={topBox.txtMonth}>{selectedMonth}월</Text>
+                <TouchableOpacity
+                  style={topBox.setMonthContainerR}
+                  onPress={() => {
+                    if (selectedMonth > 11) {
+                      return null;
+                    } else {
+                      setSelectedMonth(selectedMonth + 1);
+                      loadMonthMeals(selectedMonth + 1);
+                    }
+                  }}
+                >
+                  <Text style={topBox.setMonth}>{`▶︎`}</Text>
+                </TouchableOpacity>
+              </View>
+              <Text style={topBox.txtDate}>2020.2.3 ~ 2.9</Text>
+              <View style={topBox.weekContainer}>
+                {week_list.map(week => {
+                  if (selectedWeek == week) {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSelectedWeek(week);
+                        }}
+                        style={topBox.weekButtonSel}
+                        key={week}
+                      >
+                        <Text style={topBox.txtWeekSel}>{week}주</Text>
+                      </TouchableOpacity>
+                    );
                   } else {
-                    setSelectedMonth(selectedMonth - 1);
-                    loadMonthMeals(selectedMonth - 1);
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSelectedWeek(week);
+                        }}
+                        style={topBox.weekButtonUnsel}
+                        key={week}
+                      >
+                        <Text style={topBox.txtWeekUnsel}>{week}</Text>
+                      </TouchableOpacity>
+                    );
                   }
-                }}
-              >
-                <Text style={topBox.setMonth}>{`◀︎`}</Text>
-              </TouchableOpacity>
-              <Text style={topBox.txtMonth}>{selectedMonth}월</Text>
-              <TouchableOpacity
-                style={topBox.setMonthContainerR}
-                onPress={() => {
-                  if (selectedMonth > 11) {
-                    return null;
-                  } else {
-                    setSelectedMonth(selectedMonth + 1);
-                    loadMonthMeals(selectedMonth + 1);
-                  }
-                }}
-              >
-                <Text style={topBox.setMonth}>{`▶︎`}</Text>
-              </TouchableOpacity>
-            </View>
-            <Text style={topBox.txtDate}>2020.2.3 ~ 2.9</Text>
-            <View style={topBox.weekContainer}>
-              {week_list.map(week => {
-                if (selectedWeek == week) {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setSelectedWeek(week);
-                      }}
-                      style={topBox.weekButtonSel}
-                      key={week}
-                    >
-                      <Text style={topBox.txtWeekSel}>{week}주</Text>
-                    </TouchableOpacity>
-                  );
-                } else {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setSelectedWeek(week);
-                      }}
-                      style={topBox.weekButtonUnsel}
-                      key={week}
-                    >
-                      <Text style={topBox.txtWeekUnsel}>{week}</Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
+                })}
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.scrollview}>
-          <ScrollView style={{ flex: 1 }}>
+
+          <GestureHandlerScrollView
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+            style={{ width: '100%', backgroundColor: 'blue', height: 700 }}
+          >
             <View style={bar.container} activeOpacity={0.7}>
               <WeeklyListToggled week={selectedWeek} meals={props.meals} />
             </View>
             <View style={bar.container} activeOpacity={0.7}>
               <WeeklyReportToggled />
             </View>
-          </ScrollView>
-        </View>
+          </GestureHandlerScrollView>
+        </ScrollView>
       </View>
       <NavBar navigation={props.navigation} />
     </View>
