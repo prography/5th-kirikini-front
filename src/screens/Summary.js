@@ -15,6 +15,7 @@ import { connect, useDispatch } from 'react-redux';
 import { NavigationEvents } from 'react-navigation';
 import { LineChart, BarChart, PieChart } from 'react-native-chart-kit';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import { ScrollView as GestureHandlerScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { mealMonth } from '../store/meal/action';
@@ -27,9 +28,13 @@ import {
   mealColor,
   meal,
   kiriColor,
-  screenWidth
+  screenWidth,
+  home,
+  weight,
+  deviceHeight
 } from '../utils/consts';
 
+// 주간 레포트 시작 ------------------------------------------------------------------
 const WeeklyReportToggled = () => {
   const [mealCount, setMealCount] = useState(0);
   const [avgMealCount, setAvgMealCount] = useState(0);
@@ -324,7 +329,8 @@ const WeeklyReportToggled = () => {
     </View>
   );
 };
-
+// 끝 ------------------------------------------------------------------
+// 주간 리스트 시작 ------------------------------------------------------------------
 const WeeklyListToggled = props => {
   const { week, meals } = props;
 
@@ -457,7 +463,8 @@ const WeeklyListToggled = props => {
     </View>
   );
 };
-
+// 끝------------------------------------------------------------------
+// 전체 화면 시작 ------------------------------------------------------------------
 const Summary = props => {
   const dispatch = useDispatch();
 
@@ -507,73 +514,69 @@ const Summary = props => {
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
         <View style={topBox.container}>
-          {Platform.OS === 'ios' ? (
-            <View style={styles.topMarginIos} />
-          ) : (
-            <View style={styles.topMarginAndroid} />
-          )}
+          <View style={styles.topMargin} />
+          <Text style={styles.txtBigTitle}>끼니 성적표</Text>
+
           <View style={topBox.topLine}>
-            <Text style={[styles.txtBigTitle, font.seven]}>기록</Text>
-            <Text style={[topBox.txtWeekScore, font.seven]}> 5.5 </Text>
-          </View>
-          <View style={topBox.monthContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                if (selectedMonth < 2) {
-                  return null;
+            <View style={topBox.monthContainer}>
+              <TouchableOpacity
+                style={topBox.setMonthContainerL}
+                onPress={() => {
+                  if (selectedMonth < 2) {
+                    return null;
+                  } else {
+                    setSelectedMonth(selectedMonth - 1);
+                    loadMonthMeals(selectedMonth - 1);
+                  }
+                }}
+              >
+                <Text style={topBox.setMonth}>{`◀︎`}</Text>
+              </TouchableOpacity>
+              <Text style={topBox.txtMonth}>{selectedMonth}월</Text>
+              <TouchableOpacity
+                style={topBox.setMonthContainerR}
+                onPress={() => {
+                  if (selectedMonth > 11) {
+                    return null;
+                  } else {
+                    setSelectedMonth(selectedMonth + 1);
+                    loadMonthMeals(selectedMonth + 1);
+                  }
+                }}
+              >
+                <Text style={topBox.setMonth}>{`▶︎`}</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={topBox.txtDate}>2020.2.3 ~ 2.9</Text>
+            <View style={topBox.weekContainer}>
+              {week_list.map(week => {
+                if (selectedWeek == week) {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSelectedWeek(week);
+                      }}
+                      style={topBox.weekButtonSel}
+                      key={week}
+                    >
+                      <Text style={topBox.txtWeekSel}>{week}주</Text>
+                    </TouchableOpacity>
+                  );
                 } else {
-                  setSelectedMonth(selectedMonth - 1);
-                  loadMonthMeals(selectedMonth - 1);
+                  return (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSelectedWeek(week);
+                      }}
+                      style={topBox.weekButtonUnsel}
+                      key={week}
+                    >
+                      <Text style={topBox.txtWeekUnsel}>{week}</Text>
+                    </TouchableOpacity>
+                  );
                 }
-              }}
-            >
-              <Text style={[topBox.setMonth, font.six]}>{`< `}</Text>
-            </TouchableOpacity>
-            <Text style={[topBox.txtMonth, font.eight]}>
-              {' '}
-              {selectedMonth}월{' '}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                if (selectedMonth > 11) {
-                  return null;
-                } else {
-                  setSelectedMonth(selectedMonth + 1);
-                  loadMonthMeals(selectedMonth + 1);
-                }
-              }}
-            >
-              <Text style={[topBox.setMonth, font.six]}>{` >`}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={topBox.weekContainer}>
-            {week_list.map(week => {
-              if (selectedWeek == week) {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setSelectedWeek(week);
-                    }}
-                    style={topBox.weekButton}
-                    key={week}
-                  >
-                    <Text style={topBox.txtWeekSel}>{week}주</Text>
-                  </TouchableOpacity>
-                );
-              } else {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      setSelectedWeek(week);
-                    }}
-                    style={topBox.weekButton}
-                    key={week}
-                  >
-                    <Text style={topBox.txtWeekUnsel}>{week}</Text>
-                  </TouchableOpacity>
-                );
-              }
-            })}
+              })}
+            </View>
           </View>
         </View>
         <View style={styles.scrollview}>
@@ -591,24 +594,24 @@ const Summary = props => {
     </View>
   );
 };
+// 끝 ------------------------------------------------------------------
 
 const styles = EStyleSheet.create({
   container: {
     flex: 1
+
     // backgroundColor: 'white'
   },
-  topMarginIos: {
-    height: '50rem',
-    backgroundColor: kiriColor
-  },
-  topMarginAndroid: {
-    height: '30rem',
-    backgroundColor: kiriColor
+  topMargin: {
+    height: home.margin
   },
   txtBigTitle: {
     fontSize: '23rem',
     color: gray.d,
-    lineHeight: '30rem'
+    lineHeight: '32rem',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    fontWeight: weight.eight
   },
   scrollview: {
     flex: 1
@@ -633,56 +636,88 @@ const topBox = EStyleSheet.create({
   // }
   // 아래가 수정 버전
   container: {
-    zIndex: 10,
-    height: '110rem',
+    // zIndex: 10,
+    height: deviceHeight / 3.5,
     width: deviceWidth,
-    backgroundColor: '#F2F9F2',
     paddingRight: 17,
     paddingLeft: 17,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    borderBottomRightRadius: '70rem',
+    backgroundColor: '#00000000'
   },
   topLine: {
     // backgroundColor: 'red',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  kirini: {
-    top: '-32rem',
-    width: '80rem',
-    height: '70rem',
-    resizeMode: 'contain',
-    alignSelf: 'center'
-  },
-  txtWeekScore: {
-    fontFamily: 'Digitalt',
-    fontSize: '26rem',
-    color: yellow.a,
-    lineHeight: '30rem'
-  },
-  monthContainer: {
-    flexDirection: 'row',
-
-    justifyContent: 'center',
-    top: '-45rem'
-  },
-  weekContainer: {
-    flexDirection: 'row',
-
-    justifyContent: 'space-around',
-    top: '-45rem'
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '10rem'
   },
   txtMonth: {
     fontSize: '16rem',
     color: gray.d,
-    lineHeight: '40rem'
+    lineHeight: '30rem',
+    fontWeight: weight.seven,
+    // backgroundColor: 'red',
+    width: '38rem',
+    textAlign: 'center'
+  },
+  txtWeekScore: {
+    fontSize: '25rem',
+    lineHeight: '30rem',
+    fontFamily: 'JosefinSans-Bold',
+    color: yellow.b,
+    // backgroundColor: 'red',
+    width: deviceWidth / 7,
+    textAlign: 'right'
+    // width: '30rem'
+  },
+  txtDate: {
+    fontSize: '13rem',
+    color: gray.b,
+    fontWeight: weight.five,
+    marginBottom: '10rem'
+  },
+  monthContainer: {
+    flexDirection: 'row',
+    // backgroundColor: 'pink',
+    justifyContent: 'center'
+    // marginBottom: '1rem'
+    // top: '-45rem'
+  },
+  weekContainer: {
+    flexDirection: 'row',
+    // backgroundColor: 'red',
+    justifyContent: 'space-between',
+    width: (deviceWidth / 7) * 5
+    // top: '-45rem'
+  },
+
+  setMonthContainerL: {
+    // backgroundColor: 'pink',
+    width: '23rem',
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  setMonthContainerR: {
+    // backgroundColor: 'pink',
+    width: '23rem',
+    justifyContent: 'center',
+    alignItems: 'flex-end'
   },
   setMonth: {
     fontFamily: 'Digitalt',
-    fontSize: '35rem',
+    fontSize: '20rem',
     color: yellow.b,
-    lineHeight: '40rem'
+    lineHeight: '30rem'
   },
-  weekButton: {
+  weekButtonSel: {
+    backgroundColor: yellow.a,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '30rem',
+    height: '30rem',
+    borderRadius: 100
+  },
+  weekButtonUnsel: {
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -691,10 +726,14 @@ const topBox = EStyleSheet.create({
     borderRadius: 100
   },
   txtWeekSel: {
-    color: gray.e
+    color: 'white',
+    fontSize: '14rem',
+    fontWeight: weight.eight
   },
   txtWeekUnsel: {
-    color: gray.m
+    color: gray.m,
+    fontSize: '14rem',
+    fontWeight: weight.eight
   }
 });
 const barToggled = StyleSheet.create({

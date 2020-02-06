@@ -141,23 +141,18 @@ const HomeCircles = props => {
                     <Text style={modal.jum}>점</Text>
                     <Text>
                       {Object.keys(selectedMeal).length > 0
-                        ?
-                        (
-                          selectedMeal.created_at.slice(11, 13) < 12
+                        ? selectedMeal.created_at.slice(11, 13) < 12
                           ? '오전 ' +
-                          selectedMeal.created_at.slice(11, 13) +
-                          '시 ' +
-                          selectedMeal.created_at.slice(14, 16) +
-                          '분'
+                            selectedMeal.created_at.slice(11, 13) +
+                            '시 ' +
+                            selectedMeal.created_at.slice(14, 16) +
+                            '분'
                           : '오후 ' +
-                          Number(selectedMeal.created_at.slice(11, 13) - 12) +
-                          '시 ' +
-                          selectedMeal.created_at.slice(14, 16) +
-                          '분'
-                        )
-                        :
-                        null
-                      }
+                            Number(selectedMeal.created_at.slice(11, 13) - 12) +
+                            '시 ' +
+                            selectedMeal.created_at.slice(14, 16) +
+                            '분'
+                        : null}
                     </Text>
                   </View>
                 </TouchableOpacity>
