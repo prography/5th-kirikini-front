@@ -36,7 +36,6 @@ import {
 
 // 주간 레포트 시작 ------------------------------------------------------------------
 const WeeklyReportToggled = () => {
-  console.log("weeklyReportToggled")
   const [mealCount, setMealCount] = useState(0);
   const [avgMealCount, setAvgMealCount] = useState(0);
   const [weekScore, setWeekScore] = useState(0);
@@ -53,7 +52,6 @@ const WeeklyReportToggled = () => {
   };
 
   const loadWeekReport = () => {
-    console.log("loadWeekReport")
     let access_token = null,
       refresh_token = null;
     AsyncStorage.multiGet([
@@ -72,7 +70,6 @@ const WeeklyReportToggled = () => {
         axios
           .post(LOAD_WEEK_REPORT_URL, user_name, { headers })
           .then(response => {
-            console.log("response", response["data"])
             const {
               meal_count,
               avg_meal_count,
@@ -347,7 +344,6 @@ const WeeklyReportToggled = () => {
     >
       <NavigationEvents
         onWillFocus={() => {
-          console.log("onWillFocus")
           loadWeekReport();
         }}
       />
@@ -527,10 +523,8 @@ const Summary = props => {
   const week_list = [1, 2, 3, 4, 5];
 
   useEffect(() => {
-    if (props.meals.length == 0) {
-      loadMonthMeals(month);
-    }
-  }, []);
+    loadMonthMeals(selectedMonth);
+  }, [selectedMonth]);
 
   // Date 형태의 날짜를 가져온다.
   // 각 월별로 해당 주의 마지막 날짜보다 작거나 같은지 체크해서 작거나 같으면 해당 주, 식으로 계산
@@ -546,7 +540,7 @@ const Summary = props => {
         const headers = {
           Authorization: `Bearer ${access_token}`
         };
-
+        
         axios
           .post(LOAD_MONTH_MEAL_URL, { month: _month }, { headers })
           .then(result => {
@@ -578,7 +572,6 @@ const Summary = props => {
                       return null;
                     } else {
                       setSelectedMonth(selectedMonth - 1);
-                      loadMonthMeals(selectedMonth - 1);
                     }
                   }}
                 >
@@ -592,7 +585,6 @@ const Summary = props => {
                       return null;
                     } else {
                       setSelectedMonth(selectedMonth + 1);
-                      loadMonthMeals(selectedMonth + 1);
                     }
                   }}
                 >
