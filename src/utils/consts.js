@@ -71,7 +71,7 @@ export const weight = {
 };
 
 export const home = {
-  margin: Platform.OS === 'ios' ? deviceHeight / 10 : '20rem'
+  margin: Platform.OS === 'ios' ? deviceHeight / 10 : deviceHeight / 25
 };
 export const kiriColor = '#F2F9F2';
 export const gray = {

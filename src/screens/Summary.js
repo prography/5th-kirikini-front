@@ -46,6 +46,10 @@ const WeeklyReportToggled = () => {
   const [scoreByMealType, setScoreByMealType] = useState([]);
   const [countsByMealType, setCountsByMealType] = useState([]);
   const [feedback, setFeedback] = useState('');
+  const [wrToggle, setWrToggle] = useState({ on: false });
+  const pressWrToggle = () => {
+    setWrToggle({ on: !wrToggle.on });
+  };
 
   const loadWeekReport = () => {
     let access_token = null,
@@ -236,8 +240,8 @@ const WeeklyReportToggled = () => {
     borderRadius: 16
   };
 
-  return (
-    <View style={balloonSt.balloon}>
+  const toggleContent = (
+    <View>
       <NavigationEvents
         onWillFocus={() => {
           loadWeekReport();
@@ -328,8 +332,37 @@ const WeeklyReportToggled = () => {
       </View>
     </View>
   );
+
+  const untoggledContent = (
+    <View style={wr.containerUntoggled}>
+      <Text style={wr.txtTitle}>주간 성적표</Text>
+      <Text style={wr.txtScore}>{weekScore} 점</Text>
+    </View>
+  );
+
+  return (
+    <TouchableOpacity
+      style={bar.container}
+      activeOpacity={0.7}
+      onPress={pressWrToggle}
+    >
+      {wrToggle.on && toggleContent}
+      {!wrToggle.on && untoggledContent}
+    </TouchableOpacity>
+  );
 };
 // 끝 ------------------------------------------------------------------
+
+const WeeklyListOff = props => {
+  return (
+    <View
+      style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}
+    >
+      <Text>주간 기록지</Text>
+    </View>
+  );
+};
+
 // 주간 리스트 시작 ------------------------------------------------------------------
 const WeeklyListToggled = props => {
   const { week, meals } = props;
@@ -468,6 +501,15 @@ const WeeklyListToggled = props => {
 const Summary = props => {
   const dispatch = useDispatch();
 
+  const [weeklyListState, setWeeklyListState] = useState({ on: false });
+  const [weeklyReportState, setWeeklyReportState] = useState({ on: false });
+  const weeklyListToggle = () => {
+    setWeeklyListState({ on: !weeklyListState.on });
+  };
+  const weeklyReportToggle = () => {
+    setWeeklyReportState({ on: !weeklyReportState.on });
+  };
+
   const timezoneOffset = new Date().getTimezoneOffset() * 60000;
   const timestamp = new Date(Date.now() - timezoneOffset).toISOString();
   const month = Number(timestamp.slice(5, 7));
@@ -519,7 +561,7 @@ const Summary = props => {
         >
           <View style={topBox.container}>
             <View style={styles.topMargin} />
-            <Text style={styles.txtBigTitle}>끼니 성적표</Text>
+            <Text style={styles.txtBigTitle}>끼니 성적</Text>
 
             <View style={topBox.topLine}>
               <View style={topBox.monthContainer}>
@@ -591,14 +633,19 @@ const Summary = props => {
           <GestureHandlerScrollView
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
-            style={{ width: '100%', height: 700 }}
+            style={styles.scrollInside}
           >
-            <View style={bar.container} activeOpacity={0.7}>
-              <WeeklyListToggled week={selectedWeek} meals={props.meals} />
-            </View>
-            <View style={bar.container} activeOpacity={0.7}>
-              <WeeklyReportToggled />
-            </View>
+            <TouchableOpacity
+              style={bar.container}
+              activeOpacity={0.7}
+              onPress={weeklyListToggle}
+            >
+              {!weeklyListState.on && <WeeklyListOff />}
+              {weeklyListState.on && (
+                <WeeklyListToggled week={selectedWeek} meals={props.meals} />
+              )}
+            </TouchableOpacity>
+            <WeeklyReportToggled />
           </GestureHandlerScrollView>
         </ScrollView>
       </View>
@@ -627,34 +674,24 @@ const styles = EStyleSheet.create({
   },
   scrollview: {
     flex: 1
+  },
+  scrollInside: {
+    width: '100%',
+    // height: (deviceHeight / 3.6) * 2.6 - home.margin
+    height: 700
+    // backgroundColor: 'pink'
   }
 });
 
 const topBox = EStyleSheet.create({
-  // container: {
-  //   zIndex: 10,
-  //   height: 100,
-  //   width: deviceWidth,
-  //   backgroundColor: '#F2F9F2',
-  //   borderBottomLeftRadius: 40,
-  //   borderBottomRightRadius: 40,
-  //   paddingRight: 17,
-  //   paddingLeft: 17,
-  //   shadowColor: '#000',
-  //   shadowOffset: { width: 0, height: 3 },
-  //   shadowOpacity: 0.15,
-  //   shadowRadius: 7,
-  //   elevation: 6
-  // }
-  // 아래가 수정 버전
   container: {
     // zIndex: 10,
-    height: deviceHeight / 3.5,
+    height: deviceHeight / 3.6,
     width: deviceWidth,
     paddingRight: 17,
     paddingLeft: 17,
-    justifyContent: 'flex-start',
-    backgroundColor: 'transparent'
+    justifyContent: 'flex-start'
+    // backgroundColor: 'red'
   },
   topLine: {
     // backgroundColor: 'red',
@@ -822,25 +859,42 @@ const graph = StyleSheet.create({
   }
 });
 
-const bar = StyleSheet.create({
-  topMargin: {
-    height: 40
-  },
-  bottomMargin: {
-    height: 100
-  },
+const bar = EStyleSheet.create({
   container: {
     // height: 108,
-    marginTop: 20,
+    marginTop: '20rem',
     padding: 17,
-    borderTopLeftRadius: 40,
-    borderBottomRightRadius: 40,
+    borderTopLeftRadius: '40rem',
+    borderBottomRightRadius: '40rem',
     backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.05,
     shadowRadius: 10,
-    elevation: 1
+    elevation: 5
+  }
+});
+
+const wr = EStyleSheet.create({
+  containerUntoggled: {
+    // backgroundColor: 'red',
+    height: '70rem',
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  txtTitle: {
+    fontSize: '17rem',
+    fontWeight: weight.seven,
+    color: gray.c,
+    lineHeight: '35rem',
+    textAlign: 'center'
+  },
+  txtScore: {
+    fontFamily: 'JosefinSans-Bold',
+    color: yellow.b,
+    fontSize: '30rem',
+    lineHeight: '35rem',
+    textAlign: 'center'
   }
 });
 
@@ -954,33 +1008,6 @@ const balloonText = StyleSheet.create({
     color: gray.d,
     textAlign: 'right'
   }
-});
-
-const font = EStyleSheet.create({
-  eight:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '800'
-        }
-      : {
-          fontWeight: 'bold'
-        },
-  seven:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '700'
-        }
-      : {
-          fontWeight: 'bold'
-        },
-  six:
-    Platform.OS === 'ios'
-      ? {
-          fontWeight: '600'
-        }
-      : {
-          fontWeight: 'normal'
-        }
 });
 
 // todo
