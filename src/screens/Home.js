@@ -413,12 +413,12 @@ const Home = props => {
                     {mealSince === '-' ? '🍽 입력된 끼니' : '🍽 마지막 끼니'}
                   </Text>
                   <Text style={balloonText.lastMealTime}>
-                    {drinkSince === '-' ? '🍺 입력된 음주' : '🍺 마지막 음주'}
-                  </Text>
-                  <Text style={balloonText.lastMealTime}>
                     {coffeeSince === '-'
                       ? '☕️ 입력된 커피'
                       : '☕️ 마지막 커피'}
+                  </Text>
+                  <Text style={balloonText.lastMealTime}>
+                    {drinkSince === '-' ? '🍺 입력된 음주' : '🍺 마지막 음주'}
                   </Text>
                 </View>
                 <View style={balloonSt.lastMealTimeWrapper}>
@@ -429,18 +429,18 @@ const Home = props => {
                       {mealSince} 전
                     </Text>
                   )}
-                  {drinkSince === '-' ? (
-                    <Text style={balloonText.lastMealTime}>아직 없어요</Text>
-                  ) : (
-                    <Text style={balloonText.lastMealTime}>
-                      {drinkSince} 전
-                    </Text>
-                  )}
                   {coffeeSince === '-' ? (
                     <Text style={balloonText.lastMealTime}>아직 없어요</Text>
                   ) : (
                     <Text style={balloonText.lastMealTime}>
                       {coffeeSince} 전
+                    </Text>
+                  )}
+                  {drinkSince === '-' ? (
+                    <Text style={balloonText.lastMealTime}>아직 없어요</Text>
+                  ) : (
+                    <Text style={balloonText.lastMealTime}>
+                      {drinkSince} 전
                     </Text>
                   )}
                 </View>
