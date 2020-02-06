@@ -513,7 +513,10 @@ const Summary = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ backgroundColor: 'transparent' }}
+        >
           <View style={topBox.container}>
             <View style={styles.topMargin} />
             <Text style={styles.txtBigTitle}>끼니 성적표</Text>
@@ -557,10 +560,12 @@ const Summary = props => {
                         onPress={() => {
                           setSelectedWeek(week);
                         }}
-                        style={topBox.weekButtonSel}
                         key={week}
+                        style={topBox.weekButtonTouch}
                       >
-                        <Text style={topBox.txtWeekSel}>{week}주</Text>
+                        <View style={topBox.weekButtonSel}>
+                          <Text style={topBox.txtWeekSel}>{week}주</Text>
+                        </View>
                       </TouchableOpacity>
                     );
                   } else {
@@ -569,10 +574,12 @@ const Summary = props => {
                         onPress={() => {
                           setSelectedWeek(week);
                         }}
-                        style={topBox.weekButtonUnsel}
+                        style={topBox.weekButtonTouch}
                         key={week}
                       >
-                        <Text style={topBox.txtWeekUnsel}>{week}</Text>
+                        <View style={topBox.weekButtonUnsel}>
+                          <Text style={topBox.txtWeekUnsel}>{week}</Text>
+                        </View>
                       </TouchableOpacity>
                     );
                   }
@@ -584,7 +591,7 @@ const Summary = props => {
           <GestureHandlerScrollView
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
-            style={{ width: '100%', backgroundColor: 'blue', height: 700 }}
+            style={{ width: '100%', height: 700 }}
           >
             <View style={bar.container} activeOpacity={0.7}>
               <WeeklyListToggled week={selectedWeek} meals={props.meals} />
@@ -603,8 +610,8 @@ const Summary = props => {
 
 const styles = EStyleSheet.create({
   container: {
-    flex: 1
-
+    flex: 1,
+    backgroundColor: 'transparent'
     // backgroundColor: 'white'
   },
   topMargin: {
@@ -647,8 +654,7 @@ const topBox = EStyleSheet.create({
     paddingRight: 17,
     paddingLeft: 17,
     justifyContent: 'flex-start',
-    borderBottomRightRadius: '70rem',
-    backgroundColor: '#00000000'
+    backgroundColor: 'transparent'
   },
   topLine: {
     // backgroundColor: 'red',
@@ -692,21 +698,23 @@ const topBox = EStyleSheet.create({
     flexDirection: 'row',
     // backgroundColor: 'red',
     justifyContent: 'space-between',
-    width: (deviceWidth / 7) * 5
+    width: (deviceWidth / 7) * 5.5
     // top: '-45rem'
   },
 
   setMonthContainerL: {
     // backgroundColor: 'pink',
-    width: '23rem',
+    width: '40rem',
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'flex-end',
+    paddingRight: '5rem'
   },
   setMonthContainerR: {
     // backgroundColor: 'pink',
-    width: '23rem',
+    width: '40rem',
     justifyContent: 'center',
-    alignItems: 'flex-end'
+    alignItems: 'flex-start',
+    paddingLeft: '5rem'
   },
   setMonth: {
     fontFamily: 'Digitalt',
@@ -714,13 +722,25 @@ const topBox = EStyleSheet.create({
     color: yellow.b,
     lineHeight: '30rem'
   },
+  weekButtonTouch: {
+    // backgroundColor: 'red',
+    width: '50rem',
+    height: '40rem',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   weekButtonSel: {
     backgroundColor: yellow.a,
     justifyContent: 'center',
     alignItems: 'center',
     width: '30rem',
     height: '30rem',
-    borderRadius: 100
+    borderRadius: 100,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 7,
+    elevation: 1
   },
   weekButtonUnsel: {
     backgroundColor: 'white',
@@ -728,7 +748,12 @@ const topBox = EStyleSheet.create({
     alignItems: 'center',
     width: '30rem',
     height: '30rem',
-    borderRadius: 100
+    borderRadius: 100,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 7,
+    elevation: 2
   },
   txtWeekSel: {
     color: 'white',
