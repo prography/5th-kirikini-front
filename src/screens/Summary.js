@@ -371,15 +371,7 @@ const WeeklyListToggled = props => {
     // 0:월, 1:화, ... , 6:일
     return (
       <Fragment>
-        <View
-          style={{
-            position: 'absolute',
-            left: 30,
-            borderBottomColor: gray.m,
-            borderBottomWidth: 3,
-            width: 250
-          }}
-        ></View>
+        <View style={wLToggled.line}></View>
         {Object.keys(meals).length > 0 &&
           meals[week].map(meal => {
             if (meal.day == _day) {
@@ -391,13 +383,33 @@ const WeeklyListToggled = props => {
                     zIndex: 10,
                     justifyContent: 'center',
                     alignItems: 'center',
-                    width: meal.average_rate + 35,
-                    height: meal.average_rate + 35,
+                    position: 'absolute',
+                    width:
+                      meal.average_rate *
+                        meal.average_rate *
+                        (deviceHeight / 2500) +
+                      deviceHeight / 30,
+                    height:
+                      meal.average_rate *
+                        meal.average_rate *
+                        (deviceHeight / 2500) +
+                      deviceHeight / 30,
+                    // left:
+                    //   (((deviceWidth * 5) / 3 - 338) / 30) *
+                    //     (meal.created_at.slice(11, 13) - 6) -
+                    //   (meal.average_rate + 40) / 2 +
+                    //   100,
                     left:
-                      (((deviceWidth * 5) / 3 - 338) / 30) *
-                        (meal.created_at.slice(11, 13) - 6) -
-                      (meal.average_rate + 40) / 2 +
-                      100,
+                      ((((deviceWidth - 34) / 12) * 11 -
+                        (100 * (deviceHeight / 2500) + deviceHeight / 30)) /
+                        24) *
+                        (meal.created_at.slice(11, 13) - 1) +
+                      (50 * (deviceHeight / 2500) + deviceHeight / 30) -
+                      (meal.average_rate *
+                        meal.average_rate *
+                        (deviceHeight / 2500) +
+                        deviceHeight / 30) /
+                        2,
                     borderRadius: 100,
                     backgroundColor:
                       meal.mealType == 0
@@ -409,11 +421,12 @@ const WeeklyListToggled = props => {
                         : mealColor.d
                   }}
                 >
+                  {/* <Text>{meal.created_at.slice(11, 13)}</Text> */}
                   <Image
                     style={{
                       zIndex: 20,
-                      width: 20,
-                      height: 20,
+                      width: deviceHeight / 40,
+                      height: deviceHeight / 40,
                       resizeMode: 'contain'
                     }}
                     source={
@@ -484,12 +497,12 @@ const WeeklyListToggled = props => {
     <View style={barToggled.contentContainer}>
       <View style={wLToggled.sunMoonContainer}>
         <Image
-          style={{ width: 20, height: 20, resizeMode: 'contain' }}
-          source={require('../img/iconSunSmall.png')}
+          style={wLToggled.sun}
+          source={require('../img/iconSunBigYellow.png')}
         />
         <Image
-          style={{ width: 20, height: 20, resizeMode: 'contain' }}
-          source={require('../img/iconMoonSmall.png')}
+          style={wLToggled.moon}
+          source={require('../img/iconMoonBigYellow.png')}
         />
       </View>
       <MakeADay weeklyListArray={weeklyListArray} />
@@ -802,45 +815,55 @@ const topBox = EStyleSheet.create({
 const barToggled = StyleSheet.create({
   contentContainer: {
     flexDirection: 'column',
-    height: 459,
+    // height: (deviceHeight / 10) * 6,
     flex: 1
     // backgroundColor: gray.a
   }
 });
 
-const wLToggled = StyleSheet.create({
+const wLToggled = EStyleSheet.create({
   sunMoonContainer: {
-    position: 'absolute',
     alignSelf: 'flex-end',
-    top: -10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 20,
-    width: 310
+    width: '100%'
     // backgroundColor: gray.a
   },
+  sun: {
+    width: '20rem',
+    height: '20rem',
+    resizeMode: 'contain',
+    marginLeft: deviceWidth / 12
+  },
+  moon: { width: '20rem', height: '20rem', resizeMode: 'contain' },
   oneDay: {
     flex: 1,
     flexDirection: 'row',
-    marginBottom: 5,
-    marginTop: 5
-    // backgroundColor: 'yellow'
+    height: deviceHeight / 12
+    // marginBottom: 5,
+    // marginTop: 5
+    // backgroundColor: gray.a
   },
   day: {
-    flex: 1,
+    width: deviceWidth / 12,
     justifyContent: 'center'
     // backgroundColor: gray.d
   },
   txtDay: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: '15rem',
+    fontWeight: weight.seven,
     color: gray.c
   },
   circleContainer: {
-    flex: 8,
     flexDirection: 'row',
     alignItems: 'center'
     // backgroundColor: gray.b
+  },
+  line: {
+    position: 'absolute',
+    borderBottomColor: gray.m,
+    borderBottomWidth: 3,
+    width: ((deviceWidth - 34) / 12) * 11
   }
 });
 
