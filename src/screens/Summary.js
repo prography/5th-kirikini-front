@@ -242,10 +242,74 @@ const WeeklyReportToggled = () => {
 
   const toggleContent = (
     <View>
-      <View style={balloonSt.topBar}>
-        <Text style={styles.txtBigTitle}>이주의 건강도</Text>
-        <Text style={balloonText.todayScore}>{weekScore}</Text>
+      <View style={wr.container}>
+        <View style={wrBox.container}>
+          <Text style={wrBox.txtTitle}>주간 성적표</Text>
+          <View style={wrBox.scoreContainer}>
+            <Text style={wrBox.txtChongjum}>주간 총점: </Text>
+            <Text style={wr.txtScore}> {weekScore}</Text>
+          </View>
+          <Text style={wrBox.txt}>
+            zwon.han님, 지난 7일 간 기록된 끼니를 바탕으로 끼리니가 열심히
+            분석한 성적표💌가 도착했습니다! 더욱 더 건강한 끼니를 챙길 수 있도록
+            끼리니가 응원할게요 👍 {'\n'}
+            {'\n'}
+            {!(weekScore && previousWeekScore)
+              ? '주간 총점은 ' +
+                weekScore +
+                '점입니다! 끼니를 잊지 않고 꾸준히 입력해 주시면 끼리니가 전 주와의 점수 비교도 해준대요. 앞으로도 끼니 제출, 잊지 않기~'
+              : weekScore - previousWeekScore > 0
+              ? '주간 총점은 ' +
+                weekScore +
+                '으로, 지난주보다 ' +
+                Math.abs(weekScore - previousWeekScore).toFixed(2) +
+                '점 올랐네요! 👏👏👏 아주 좋아요!🥰 발전하는 ' +
+                'zwon.han' +
+                '님의 모습 멋져요~!'
+              : '주간 총점은 ' +
+                weekScore +
+                '으로, 전 주보다 ' +
+                Math.abs(weekScore - previousWeekScore).toFixed(2) +
+                '점 떨어졌네요. 조금 아쉽죠? 😣 다음주는 더 잘 할 수 있을거라 끼리니는 믿어요! 화이팅!! 💪'}
+          </Text>
+        </View>
+        <View style={wrBox.container}>
+          <View style={wrBox.scoreContainer}>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={wrBox.txtChongjum}>🍽 총 끼니 횟수: </Text>
+              <Text style={wrBox.txtChongjum}>평균 끼니 횟수: </Text>
+            </View>
+            <View style={{ alignItems: 'flex-start' }}>
+              <Text style={wrBox.txtNumber}> {mealCount}회</Text>
+              <Text style={wrBox.txtNumber}> {avgMealCount}회</Text>
+            </View>
+          </View>
+          <Text style={wrBox.txt}>
+            zwon.han님의 주간 끼니 횟수는 총 {mealCount}회이고, 하루 평균{' '}
+            {avgMealCount}회의 끼니를 챙기셨군요. {feedback && feedback[5][0]}
+            {'\n'}
+            {'\n'}
+          </Text>
+        </View>
+        {/* <View style={wrCountInfo.container}>
+          <View style={wrCountInfo.leftContainer}>
+            <View style={wrCountInfo.word}>
+              <Text style={wrCountInfo.txtIndex}>🍽{'\n'}끼니</Text>
+            </View>
+            <View style={wrCountInfo.number}>
+              <Text style={wrCountInfo.txtNumber}>
+                {'\n'}총 {mealCount}회{'\n'}
+              </Text>
+            </View>
+          </View>
+          <View style={wrCountInfo.rightContainer}>
+            <Text style={wrCountInfo.txtComment}>
+              {feedback && feedback[5][0]}
+            </Text>
+          </View>
+        </View> */}
       </View>
+
       <View style={balloonSt.scoreCompareArea}>
         <Text style={balloonText.scoreCompare}>
           {!(weekScore && previousWeekScore)
@@ -257,6 +321,7 @@ const WeeklyReportToggled = () => {
             ? null
             : Math.abs(weekScore - previousWeekScore).toFixed(2)}
         </Text>
+        <Text>▲ 2.3 </Text>
       </View>
       <View style={balloonSt.lastMealTimeContainer}>
         <View style={balloonSt.lastMealIconWrapper}>
@@ -329,16 +394,35 @@ const WeeklyReportToggled = () => {
   );
 
   const untoggledContent = (
-    <View style={wr.containerUntoggled}>
-      <Text style={wr.txtTitle}>주간 성적표</Text>
-      <Text style={wr.txtScore}>{weekScore} 점</Text>
+    <View style={unToggled.container}>
+      <View style={unToggled.left}>
+        <Text style={unToggled.txtTitle}>주간 성적표</Text>
+      </View>
+      <View style={unToggled.right}>
+        <View style={unToggled.scoreCompareArea}>
+          <Text style={unToggled.scoreCompareTri}>
+            {!(weekScore && previousWeekScore)
+              ? null
+              : weekScore - previousWeekScore > 0
+              ? '▲ '
+              : '▼ '}
+          </Text>
+
+          {!(weekScore && previousWeekScore) ? null : (
+            <Text style={unToggled.scoreCompare}>
+              Math.round(Math.abs(weekScore - previousWeekScore) * 10) / 10}
+            </Text>
+          )}
+        </View>
+        <Text style={unToggled.txtScore}>{weekScore}</Text>
+      </View>
     </View>
   );
 
   return (
     <TouchableOpacity
       style={bar.container}
-      activeOpacity={0.7}
+      activeOpacity={0.85}
       onPress={pressWrToggle}
     >
       <NavigationEvents
@@ -355,10 +439,11 @@ const WeeklyReportToggled = () => {
 
 const WeeklyListOff = props => {
   return (
-    <View
-      style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}
-    >
-      <Text>주간 기록지</Text>
+    <View style={unToggled.container}>
+      <View style={unToggled.left}>
+        <Text style={unToggled.txtTitle}>끼니 기록부</Text>
+      </View>
+      <View style={unToggled.right}></View>
     </View>
   );
 };
@@ -376,7 +461,7 @@ const WeeklyListToggled = props => {
           meals[week].map(meal => {
             if (meal.day == _day) {
               return (
-                <TouchableOpacity
+                <View
                   key={meal.id}
                   activeOpacity={0.8}
                   style={{
@@ -435,7 +520,7 @@ const WeeklyListToggled = props => {
                         : require('../img/iconBeerSmall.png')
                     }
                   />
-                </TouchableOpacity>
+                </View>
               );
             }
           })}
@@ -615,7 +700,7 @@ const Summary = props => {
                         style={topBox.weekButtonTouch}
                       >
                         <View style={topBox.weekButtonSel}>
-                          <Text style={topBox.txtWeekSel}>{week}주</Text>
+                          <Text style={topBox.txtWeekSel}>주{week}</Text>
                         </View>
                       </TouchableOpacity>
                     );
@@ -646,7 +731,7 @@ const Summary = props => {
           >
             <TouchableOpacity
               style={bar.container}
-              activeOpacity={0.7}
+              activeOpacity={0.99}
               onPress={weeklyListToggle}
             >
               {!weeklyListState.on && <WeeklyListOff />}
@@ -830,12 +915,16 @@ const wLToggled = EStyleSheet.create({
     // backgroundColor: gray.a
   },
   sun: {
-    width: '20rem',
-    height: '20rem',
+    width: '22rem',
+    height: '22rem',
     resizeMode: 'contain',
     marginLeft: deviceWidth / 12
   },
-  moon: { width: '20rem', height: '20rem', resizeMode: 'contain' },
+  moon: {
+    width: '22rem',
+    height: '22rem',
+    resizeMode: 'contain'
+  },
   oneDay: {
     flex: 1,
     flexDirection: 'row',
@@ -894,6 +983,55 @@ const bar = EStyleSheet.create({
   }
 });
 
+const unToggled = EStyleSheet.create({
+  container: {
+    // backgroundColor: 'red',
+    height: deviceHeight / 11,
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  left: {
+    flex: 1,
+    alignItems: 'flex-start'
+    // backgroundColor: 'pink'
+  },
+  right: {
+    flex: 3,
+    justifyContent: 'flex-end',
+    flexDirection: 'row'
+  },
+  txtTitle: {
+    fontSize: '17rem',
+    fontWeight: weight.seven,
+    color: gray.d,
+    lineHeight: '35rem'
+  },
+  txtScore: {
+    fontFamily: 'JosefinSans-Bold',
+    color: yellow.b,
+    fontSize: '30rem',
+    lineHeight: '35rem',
+    textAlign: 'center'
+  },
+  scoreCompareArea: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexDirection: 'row'
+  },
+  scoreCompareTri: {
+    fontSize: '10rem',
+    color: gray.b,
+    fontFamily: 'JosefinSans-Bold',
+    lineHeight: '15rem'
+  },
+  scoreCompare: {
+    fontSize: '15rem',
+    color: gray.b,
+    fontFamily: 'JosefinSans-Bold',
+    lineHeight: '15rem'
+  }
+});
+
 const wr = EStyleSheet.create({
   containerUntoggled: {
     // backgroundColor: 'red',
@@ -914,10 +1052,87 @@ const wr = EStyleSheet.create({
     fontSize: '30rem',
     lineHeight: '35rem',
     textAlign: 'center'
+  },
+  container: {}
+});
+
+const wrBox = EStyleSheet.create({
+  container: {
+    alignItems: 'center',
+    marginBottom: '40rem'
+  },
+  txtTitle: {
+    fontSize: '17rem',
+    fontWeight: weight.seven,
+    color: gray.d,
+    lineHeight: '35rem',
+    marginBottom: '15rem'
+  },
+  txt: {
+    color: gray.d,
+    fontSize: '14rem',
+    fontWeight: weight.six,
+    lineHeight: '21rem'
+  },
+  txtChongjum: {
+    color: gray.c,
+    fontSize: '15rem',
+    fontWeight: weight.six,
+    lineHeight: '35rem',
+    textAlign: 'center'
+  },
+  scoreContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: '15rem'
+  },
+  txtNumber: {
+    color: gray.c,
+    fontSize: '18rem',
+    fontWeight: weight.seven,
+    lineHeight: '35rem',
+    textAlign: 'center'
   }
 });
 
-// 하얀 말풍선 속 View 스타일
+const wrCountInfo = EStyleSheet.create({
+  container: {
+    // backgroundColor: 'gray'
+    flexDirection: 'row'
+  },
+  leftContainer: {
+    flex: 1,
+
+    flexDirection: 'row'
+  },
+  rightContainer: {
+    flex: 3
+    // backgroundColor: 'pink'
+  },
+  word: {
+    // backgroundColor: gray.a,
+    flex: 1
+  },
+  number: {
+    flex: 1.3
+  },
+  txtIndex: {
+    color: gray.d,
+    fontSize: '14rem',
+    fontWeight: weight.six
+  },
+  txtNumber: {
+    color: gray.d,
+    fontSize: '14rem',
+    fontWeight: weight.six
+  },
+  txtComment: {
+    color: gray.d,
+    fontSize: '15rem',
+    fontWeight: weight.six
+  }
+});
+
 const balloonSt = StyleSheet.create({
   container: {
     flex: 4,

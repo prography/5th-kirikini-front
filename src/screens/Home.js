@@ -198,7 +198,7 @@ const Home = props => {
     React.useEffect(() => {
       Animated.timing(fadeAnim, {
         toValue: 0,
-        duration: 4000
+        duration: 3000
       }).start();
     }, []);
 

@@ -149,7 +149,7 @@ const Upload = props => {
         {Platform.OS === 'ios' ? null : <View style={styles.topMargin} />}
         <View style={styles.mintbackground} />
         <View style={styles.titleHeader}>
-          <Text style={[styles.txtBigTitle, font.eight]}>끼니 추가</Text>
+          <Text style={[styles.txtBigTitle, font.eight]}>끼니 제출</Text>
         </View>
         <View>
           {mealImage ? ( // todo: mealImage 없을때 '터치해서 끼니 촬영'이 안나옴
