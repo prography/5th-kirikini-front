@@ -116,9 +116,9 @@ const Rate = props => {
         <View style={styles.topMargin} />
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>건강도 채점</Text>
-          <TouchableOpacity style={styles.infoCircle}>
+          {/* <TouchableOpacity style={styles.infoCircle}>
             <Text style={styles.txtInfo}>?</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={mainImg.screen}>
           {mealToRate.length == 0 ? (

@@ -147,29 +147,29 @@ const WeeklyReportToggled = () => {
             name: '집밥',
             population: scoreByMealType[0]['count'],
             color: meal.a,
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15
+            legendFontColor: gray.c,
+            legendFontSize: 13
           },
           {
             name: '외식',
             population: scoreByMealType[1]['count'],
             color: meal.b,
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15
+            legendFontColor: gray.c,
+            legendFontSize: 13
           },
           {
             name: '배달',
             population: scoreByMealType[2]['count'],
             color: meal.c,
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15
+            legendFontColor: gray.c,
+            legendFontSize: 13
           },
           {
             name: '간편',
             population: scoreByMealType[3]['count'],
             color: meal.d,
-            legendFontColor: '#7F7F7F',
-            legendFontSize: 15
+            legendFontColor: gray.c,
+            legendFontSize: 13
           }
         ]
       : [
@@ -243,6 +243,7 @@ const WeeklyReportToggled = () => {
   const toggleContent = (
     <View>
       <View style={wr.container}>
+        {/* 성적표 오프닝 */}
         <View style={wrBox.container}>
           <Text style={wrBox.txtTitle}>주간 성적표</Text>
           <View style={wrBox.scoreContainer}>
@@ -273,80 +274,97 @@ const WeeklyReportToggled = () => {
                 '점 떨어졌네요. 조금 아쉽죠? 😣 다음주는 더 잘 할 수 있을거라 끼리니는 믿어요! 화이팅!! 💪'}
           </Text>
         </View>
+        {/* 끼니 횟수 */}
         <View style={wrBox.container}>
           <View style={wrBox.scoreContainer}>
             <View style={{ alignItems: 'flex-end' }}>
-              <Text style={wrBox.txtChongjum}>🍽 총 끼니 횟수: </Text>
-              <Text style={wrBox.txtChongjum}>평균 끼니 횟수: </Text>
+              <Text style={wrBox.txtIndex}>주간 끼니 횟수: </Text>
+              <Text style={wrBox.txtIndex}>🍽 하루 평균: </Text>
             </View>
             <View style={{ alignItems: 'flex-start' }}>
-              <Text style={wrBox.txtNumber}> {mealCount}회</Text>
-              <Text style={wrBox.txtNumber}> {avgMealCount}회</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={wrBox.txtNumber}> {mealCount}</Text>
+                <Text style={wrBox.txtIndex}>회 </Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={wrBox.txtNumber}> {avgMealCount}</Text>
+                <Text style={wrBox.txtIndex}>회 </Text>
+              </View>
             </View>
           </View>
           <Text style={wrBox.txt}>
             zwon.han님의 주간 끼니 횟수는 총 {mealCount}회이고, 하루 평균{' '}
-            {avgMealCount}회의 끼니를 챙기셨군요. {feedback && feedback[5][0]}
-            {'\n'}
-            {'\n'}
+            {avgMealCount}회의 끼니를 드셨어요~ {feedback && feedback[5][0]}
           </Text>
         </View>
-        {/* <View style={wrCountInfo.container}>
-          <View style={wrCountInfo.leftContainer}>
-            <View style={wrCountInfo.word}>
-              <Text style={wrCountInfo.txtIndex}>🍽{'\n'}끼니</Text>
+        {/* 커피와 음주 */}
+        <View style={wrBox.container}>
+          <View style={wrBox.scoreContainer}>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={wrBox.txtIndex}>☕️ 커피 횟수: </Text>
+              <Text style={wrBox.txtIndex}>🍺 음주 횟수: </Text>
             </View>
-            <View style={wrCountInfo.number}>
-              <Text style={wrCountInfo.txtNumber}>
-                {'\n'}총 {mealCount}회{'\n'}
-              </Text>
+            <View style={{ alignItems: 'flex-start' }}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={wrBox.txtNumber}> {coffeeCount}</Text>
+                <Text style={wrBox.txtIndex}>회 </Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={wrBox.txtNumber}> {drinkCount}</Text>
+                <Text style={wrBox.txtIndex}>회 </Text>
+              </View>
             </View>
           </View>
-          <View style={wrCountInfo.rightContainer}>
-            <Text style={wrCountInfo.txtComment}>
-              {feedback && feedback[5][0]}
-            </Text>
+          <Text style={wrBox.txt}>
+            일주일 동안 zwon.han님은 커피는 {coffeeCount}회,{' '}
+            {feedback && feedback[5][2]}음주는 {drinkCount}
+            회로, {feedback && feedback[5][1]}
+          </Text>
+        </View>
+        {/* mealType별 */}
+        <View style={wrBox.container}>
+          <View style={wrBox.scoreContainer}>
+            <View style={{ alignItems: 'flex-end' }}>
+              <Text style={wrBox.txtIndex}>끼니 유형별 분석</Text>
+            </View>
           </View>
-        </View> */}
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <PieChart
+              data={data3}
+              width={deviceWidth}
+              height={220}
+              paddingLeft={deviceWidth / 9}
+              chartConfig={chartConfig3}
+              accessor="population"
+              backgroundColor="transparent"
+              absolute
+            />
+          </View>
+
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <BarChart
+              style={graphStyle}
+              data={data2}
+              width={300}
+              height={220}
+              chartConfig={chartConfig2}
+            />
+          </View>
+          <Text style={wrBox.txt}>{feedback[6]}</Text>
+        </View>
       </View>
 
-      <View style={balloonSt.scoreCompareArea}>
-        <Text style={balloonText.scoreCompare}>
-          {!(weekScore && previousWeekScore)
-            ? '-'
-            : weekScore - previousWeekScore > 0
-            ? '▲'
-            : '▼'}
-          {!(weekScore && previousWeekScore)
-            ? null
-            : Math.abs(weekScore - previousWeekScore).toFixed(2)}
-        </Text>
-        <Text>▲ 2.3 </Text>
-      </View>
-      <View style={balloonSt.lastMealTimeContainer}>
-        <View style={balloonSt.lastMealIconWrapper}>
-          <Text style={balloonText.lastMealTime}>
-            이주의 총 끼니 횟수는 🍽 :{'\n'}
-            이주의 하루 평균 끼니 횟수는 🍽 :{'\n'}
-            이주의 총 커피 횟수는 ☕️ :{'\n'}
-            이주의 총 음주 횟수는 🍺 :{'\n'}
-          </Text>
-        </View>
-        <View style={balloonSt.lastMealTimeWrapper}>
-          <Text style={balloonText.lastMealTime}>
-            {mealCount}회{'\n'}
-            {avgMealCount}회{'\n'}
-            {coffeeCount}회{'\n'}
-            {drinkCount}회{'\n'}
-          </Text>
-        </View>
-      </View>
-      <View>
-        <Text>🍽 :{feedback && feedback[5][0]}</Text>
-        <Text>🍺 :{feedback && feedback[5][1]}</Text>
-        <Text>☕️ :{feedback && feedback[5][2]}</Text>
-      </View>
-      <View style={graph.chart}>
+      {/* <View style={graph.chart}>
         <Text style={graph.text}>일별 건강도 추이(점)</Text>
         <LineChart
           data={data1}
@@ -354,40 +372,21 @@ const WeeklyReportToggled = () => {
           height={220}
           chartConfig={chartConfig1}
         />
-      </View>
-      <View style={graph.chart}>
-        <Text style={graph.text}>끼니 유형별 건강도(점)</Text>
-        <BarChart
-          style={graphStyle}
-          data={data2}
-          width={300}
-          height={220}
-          chartConfig={chartConfig2}
-        />
-      </View>
-      <View style={graph.chart}>
-        <Text style={graph.text}>끼니 유형별 횟수(회)</Text>
-        <PieChart
-          data={data3}
-          width={350}
-          height={220}
-          chartConfig={chartConfig3}
-          accessor="population"
-          backgroundColor="transparent"
-          paddingLeft="15"
-          absolute
-        />
-        <Text>{feedback[6]}</Text>
-      </View>
+      </View> */}
 
-      <View style={graph.chart}>
-        <Text style={graph.text}>이주의 피드백</Text>
+      {/* 커피와 음주 */}
+      <View style={wrBox.lastContainer}>
+        <View style={wrBox.scoreContainer}></View>
+        <Text style={wrBox.txtIndex}>끼리니의 종합 피드백</Text>
+        <Image style={wrBox.kirini} source={require('../img/kiriniLeaf.png')} />
         <View>
-          <Text>{feedback[0]}</Text>
-          <Text>{feedback[1]}</Text>
-          <Text>{feedback[2]}</Text>
-          <Text>{feedback[3]}</Text>
-          <Text>{feedback[4]}</Text>
+          <Text style={wrBox.txt}>
+            {feedback[0]}
+            {feedback[1]}
+            {feedback[2]}
+            {feedback[3]}
+            {feedback[4]}
+          </Text>
         </View>
       </View>
     </View>
@@ -956,17 +955,6 @@ const wLToggled = EStyleSheet.create({
   }
 });
 
-const graph = StyleSheet.create({
-  chart: {
-    alignItems: 'center',
-    display: 'flex'
-  },
-  text: {
-    width: 180,
-    padding: 20
-  }
-});
-
 const bar = EStyleSheet.create({
   container: {
     // height: 108,
@@ -1059,7 +1047,15 @@ const wr = EStyleSheet.create({
 const wrBox = EStyleSheet.create({
   container: {
     alignItems: 'center',
-    marginBottom: '40rem'
+    paddingBottom: '30rem'
+    // borderBottomColor: gray.m
+    // borderBottomWidth: '2rem'
+    // borderStyle: 'solid'
+  },
+  lastContainer: {
+    alignItems: 'center',
+    paddingBottom: '30rem',
+    position: 'relative'
   },
   txtTitle: {
     fontSize: '17rem',
@@ -1070,177 +1066,44 @@ const wrBox = EStyleSheet.create({
   },
   txt: {
     color: gray.d,
-    fontSize: '14rem',
-    fontWeight: weight.six,
-    lineHeight: '21rem'
+    fontSize: '15rem',
+    fontWeight: weight.five,
+    lineHeight: '24rem'
   },
   txtChongjum: {
-    color: gray.c,
+    color: gray.d,
     fontSize: '15rem',
-    fontWeight: weight.six,
+    fontWeight: weight.seven,
+    lineHeight: '35rem',
+    textAlign: 'center'
+  },
+  txtIndex: {
+    color: gray.d,
+    fontSize: '15rem',
+    fontWeight: weight.seven,
     lineHeight: '35rem',
     textAlign: 'center'
   },
   scoreContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: '15rem'
+    marginBottom: '15rem',
+    marginTop: '10rem'
   },
   txtNumber: {
-    color: gray.c,
-    fontSize: '18rem',
+    color: yellow.b,
+    fontSize: '23rem',
     fontWeight: weight.seven,
     lineHeight: '35rem',
-    textAlign: 'center'
-  }
-});
-
-const wrCountInfo = EStyleSheet.create({
-  container: {
-    // backgroundColor: 'gray'
-    flexDirection: 'row'
-  },
-  leftContainer: {
-    flex: 1,
-
-    flexDirection: 'row'
-  },
-  rightContainer: {
-    flex: 3
-    // backgroundColor: 'pink'
-  },
-  word: {
-    // backgroundColor: gray.a,
-    flex: 1
-  },
-  number: {
-    flex: 1.3
-  },
-  txtIndex: {
-    color: gray.d,
-    fontSize: '14rem',
-    fontWeight: weight.six
-  },
-  txtNumber: {
-    color: gray.d,
-    fontSize: '14rem',
-    fontWeight: weight.six
-  },
-  txtComment: {
-    color: gray.d,
-    fontSize: '15rem',
-    fontWeight: weight.six
-  }
-});
-
-const balloonSt = StyleSheet.create({
-  container: {
-    flex: 4,
-    flexDirection: 'column'
-  },
-  balloon: {
-    flex: 2,
-    flexDirection: 'column',
-    width: deviceWidth,
-    padding: deviceWidth / 10,
-    borderTopLeftRadius: 70,
-    borderBottomRightRadius: 70,
-    backgroundColor: 'white'
-  },
-  topBar: {
-    flex: 0.65,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  scoreCompareArea: {
-    alignItems: 'flex-end'
-  },
-  lastMealTimeContainer: {
-    flex: 1.5,
-    flexDirection: 'row',
-    paddingTop: 7
-  },
-  lastMealIconWrapper: {
-    flex: 7,
-    justifyContent: 'center'
-  },
-  lastMealTimeWrapper: {
-    flex: 3,
-    justifyContent: 'center',
-    paddingLeft: 6
-  },
-  feedbackArea: {
-    flex: 1.2,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end'
-  },
-  tailContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingRight: deviceWidth / 10
-  },
-  tailWhiteArea: {
-    width: deviceWidth / 3,
-    height: deviceWidth / 5,
-    backgroundColor: 'white'
-  },
-  tailKiriColorArea: {
-    position: 'absolute',
-    width: deviceWidth / 3,
-    height: deviceWidth / 3,
-    borderTopLeftRadius: 100,
-    backgroundColor: kiriColor
-  },
-  kiriniContainer: {
-    position: 'absolute',
-    right: 40,
-    width: (deviceWidth * 4) / 10,
-    height: deviceWidth / 4,
-    alignSelf: 'center'
+    textAlign: 'center',
+    fontFamily: 'JosefinSans-Bold'
   },
   kirini: {
-    position: 'absolute',
-    marginLeft: 40,
-    width: (deviceWidth * 4) / 10,
-    height: deviceWidth / 4,
-    alignSelf: 'center',
-    resizeMode: 'contain'
-  }
-});
-
-// 하얀 말풍선 속 Text 스타일
-const balloonText = StyleSheet.create({
-  title: {
-    fontSize: 27,
-    lineHeight: 35,
-    fontWeight: '700',
-    color: gray.d
-  },
-  todayScore: {
-    fontSize: 35,
-    lineHeight: 35,
-    fontWeight: '700',
-    color: yellow.b
-  },
-  scoreCompare: {
-    fontSize: 12,
-    color: gray.b
-  },
-  lastMealTime: {
-    fontSize: 13,
-    lineHeight: 25,
-    fontWeight: '500',
-    color: gray.c,
-    textAlign: 'right'
-  },
-  feedback: {
-    fontSize: 15,
-    lineHeight: 25,
-    fontWeight: '600',
-    color: gray.d,
-    textAlign: 'right'
+    width: '120rem',
+    height: '90rem',
+    resizeMode: 'contain',
+    marginTop: '10rem',
+    marginBottom: '20rem'
   }
 });
 
