@@ -36,6 +36,7 @@ import {
 
 // 주간 레포트 시작 ------------------------------------------------------------------
 const WeeklyReportToggled = () => {
+  const [userName, setUserName] = useState("")
   const [mealCount, setMealCount] = useState(0);
   const [avgMealCount, setAvgMealCount] = useState(0);
   const [weekScore, setWeekScore] = useState(0);
@@ -60,6 +61,7 @@ const WeeklyReportToggled = () => {
       '@email'
     ]).then(response => {
       const user_name = response[2][1].slice(0, response[2][1].indexOf('@'));
+      setUserName(user_name)
       access_token = response[0][1];
       refresh_token = response[1][1];
       if (access_token !== null) {
@@ -251,7 +253,7 @@ const WeeklyReportToggled = () => {
             <Text style={wr.txtScore}> {weekScore}</Text>
           </View>
           <Text style={wrBox.txt}>
-            zwon.han님, 지난 7일 간 기록된 끼니를 바탕으로 끼리니가 열심히
+            {userName}님, 지난 7일 간 기록된 끼니를 바탕으로 끼리니가 열심히
             분석한 성적표💌가 도착했습니다! 더욱 더 건강한 끼니를 챙길 수 있도록
             끼리니가 응원할게요 👍 {'\n'}
             {'\n'}
