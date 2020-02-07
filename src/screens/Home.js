@@ -222,32 +222,24 @@ const Home = props => {
       onChangeMent();
     }
   };
-  // let todayKirini = require('../img/kirini2.png');
-  // const loadTodayKirini = () => {
-  //   if (todayScore < 2) setTodayKirini('../img/kirini1.png');
-  //   else if (todayScore < 4) setTodayKirini('../img/kirini2.png');
-  //   else if (todayScore < 6) setTodayKirini('../img/kirini3.png');
-  //   else if (todayScore < 8) setTodayKirini('../img/kirini4.png');
-  //   else setTodayKirini('../img/kirini5.png');
-  //
-  // };
 
-  // const loadTodayKirini = () => {
-  //   const todayKirinis = [
-  //     require('../img/kirini1.png'),
-  //     require('../img/kirini2.png'),
-  //     require('../img/kirini3.png'),
-  //     require('../img/kirini4.png'),
-  //     require('../img/kirini5.png')
-  //   ];
-
-  // todayKirini = todayKirinis[2];
-  // if (todayScore < 2) todayKirini = require('../img/kirini1.png');
-  // else if (todayScore < 4) todayKirini = require('../img/kirini2.png');
-  // else if (todayScore < 6) todayKirini = require('../img/kirini3.png');
-  // else if (todayScore < 8) todayKirini = require('../img/kirini4.png');
-  // else todayKirini = require('../img/kirini5.png');
-  // };
+  const todayKirini = todayScore < 2 
+                    ?
+                    require('../img/kirini1.png')
+                    :
+                    todayScore < 4
+                    ?
+                    require('../img/kirini2.png')
+                    :
+                    todayScore < 6
+                    ?
+                    require('../img/kirini3.png')
+                    :
+                    todayScore < 8
+                    ?
+                    require('../img/kirini4.png')
+                    :
+                    require('../img/kirini5.png')
 
   const onChangeMent = () => {
     const _get_rand = end => Math.floor(Math.random() * end);
@@ -465,7 +457,7 @@ const Home = props => {
               >
                 <Image
                   style={balloonSt.kirini}
-                  source={require('../img/kirini2.png')}
+                  source={todayKirini}
                 />
               </TouchableOpacity>
             </View>

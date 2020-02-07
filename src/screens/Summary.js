@@ -515,8 +515,14 @@ const WeeklyListToggled = props => {
                     }}
                     source={
                       meal.gihoType == 0
-                        ? require('../img/iconCupSmall.png')
-                        : require('../img/iconBeerSmall.png')
+                      ? 
+                      require('../img/iconCupSmall.png')
+                      : 
+                      meal.gihoType == 1
+                      ?
+                      require('../img/iconBeerSmall.png')
+                      :
+                      null
                     }
                   />
                 </View>
