@@ -16,7 +16,8 @@ import {
   meal,
   kiriColor,
   deviceHeight,
-  weight
+  weight,
+  home
 } from '../utils/consts';
 
 const Rate = props => {
@@ -112,11 +113,7 @@ const Rate = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
-        {Platform.OS === 'ios' ? (
-          <View style={styles.topMarginIos} />
-        ) : (
-          <View style={styles.topMarginAndroid} />
-        )}
+        <View style={styles.topMargin} />
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>건강도 채점</Text>
           <TouchableOpacity style={styles.infoCircle}>
@@ -184,13 +181,8 @@ const styles = EStyleSheet.create({
     paddingRight: '16rem',
     backgroundColor: '#F2F9F2'
   },
-  topMarginIos: {
-    height: deviceHeight / 9,
-    backgroundColor: kiriColor
-  },
-  topMarginAndroid: {
-    height: '20rem',
-    backgroundColor: kiriColor
+  topMargin: {
+    height: home.margin
   },
   titleHeader: {
     marginBottom: '15rem',

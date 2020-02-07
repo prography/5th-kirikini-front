@@ -242,7 +242,6 @@ const WeeklyReportToggled = () => {
 
   const toggleContent = (
     <View>
-    
       <View style={balloonSt.topBar}>
         <Text style={styles.txtBigTitle}>이주의 건강도</Text>
         <Text style={balloonText.todayScore}>{weekScore}</Text>
@@ -540,7 +539,7 @@ const Summary = props => {
         const headers = {
           Authorization: `Bearer ${access_token}`
         };
-        
+
         axios
           .post(LOAD_MONTH_MEAL_URL, { month: _month }, { headers })
           .then(result => {
@@ -553,7 +552,6 @@ const Summary = props => {
 
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
-
       <View style={styles.container}>
         <ScrollView
           showsVerticalScrollIndicator={false}

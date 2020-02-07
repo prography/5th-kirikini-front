@@ -17,7 +17,8 @@ import {
   meal,
   kiriColor,
   deviceHeight,
-  weight
+  weight,
+  home
 } from '../utils/consts';
 
 // todo: 자동로그인 on/off
@@ -44,11 +45,7 @@ const Settings = props => {
   return (
     <View style={{ backgroundColor: '#F2F9F2', flex: 1 }}>
       <View style={styles.container}>
-        {Platform.OS === 'ios' ? (
-          <View style={styles.topMarginIos} />
-        ) : (
-          <View style={styles.topMarginAndroid} />
-        )}
+        <View style={styles.topMargin} />
         <View style={styles.titleHeader}>
           <Text style={styles.txtBigTitle}>설정</Text>
         </View>
@@ -97,12 +94,8 @@ const styles = EStyleSheet.create({
     paddingRight: '16rem',
     backgroundColor: '#F2F9F2'
   },
-  topMarginIos: {
-    height: '50rem',
-    backgroundColor: kiriColor
-  },
-  topMarginAndroid: {
-    height: '30rem',
+  topMargin: {
+    height: home.margin,
     backgroundColor: kiriColor
   },
   titleHeader: {
